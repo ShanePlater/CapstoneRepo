@@ -6,44 +6,111 @@
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
+
+
+           <!-- PROJECT INFORMATION  --> 
+          <h2 style="font-size:20px"> Project Information </h2>
+          
+          <!-- project information -->
+
+
+            <el-form-item label="Project Number">
+              <el-input v-model="form.projectnumber"></el-input>
+            </el-form-item>
+
+            <el-form-item label="Project Name">
+              <el-input v-model="form.projectname"></el-input>
+            </el-form-item>
+
+
             <el-form-item label="Client Name">
               <el-input v-model="form.clientName"></el-input>
             </el-form-item>
-            <el-form-item label="Address">
-              <el-input v-model="form.address"></el-input>
+
+
+            <el-form-item label="Project Location Code">
+              <el-input v-model="form.projectlocationcode"></el-input>
             </el-form-item>
-            <el-form-item label="Suburb">
-              <el-input v-model="form.suburb"></el-input>
+
+
+            <el-form-item label="Project Address">
+              <el-input v-model="form.projectaddress"></el-input>
             </el-form-item>
-            <el-form-item label="Location">
-              <el-select v-model="form.location" placeholder="Pick a location">
-                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
-              </el-select>
+
+
+            <el-form-item label="Project Suburb">
+              <el-input v-model="form.projectsuburb"></el-input>
             </el-form-item>
-            <el-form-item label="Type">
-              <el-select v-model="form.type" placeholder="Pick a type">
-                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
-              </el-select>
+
+
+            <el-form-item label="Project Type Code">
+              <el-input v-model="form.projecttypecode"></el-input>
             </el-form-item>
-            <el-form-item label="Status">
-              <el-select v-model="form.status" placeholder="Pick a status">
-                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
-              </el-select>
+
+
+            <el-form-item label="Project Status Code">
+              <el-input v-model="form.projectstatuscode"></el-input>
             </el-form-item>
-            <el-form-item label="Division">
-              <el-select v-model="form.division" placeholder="Pick a division">
-                <el-option v-for="option in options.divisions" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Office">
-              <el-select v-model="form.office" placeholder="pick a office">
-                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Project Date Scope">
+
+
+            <el-form-item label="Project Date Range">
               <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
               </el-date-picker>
             </el-form-item>
+
+            <br>
+
+
+             <!-- CLIENT REPRESENTATIVE CONTACT INFORMATION  --> 
+          <h3 style="font-size:20px"> Client Representative Information </h3>
+          
+          <!-- client rep. information -->
+
+            <el-form-item label="Client Representative Name">
+              <el-input v-model="form.clientrepname"></el-input>
+            </el-form-item>
+
+            
+            <el-form-item label="Client Representative Work Number">
+              <el-input v-model="form.clientrepworknum"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="Client Representative Mobile Number ">
+              <el-input v-model="form.clientrepmobnum"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="Client Representative Email Address">
+              <el-input v-model="form.clientrepemail"></el-input>
+            </el-form-item>
+
+          <br>
+
+           <!-- INTERNAL INFORMATION  --> 
+          <h3 style="font-size:20px"> Internal Information </h3>
+          
+          <!-- internal information -->
+
+            <el-form-item label="Division">
+              <el-input v-model="form.division"></el-input>
+            </el-form-item>
+
+            <el-form-item label="Project Director">
+              <el-input v-model="form.projectdirector"></el-input>
+            </el-form-item>
+
+            <el-form-item label="Project Value ($)">
+              <el-input v-model="form.projectvalue"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="Project Description">
+              <el-input v-model="form.projectdescription"></el-input>
+            </el-form-item>
+            
+
+            <!-- shane fix this -->
             <el-form-item>
               <el-button type="primary" @click="search">Add New Project</el-button>
             </el-form-item>
@@ -107,22 +174,30 @@ export default {
         }],
       },
       form: {
+        projectnumber: '',
+        projectname: '',
         clientName: '',
-        address: '',
-        suburb: '',
-        location: '',
-        type: '',
-        status: '',
-        division: '',
-        office: '',
+        projectlocationcode: '',
+        projectaddress: '',
+        projectsuburb: '',
+        projecttypecode: '',
+        projectstatuscode: '',
         datePeriod: '',
+        clientrepname: '',
+        clientrepworknum: '',
+        clientrepmobnum: '',
+        clientrepemail: '',
+        division: '',
+        projectdirector: '',
+        projectvalue: '',
+        projectdescription: '',
       },
       isSearching: true,
     };
   },
   created() {
     if (this.$route.query.res === 'true') {
-      this.$router.replace('/redbook');
+      this.$router.replace('/NewProject');
     }
     this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
@@ -164,49 +239,6 @@ export default {
         });
       });
     },
-    search() {
-      this.$router.replace(`${this.$route.fullPath}?res=true`);
-      let start;
-      let end;
-      if (this.form.datePeriod === '') {
-        start = '';
-        end = '';
-      } else {
-        start = this.form.datePeriod[0].toJSON();
-        end = this.form.datePeriod[1].toJSON();
-      }
-      fetch(api.searchRedbook, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ClientName: this.form.clientName,
-          Address: this.form.address,
-          Suburb: this.form.suburb,
-          Location: this.form.location,
-          Type: this.form.type,
-          Status: this.form.status,
-          Division: this.form.division,
-          Office: this.form.office,
-          StartDate: start,
-          EndDate: end,
-        }),
-      }).then((response) => {
-        response.json().then((data) => {
-          if (data === null) {
-            this.isSearching = false;
-            return;
-          }
-          data.forEach((item) => {
-            this.projects.push(item);
-          });
-          // this.projects.sort((a, b) => (a.ID.charCodeAt(0) - b.ID.charCodeAt(0)));
-          this.isSearching = false;
-        });
-      });
-    },
     updatePage() {
       if (this.$route.query.res === 'true') {
         this.title = 'Search Result';
@@ -215,15 +247,23 @@ export default {
       this.title = 'New Project';
       this.projects = [];
       this.form = {
+        projectnumber: '',
+        projectname: '',
         clientName: '',
-        address: '',
-        suburb: '',
-        location: '',
-        type: '',
-        status: '',
+        projectlocationcode: '',
+        projectaddress: '',
+        projectsuburb: '',
+        projecttypecode: '',
+        projectstatuscode: '',
+        daterange: '',
+        clientrepname: '',
+        clientrepworknum: '',
+        clientrepmobnum: '',
+        clientrepemail: '',
         division: '',
-        office: '',
-        datePeriod: '',
+        projectdirector: '',
+        projectvalue: '',
+        projectdescription: '',
       };
     },
   },
