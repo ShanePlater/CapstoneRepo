@@ -1,59 +1,58 @@
 <template>
   <section>
-    <div v-if="title === 'New Project'">
+    <div v-if="title === 'Enter Project Details'">
       <h1>{{ title }}</h1>
       <br>
+     
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-
+          <el-form-item label="Fields marked in bold are required.">
+          </el-form-item> 
 
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>
           
           <!-- project information -->
-
+            <el-form-item label="Client Name:">
+              <el-input v-model="form.clientname"></el-input>
+            </el-form-item>
 
             <el-form-item label="Project Number">
               <el-input v-model="form.projectnumber"></el-input>
-            </el-form-item>
+            </el-form-item>            
 
             <el-form-item label="Project Name">
               <el-input v-model="form.projectname"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Client Name">
-              <el-input v-model="form.clientName"></el-input>
-            </el-form-item>
-
-
-            <el-form-item label="Project Location Code">
-              <el-input v-model="form.projectlocationcode"></el-input>
-            </el-form-item>
-
-
-            <el-form-item label="Project Address">
+            <el-form-item label="Address:">
               <el-input v-model="form.projectaddress"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Project Suburb">
+            <el-form-item label="Suburb:">
               <el-input v-model="form.projectsuburb"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Project Type Code">
+            <el-form-item label="Location:">
+              <el-input v-model="form.projectlocation"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="Type:">
               <el-input v-model="form.projecttypecode"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Project Status Code">
+            <el-form-item label="Status:">
               <el-input v-model="form.projectstatuscode"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Project Date Range">
+            <el-form-item label="Start and End Date:">
               <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
               </el-date-picker>
             </el-form-item>
@@ -62,26 +61,26 @@
 
 
              <!-- CLIENT REPRESENTATIVE CONTACT INFORMATION  --> 
-          <h3 style="font-size:20px"> Client Representative Information </h3>
+          <h3 style="font-size:20px"> Client Representative Contact Information </h3>
           
           <!-- client rep. information -->
 
-            <el-form-item label="Client Representative Name">
+            <el-form-item label="Name:">
               <el-input v-model="form.clientrepname"></el-input>
             </el-form-item>
 
             
-            <el-form-item label="Client Representative Work Number">
+            <el-form-item label="Telephone:">
               <el-input v-model="form.clientrepworknum"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Client Representative Mobile Number ">
+            <el-form-item label="Mobile: ">
               <el-input v-model="form.clientrepmobnum"></el-input>
             </el-form-item>
 
 
-            <el-form-item label="Client Representative Email Address">
+            <el-form-item label="Email Address:">
               <el-input v-model="form.clientrepemail"></el-input>
             </el-form-item>
 
@@ -92,20 +91,21 @@
           
           <!-- internal information -->
 
-            <el-form-item label="Division">
+            <el-form-item label="Division:">
               <el-input v-model="form.division"></el-input>
             </el-form-item>
 
-            <el-form-item label="Project Director">
+            <el-form-item label="Project Director:">
               <el-input v-model="form.projectdirector"></el-input>
-            </el-form-item>
+            </el-form-item>         
 
-            <el-form-item label="Project Value ($)">
+          <h4 style="font-size:20px"> Details </h4>
+          <!-- Project Details -->
+            <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
             </el-form-item>
 
-
-            <el-form-item label="Project Description">
+            <el-form-item label="Project Description:">
               <el-input v-model="form.projectdescription"></el-input>
             </el-form-item>
             
@@ -117,12 +117,7 @@
           </el-form>
         </el-col>
       </el-row>
-    </div>
-    <div v-else>
-      <el-row v-loading="isSearching">
-        <search :table="projects"></search>
-      </el-row>
-    </div>
+    </div>    
   </section>
 </template>
 
@@ -137,7 +132,7 @@ export default {
   },
   data() {
     return {
-      title: 'New Project',
+      title: 'Enter Project Details',
       projects: [],
       options: {
         locations: [],
