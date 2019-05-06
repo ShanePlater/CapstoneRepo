@@ -15,7 +15,7 @@ export default {
   components: {},
   methods: {
     contactHelpdesk() {
-      window.location.href = 'mailto:Helpdesk@lar.net.au';
+      location.href = 'mailto:Helpdesk@lar.net.au';
     },
   },
 };

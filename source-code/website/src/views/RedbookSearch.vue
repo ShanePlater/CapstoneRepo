@@ -209,10 +209,10 @@ export default {
     },
     updatePage() {
       if (this.$route.query.res === 'true') {
-        this.title = 'z z';
+        this.title = 'Search Result';
         return;
       }
-      this.title = 'zzz';
+      this.title = 'Redbook Search';
       this.projects = [];
       this.form = {
         clientName: '',

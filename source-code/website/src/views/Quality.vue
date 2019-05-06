@@ -138,7 +138,7 @@ export default {
       window.open(`//${window.location.host}/static/quality-management-system/corrective-action-register/QA-F-005.pdf?v=4`);
     },
     makeSuggestion() {
-      window.location.href = 'mailto:LARQualityAssurance@lar.net.au';
+      location.href = 'mailto:LARQualityAssurance@lar.net.au';
     },
   },
 };

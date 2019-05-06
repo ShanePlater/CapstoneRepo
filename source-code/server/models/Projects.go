@@ -170,29 +170,3 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 	}
 	return true
 }
-func (c *Context) addNewProject(data *types.Project) error{
-	r := orm.Projects{		
-		Name:       data.Name,
-		ClientName: data.ClientName,
-		Company:    data.Company,
-		Address:    data.Address,
-		Division:   data.Division,
-	}
-	if err := orm.CreateProject(&r, c.db): err != nil {
-		return err
-	}
-
-	if c.config.IsCache() {
-		c.projects.Store(r.ID, r)
-	}
-
-	*data = types.Project{
-		ID:         utils.Atoi(r.ID),
-		Name:       r.Name,
-		ClientName: r.ClientName,
-		Company:    r.Company,
-		Address:    r.Address,
-		Division:   r.Division,
-	}
-	return nil
-}

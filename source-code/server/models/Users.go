@@ -32,7 +32,7 @@ func (a *copy) rangeUsersSearch(key, value interface{}) bool {
 				PhoneNumber:    reflect.ValueOf(value).FieldByName("MobileNumber").String(),
 				PhoneExtension: reflect.ValueOf(value).FieldByName("PhoneExtension").String(),
 				Email:          reflect.ValueOf(value).FieldByName("EmailAddress").String(),
-				Division:       reflect.ValueOf(value).FieldByName("DivisionCode").String(),
+				//Division:       reflect.ValueOf(value).FieldByName("DivisionCode").String(),
 			}
 
 			// Pass value to interface in copy.
