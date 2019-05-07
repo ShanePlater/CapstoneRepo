@@ -100,6 +100,10 @@
               <el-input v-model="form.projectdirector"></el-input>
             </el-form-item>
 
+             <el-form-item label="Project Manager">
+              <el-input v-model="form.projectmanager"></el-input>
+            </el-form-item>
+
             <el-form-item label="Project Value ($)">
               <el-input v-model="form.projectvalue"></el-input>
             </el-form-item>
@@ -189,6 +193,7 @@ export default {
         clientrepemail: '',
         division: '',
         projectdirector: '',
+        projectmanager: '',
         projectvalue: '',
         projectdescription: '',
       },
@@ -262,6 +267,7 @@ export default {
         clientrepemail: '',
         division: '',
         projectdirector: '',
+        projectmanager: '',
         projectvalue: '',
         projectdescription: '',
       };
