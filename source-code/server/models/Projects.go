@@ -2,6 +2,7 @@ package models
 
 import (
 	"reflect"
+	"server/orm"
 	"server/types"
 	"sort"
 	"strings"
@@ -169,4 +170,33 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 		}
 	}
 	return true
+}
+func (c *Context) CreateOrUpdateProjects(data *types.Project) error {
+	r := orm.Projects{
+		// ArticleID:       utils.Itoa(data.ID),
+		// PostedBy:        data.Author,
+		// DateTimePosted:  data.Date,
+		// ArticleHeadline: data.Title,
+		// ArticleText:     data.Text,
+	}
+
+	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
+		return err
+	}
+
+	// Check if cache is enabled.
+	if c.config.IsCache() {
+		c.projects.Store(r.ProjectNumber, r)
+	}
+
+	// Update data.
+	*data = types.Project{
+		// ID:     utils.Atoi(r.ArticleID),
+		// Author: r.PostedBy,
+		// Date:   r.DateTimePosted,
+		// Title:  r.ArticleHeadline,
+		// Text:   r.ArticleText,
+	}
+
+	return nil
 }
