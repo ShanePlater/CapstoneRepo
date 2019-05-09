@@ -8,6 +8,7 @@ import Divisions from '@/views/Divisions';
 import Quality from '@/views/Quality';
 import HelpDesk from '@/views/HelpDesk';
 import Search from '@/views/Search';
+import NewProject from '@/views/NewProject';
 import RedbookSearch from '@/views/RedbookSearch';
 import ProjectDetails from '@/views/ProjectDetails';
 import ClientDetails from '@/views/ClientDetails';
@@ -56,6 +57,11 @@ export default new Router({
       path: '/redbook',
       name: 'Redbook',
       component: RedbookSearch,
+    },
+    {
+      path: '/NewProject',
+      name: 'NewProject',
+      component: NewProject,
     },
     {
       path: '/search/:keyword',
