@@ -171,13 +171,27 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 	}
 	return true
 }
-func (c *Context) CreateOrUpdateProjects(data *types.Project) error {
+func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	r := orm.Projects{
-		// ArticleID:       utils.Itoa(data.ID),
-		// PostedBy:        data.Author,
-		// DateTimePosted:  data.Date,
-		// ArticleHeadline: data.Title,
-		// ArticleText:     data.Text,
+		ProjectNumber = utils.Atoi(data.ID),
+		ProjectName = data.Name,
+		ClientID = 0
+		Division = data.Division,
+		ClientRepName = data.CRName,
+		ClientRepTelephone = data.CRPhone,
+		ClientRepMobile = data.CRMobile,
+		ClientRepEmailAddress = data.CREmail,
+		ProjectDirector = data.Director
+		ProjectManager = data.Manager,
+		ProjectStatusCode = data.Status,
+		ProjectStartDate = data.StartDate,
+		ProjectEndDate = data.EndDate,
+		ProjectTypeCode = data.Type,
+		ProjectAddress = data.Address,
+		ProjectSuburb = data.Suburb,
+		ProjectLocationCode = data.Location,
+		ProjectDescription = data.Description,
+		ProjectValue = data.Value,	
 	}
 
 	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
@@ -190,12 +204,26 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project) error {
 	}
 
 	// Update data.
-	*data = types.Project{
-		// ID:     utils.Atoi(r.ArticleID),
-		// Author: r.PostedBy,
-		// Date:   r.DateTimePosted,
-		// Title:  r.ArticleHeadline,
-		// Text:   r.ArticleText,
+	*data = types.Project2{
+		
+		ID:         	utils.Atoi(r.ProjectNumber)
+		Name:       	r.ProjectName,		
+		Address:    	r.ProjectAddress,
+		Suburb:	   		r.ProjectSuburb,
+		Location:   	r.ProjectLocationCode,
+		Type:       	r.ProjectTypeCode,
+		Status:     	r.ProjectStatusCode,
+		StartDate:  	r.ProjectStartDate,
+		EndDate:    	r.ProjectEndDate,		
+		CRName:     	r.ClientRepName,
+		CRPhone:    	r.ClientRepTelephone,
+		CRMobile:   	r.ClientRepMobile,
+		CREmail:    	r.ClientRepEmailAddress,
+		Division:   	r.Division,
+		Director:   	r.ProjectDirector,
+		Manager:    	r.ProjectManager,
+		Value:       	r.ProjectValue,
+		Description: 	r.ProjectDescription,
 	}
 
 	return nil

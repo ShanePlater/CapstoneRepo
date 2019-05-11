@@ -118,7 +118,7 @@
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="search">Add New Project</el-button>
+              <el-button type="primary" @click="createOrUpdateProjects">Add New Project</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -128,149 +128,152 @@
 </template>
 
 <script>
-import api from '@/api.conf';
-import Search from '@/views/Search';
+// import api from '@/api.conf';
+// import Search from '@/views/Search';
 
-export default {
-  name: 'new-project',
-  components: {
-    Search,
-  },
-  data() {
-    return {
-      title: 'Enter Project Details',
-      projects: [],
-      options: {
-        locations: [],
-        types: [],
-        statuss: [],
-        divisions: [],
-        offices: [],
-      },
-      datePicker: {
-        shortcuts: [{
-          text: 'Last week',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 7));
-            picker.$emit('pick', [start, end]);
-          },
-        }, {
-          text: 'Last month',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 30));
-            picker.$emit('pick', [start, end]);
-          },
-        }, {
-          text: 'Last 3 months',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 90));
-            picker.$emit('pick', [start, end]);
-          },
-        }],
-      },
-      form: {
-        projectnumber: '',
-        projectname: '',
-        clientName: '',
-        projectlocationcode: '',
-        projectaddress: '',
-        projectsuburb: '',
-        projecttypecode: '',
-        projectstatuscode: '',
-        datePeriod: '',
-        clientrepname: '',
-        clientrepworknum: '',
-        clientrepmobnum: '',
-        clientrepemail: '',
-        division: '',
-        projectdirector: '',
-        projectmanager: '',
-        projectvalue: '',
-        projectdescription: '',
-      },
-      isSearching: true,
-    };
-  },
-  created() {
-    if (this.$route.query.res === 'true') {
-      this.$router.replace('/NewProject');
-    }
-    this.getOptions(api.getOptionLocations);
-    this.getOptions(api.getOptionTypes);
-    this.getOptions(api.getOptionStatuss);
-    this.getOptions(api.getOptionDivisions);
-    this.getOptions(api.getOptionOffices);
-  },
-  watch: {
-    '$route.query.res': 'updatePage',
-  },
-  methods: {
-    getOptions(method) {
-      fetch(method, {
-        method: 'get',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }).then((response) => {
-        response.json().then((data) => {
-          switch (method) {
-            case api.getOptionLocations:
-              this.options.locations = data;
-              break;
-            case api.getOptionTypes:
-              this.options.types = data;
-              break;
-            case api.getOptionStatuss:
-              this.options.statuss = data;
-              break;
-            case api.getOptionDivisions:
-              this.options.divisions = data;
-              break;
-            case api.getOptionOffices:
-              this.options.offices = data;
-              break;
-            default:
-          }
-        });
-      });
-    },
-    updatePage() {
-      if (this.$route.query.res === 'true') {
-        this.title = 'Search Result';
-        return;
-      }
-      this.title = 'New Project';
-      this.projects = [];
-      this.form = {
-        projectnumber: '',
-        projectname: '',
-        clientName: '',
-        projectlocationcode: '',
-        projectaddress: '',
-        projectsuburb: '',
-        projecttypecode: '',
-        projectstatuscode: '',
-        daterange: '',
-        clientrepname: '',
-        clientrepworknum: '',
-        clientrepmobnum: '',
-        clientrepemail: '',
-        division: '',
-        projectdirector: '',
-        projectmanager: '',
-        projectvalue: '',
-        projectdescription: '',
-      };
-    },
-  },
-};
+// export default {
+//   name: 'new-project',
+//   components: {
+//     Search,
+//   },
+//   data() {
+//     return {
+//       title: 'Enter Project Details',
+//       projects: [],
+//       options: {
+//         locations: [],
+//         types: [],
+//         statuss: [],
+//         divisions: [],
+//         offices: [],
+//       },
+//       datePicker: {
+//         shortcuts: [{
+//           text: 'Last week',
+//           onClick(picker) {
+//             const end = new Date();
+//             const start = new Date();
+//             start.setTime(start.getTime() - (3600 * 1000 * 24 * 7));
+//             picker.$emit('pick', [start, end]);
+//           },
+//         }, {
+//           text: 'Last month',
+//           onClick(picker) {
+//             const end = new Date();
+//             const start = new Date();
+//             start.setTime(start.getTime() - (3600 * 1000 * 24 * 30));
+//             picker.$emit('pick', [start, end]);
+//           },
+//         }, {
+//           text: 'Last 3 months',
+//           onClick(picker) {
+//             const end = new Date();
+//             const start = new Date();
+//             start.setTime(start.getTime() - (3600 * 1000 * 24 * 90));
+//             picker.$emit('pick', [start, end]);
+//           },
+//         }],
+//       },
+//       form: {
+//         projectnumber: '',
+//         projectname: '',
+//         clientName: '',
+//         projectlocationcode: '',
+//         projectaddress: '',
+//         projectsuburb: '',
+//         projecttypecode: '',
+//         projectstatuscode: '',
+//         datePeriod: '',
+//         clientrepname: '',
+//         clientrepworknum: '',
+//         clientrepmobnum: '',
+//         clientrepemail: '',
+//         division: '',
+//         projectdirector: '',
+//         projectmanager: '',
+//         projectvalue: '',
+//         projectdescription: '',
+//       },
+//       isSearching: true,
+//     };
+//   },
+//   created() {
+//     if (this.$route.query.res === 'true') {
+//       this.$router.replace('/NewProject');
+//     }
+//     this.getOptions(api.getOptionLocations);
+//     this.getOptions(api.getOptionTypes);
+//     this.getOptions(api.getOptionStatuss);
+//     this.getOptions(api.getOptionDivisions);
+//     this.getOptions(api.getOptionOffices);
+//   },
+//   watch: {
+//     '$route.query.res': 'updatePage',
+//   },
+//   methods: {
+//     getOptions(method) {
+//       fetch(method, {
+//         method: 'get',
+//         headers: {
+//           Accept: 'application/json',
+//           'Content-Type': 'application/json',
+//         },
+//       }).then((response) => {
+//         response.json().then((data) => {
+//           switch (method) {
+//             case api.getOptionLocations:
+//               this.options.locations = data;
+//               break;
+//             case api.getOptionTypes:
+//               this.options.types = data;
+//               break;
+//             case api.getOptionStatuss:
+//               this.options.statuss = data;
+//               break;
+//             case api.getOptionDivisions:
+//               this.options.divisions = data;
+//               break;
+//             case api.getOptionOffices:
+//               this.options.offices = data;
+//               break;
+//             default:
+//           }
+//         });
+//       });
+//     },
+//     updatePage() {
+//       if (this.$route.query.res === 'true') {
+//         this.title = 'Search Result';
+//         return;
+//       }
+//       this.title = 'New Project';
+//       this.projects = [];
+//       this.form = {
+//         projectnumber: '',
+//         projectname: '',
+//         clientName: '',
+//         projectlocationcode: '',
+//         projectaddress: '',
+//         projectsuburb: '',
+//         projecttypecode: '',
+//         projectstatuscode: '',
+//         daterange: '',
+//         clientrepname: '',
+//         clientrepworknum: '',
+//         clientrepmobnum: '',
+//         clientrepemail: '',
+//         division: '',
+//         projectdirector: '',
+//         projectmanager: '',
+//         projectvalue: '',
+//         projectdescription: '',
+//       };
+//     },
+//     addProject() {
+
+//     },
+//   },
+// };
 </script>
 
 <style scoped>

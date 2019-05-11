@@ -128,6 +128,29 @@ type Project struct {
 	Address    string
 	Division   string
 }
+type Project2 struct {
+	ID         	string
+	Name       	string
+	ClientName 	string	
+	Address    	string
+	Suburb	   	string
+	Location   	string
+	Type       	string
+	Status     	string
+	StartDate  	string
+	EndDate    	string
+	//CR = Client Rep
+	CRName     	string
+	CRPhone    	string
+	CRMobile   	string
+	CREmail    	string
+	Division   	string
+	Director   	string
+	Manager    	string
+	Value       string
+	Description string
+
+}
 
 // SearchJSON is the body of searchProjects, searchUsers,
 // searchClients, and searchResources API request.
