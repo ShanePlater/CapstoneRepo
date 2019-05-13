@@ -1,0 +1,19 @@
+mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/MSSQLSERVER?encrypt=disable&database=lrintranet
+
+server:
+  port: 8080
+  website: ./dist
+
+email:
+  smtp:
+    url: mail.lar.net.au
+    port: 587
+  system:
+    account: #support@lar.net.au
+    password: #xxxxxx
+  help_desk_ticket_receiver: #admin@lar.net.au
+  suggestion_receiver: #admin@lar.net.au
+
+cache:
+  #Enable by default. 0 or true for enable, 1 or false for disable.
+  enable: 0

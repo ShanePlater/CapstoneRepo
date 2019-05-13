@@ -1,6 +1,0 @@
-image: node:8.4.0-alpine
-test:
-  script:
-  - npm install
-  - npm run lint
-  - npm run build
