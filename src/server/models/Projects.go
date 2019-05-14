@@ -4,7 +4,6 @@ import (
 	"reflect"
 	"server/orm"
 	"server/types"
-	"server/utils"
 	"sort"
 	"strings"
 )
@@ -208,7 +207,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 
 	// Update data.
 	*data = types.Project2{
-		ID:          utils.Atoi(r.ProjectNumber),
+		ID:          r.ProjectNumber,
 		Name:        r.ProjectName,
 		Address:     r.ProjectAddress,
 		Suburb:      r.ProjectSuburb,
