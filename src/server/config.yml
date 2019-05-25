@@ -1,9 +1,9 @@
-mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/MSSQLSERVER?encrypt=disable&database=lrintranet
+mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/?encrypt=disable&database=lrintranet
 
 server:
   port: 8080
   website: ./dist
-
+#go build -o  lar-server.exe -ldflags "-s -w -X main.mode=debug" -v
 email:
   smtp:
     url: mail.lar.net.au

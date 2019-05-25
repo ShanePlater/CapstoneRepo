@@ -1,4 +1,4 @@
-mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/MSSQLSERVER?encrypt=disable&database=lrintranet
+mssql: sqlserver://sa:Capstone4Blanket6@127.0.0.1/MSSQLSERVER?encrypt=disable&database=lrintranet
 
 server:
   port: 8080
