@@ -31,4 +31,5 @@ export default {
   getProjectsByClientID: `${baseURL}/post/getProjectsByClientID`,
   getProjectsSiteInspectionsByProjectNumber: `${baseURL}/post/getProjectsSiteInspectionsByProjectNumber`,
   getManagerUsernameByDivisionCode: `${baseURL}/post/getManagerUsernameByDivisionCode`,
+  addProject: `${baseURL}/post/createOrUpdateProject`,
 };

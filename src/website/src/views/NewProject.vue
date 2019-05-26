@@ -211,7 +211,29 @@ export default {
   },
   methods: {
     redirecting() {
-      window.location.href = 'mailto:Helpdesk@lar.net.au';
+      fetch(api.addProject, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Name: this.form.projectname,
+          ClientName: this.form.clientName,
+          Address: this.form.projectaddress,
+          Suburb: this.form.projectsuburb,
+          Location: this.form.projectlocationcode,
+          Type: this.form.projecttypecode,
+          Status: this.form.projectstatuscode,
+          StartDate: '01-01-01',
+          EndDate: '01-01-01',
+          CRName: this.form.clientrepname,
+          CRPhone: this.form.clientrepworknum,
+          CRMobile: this.form.clientrepmobnum,
+          CREmail: this.form.clientrepemail,
+          Division: this.form.division,
+        }),
+      });
     },
     getOptions(method) {
       fetch(method, {
