@@ -233,6 +233,13 @@ export default {
           CREmail: this.form.clientrepemail,
           Division: this.form.division,
         }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data === null) {
+            window.location.href = 'mailto:null@lar.net.au';
+          }
+          window.location.href = 'mailto:nonnull@lar.net.au';
+        });
       });
     },
     getOptions(method) {

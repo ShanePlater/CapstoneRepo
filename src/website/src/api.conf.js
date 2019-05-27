@@ -24,7 +24,6 @@ export default {
   fetchSuggestions: `${baseURL}/post/fetchSuggestions`,
   getClient: `${baseURL}/post/getClient`,
   getProject: `${baseURL}/get/getProject`,
-  addProject: `${baseURL}/post/createProject`,
   getSuggestionItemURL: `${baseURL}/post/getSuggestionItemURL`,
   getDivisions: `${baseURL}/post/getDivisions`,
   getMe: `${baseURL}/post/getMe`,
