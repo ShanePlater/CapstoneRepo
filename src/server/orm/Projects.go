@@ -2,18 +2,21 @@ package orm
 
 import (
 	"errors"
+	"fmt"
 	"server/utils"
 
 	"github.com/jinzhu/gorm"
 )
 
 func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
+	fmt.Println("orm/Projects.go/createOrUpdateProjects Attempting this shit")
 	// Update record.
 	if p.ProjectNumber != "0" {
 		r := &Projects{ProjectNumber: p.ProjectNumber}
 		db.First(r)
 
 		if err := db.Model(r).Updates(p).Error; err != nil {
+			fmt.Println("orm/Projects.go/createOrUpdateProjects I think its an error doing the new project number?")
 			return err
 		}
 
@@ -36,6 +39,7 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	}
 
 	if err := db.Create(p).Error; err != nil {
+		fmt.Println("orm/Projects.go/createOrUpdateProjects theres an error where it calles the Create() function")
 		return err
 	}
 

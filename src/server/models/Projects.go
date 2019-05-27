@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"reflect"
 	"server/orm"
 	"server/types"
@@ -174,6 +175,7 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 
 //comment
 func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
+	fmt.Println("models/ Attempting Projects.go")
 	r := orm.Projects{
 		ProjectNumber:         data.ID,
 		ProjectName:           data.Name,
@@ -197,6 +199,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	}
 
 	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
+		fmt.Println("Models/ Error in Projects.go")
 		return err
 	}
 
