@@ -15,7 +15,7 @@
           
           <!-- project information -->
             <el-form-item label="Client Name:">
-              <el-input v-model="form.clientname"></el-input>
+              <el-input v-model="form.clientName"></el-input>
             </el-form-item>
 
             <el-form-item label="Project Number">
@@ -38,7 +38,7 @@
 
 
             <el-form-item label="Location:">
-              <el-input v-model="form.projectlocation"></el-input>
+              <el-input v-model="form.projectlocationcode"></el-input>
             </el-form-item>
 
 
@@ -116,9 +116,9 @@
             </el-form-item>
             
 
-            <!-- shane fix this -->
+            <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Add Ne2w Project</el-button>
+              <el-button type="primary" @click="redirecting">Add New Project</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -225,8 +225,8 @@ export default {
           Location: this.form.projectlocationcode,
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
-          StartDate: '01-01-01',
-          EndDate: '01-01-01',
+          StartDate: '2009-10-10',
+          EndDate: '20010-10-10',
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -235,9 +235,6 @@ export default {
         }),
       }).then((response) => {
         response.json().then((data) => {
-          if (data === null) {
-            window.location.href = 'mailto:null@lar.net.au';
-          }
           window.location.href = 'mailto:nonnull@lar.net.au';
         });
       });

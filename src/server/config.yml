@@ -1,4 +1,4 @@
-mssql: sqlserver://sa:Password@Angus-PC/?encrypt=disable&database=lrintranet
+mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/?encrypt=disable&database=lrintranet
 
 server:
   port: 8080

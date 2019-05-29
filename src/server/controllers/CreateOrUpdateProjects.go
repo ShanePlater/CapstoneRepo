@@ -22,7 +22,8 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 	// client name, project number, pro name, address, suburb, location, type, status, start date, client rep name, telephone, mobile, email, division
 	if data.Name == "" || data.ClientName == "" || data.Address == "" || data.Suburb == "" || data.Location == "" || data.Type == "" || data.Status == "" || data.StartDate == "" || data.EndDate == "" || data.CRName == "" || data.CRPhone == "" || data.CRMobile == "" || data.CREmail == "" || data.Division == "" {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss one or multiple parameters"})
-		fmt.Println("controllers/createOrUpdateProjects.go shit broke fam, missing a parameter error")
+		fmt.Println("controllers/createOrUpdateProjects.go missing a parameter error")
+		fmt.Println("\n name" + data.Name + "\n client" + data.ClientName + "\n address" + data.Address + "\n suburb" + data.Suburb + "\n location" + data.Location + "\n type" + data.Type + "\n status" + data.Status + "\n startdate" + data.StartDate + "\n enddate" + data.EndDate + "\n CRName" + data.CRName + "\n CRPhone" + data.CRPhone + "\n CRmobile" + data.CRMobile + "\n CREemail" + data.CREmail + "\n division" + data.Division)
 		return
 	}
 
@@ -30,14 +31,14 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 	t, err := time.Parse(time.RFC3339, data.StartDate)
 	if err != nil {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjects.go Error formatting the START date and time mate")
+		fmt.Println("controllers/createOrUpdateProjects.go Error formatting the START date and time")
 		return
 	}
 	// Check End Date Format.
 	t, err = time.Parse(time.RFC3339, data.EndDate)
 	if err != nil {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjects.go Error formatting the END date and time mate")
+		fmt.Println("controllers/createOrUpdateProjects.go Error formatting the END date and time")
 		return
 	}
 
@@ -47,7 +48,7 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 	// Update project record; or create a new project record if ID is not defined.
 	if err := m.CreateOrUpdateProjects(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjects.go AHH fuck shit, there was an error updateing or creating the project")
+		fmt.Println("controllers/createOrUpdateProjects.go  there was an error updateing or creating the project")
 		return
 	}
 
