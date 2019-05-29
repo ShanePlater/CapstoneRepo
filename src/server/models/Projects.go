@@ -179,7 +179,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	r := orm.Projects{
 		ProjectNumber:         data.ID,
 		ProjectName:           data.Name,
-		ClientID:              "0",
+		ClientID:              "3065",
 		Division:              data.Division,
 		ClientRepName:         data.CRName,
 		ClientRepTelephone:    data.CRPhone,

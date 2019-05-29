@@ -9,14 +9,14 @@ import (
 )
 
 func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
-	fmt.Println("orm/Projects.go/createOrUpdateProjects Attempting this shit")
+	fmt.Println("orm/Projects.go/createOrUpdateProjects to create project in orm")
 	// Update record.
 	if p.ProjectNumber != "0" {
 		r := &Projects{ProjectNumber: p.ProjectNumber}
 		db.First(r)
 
 		if err := db.Model(r).Updates(p).Error; err != nil {
-			fmt.Println("orm/Projects.go/createOrUpdateProjects I think its an error doing the new project number?")
+			fmt.Println(err)
 			return err
 		}
 

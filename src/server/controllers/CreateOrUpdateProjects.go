@@ -45,6 +45,8 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 	// Format StartDate. dont think this is required, if it gets to this point then the dates should already be correct
 	data.StartDate = t.Format(time.RFC3339)
 
+	data.EndDate = t.Format(time.RFC3339)
+
 	// Update project record; or create a new project record if ID is not defined.
 	if err := m.CreateOrUpdateProjects(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
