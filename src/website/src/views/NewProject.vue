@@ -36,19 +36,22 @@
               <el-input v-model="form.projectsuburb"></el-input>
             </el-form-item>
 
-
-            <el-form-item label="Location:">
-              <el-input v-model="form.projectlocationcode"></el-input>
+            <el-form-item label="Location">
+              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>
 
-
-            <el-form-item label="Type:">
-              <el-input v-model="form.projecttypecode"></el-input>
+            <el-form-item label="Type">
+              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>
 
-
-            <el-form-item label="Status:">
-              <el-input v-model="form.projectstatuscode"></el-input>
+            <el-form-item label="Status">
+              <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
+                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>
 
 
@@ -91,8 +94,10 @@
           
           <!-- internal information -->
 
-            <el-form-item label="Division:">
-              <el-input v-model="form.division"></el-input>
+            <el-form-item label="Division">
+              <el-select v-model="form.division" placeholder="Pick a division">
+                <el-option v-for="option in options.divisions" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
+              </el-select>
             </el-form-item>
 
             <el-form-item label="Project Director:">
@@ -233,10 +238,6 @@ export default {
           CREmail: this.form.clientrepemail,
           Division: this.form.division,
         }),
-      }).then((response) => {
-        response.json().then((data) => {
-          window.location.href = 'mailto:nonnull@lar.net.au';
-        });
       });
     },
     getOptions(method) {
