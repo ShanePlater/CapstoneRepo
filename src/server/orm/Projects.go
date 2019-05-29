@@ -8,6 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// creates project
 func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	fmt.Println("orm/Projects.go/createOrUpdateProjects to create project in orm")
 	// Update record.

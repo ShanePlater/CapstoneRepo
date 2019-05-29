@@ -175,7 +175,7 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 
 //comment
 func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
-	fmt.Println("models/ Attempting Projects.go")
+	fmt.Println("models/ CreatingOrUpdateProjects")
 	r := orm.Projects{
 		ProjectNumber:         data.ID,
 		ProjectName:           data.Name,
