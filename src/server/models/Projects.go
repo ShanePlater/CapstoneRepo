@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"server/orm"
 	"server/types"
+	"server/utils"
 	"sort"
 	"strings"
 )
@@ -176,6 +177,12 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 //comment
 func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	fmt.Println("models/ CreatingOrUpdateProjects")
+
+	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
+	data.Division = utils.Itoa(c.locateDivisionCode("BNE", data.Division))
+
+	//current hard coded values: clientID: I will fix this soon - Matt
+	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
 	r := orm.Projects{
 		ProjectNumber:         data.ID,
 		ProjectName:           data.Name,
@@ -185,8 +192,8 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 		ClientRepTelephone:    data.CRPhone,
 		ClientRepMobile:       data.CRMobile,
 		ClientRepEmailAddress: data.CREmail,
-		ProjectDirector:       data.Director,
-		ProjectManager:        data.Manager,
+		ProjectDirector:       "0",
+		ProjectManager:        "0",
 		ProjectStatusCode:     data.Status,
 		ProjectStartDate:      data.StartDate,
 		ProjectEndDate:        data.EndDate,

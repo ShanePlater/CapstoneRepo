@@ -237,6 +237,8 @@ export default {
           CRMobile: this.form.clientrepmobnum,
           CREmail: this.form.clientrepemail,
           Division: this.form.division,
+          Director: this.form.projectdirector,
+          Manager: this.form.projectmanager,
         }),
       });
     },
