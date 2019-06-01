@@ -199,3 +199,15 @@ type GetMeJSON struct {
 	Username string
 	Password string
 }
+
+// Represents a clientlocationcode for creating new clients
+type ClientLocationCode struct {
+	ClientLocationCode string
+	ClientLocation     string
+}
+
+//ClientTypeCode represents a clienttypecode for creating new clients
+type ClientTypeCode struct {
+	ClientTypeCode  string
+	CodeDescription string
+}

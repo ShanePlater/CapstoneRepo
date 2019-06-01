@@ -155,3 +155,11 @@ type Users struct {
 	PhotoURL       string `gorm:"type:nvarchar(MAX);column:PhotoUrl"`
 	Enabled        string `gorm:"type:smallint;column:Enabled"`
 }
+
+type ClientTypes struct {
+	ClientTypeCode string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
+}
+
+type ClientLocations struct {
+	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
+}

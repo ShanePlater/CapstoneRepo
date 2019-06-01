@@ -198,6 +198,38 @@ func LoadClients(db *gorm.DB) *sync.Map {
 	return m
 }
 
+//return all records in ClientLocationCodes
+func LoadClientLocationCode(db *gorm.DB) *sync.Map {
+	var r []ClientLocations
+
+	// Get all records and check error.
+	checkErr(db.Find(&r).Error)
+
+	// Store records in sync.Map.
+	m := &sync.Map{}
+	for _, v := range r {
+		m.Store(v.ClientLocationCode, v)
+	}
+
+	return m
+}
+
+//return all records in ClientTypeCode
+func LoadClientTypeCode(db *gorm.DB) *sync.Map {
+	var r []ClientTypes
+
+	// Get all records and check error.
+	checkErr(db.Find(&r).Error)
+
+	// Store records in sync.Map.
+	m := &sync.Map{}
+	for _, v := range r {
+		m.Store(v.ClientTypeCode, v)
+	}
+
+	return m
+}
+
 // LoadUsers return all records in Users table.
 func LoadUsers(db *gorm.DB) *sync.Map {
 	var r []Users
