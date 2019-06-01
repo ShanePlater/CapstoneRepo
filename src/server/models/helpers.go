@@ -22,6 +22,28 @@ func (c *Context) GetNewsTable() *sync.Map {
 	return orm.LoadNews(c.db)
 }
 
+// GetClienTypes gets Client Types.
+func (c *Context) GetClientTypesTable() *sync.Map {
+	if c.config.IsCache() {
+		// Return from cache.
+		return c.news
+	}
+
+	// Load data from database then return it.
+	return orm.LoadClientTypeCode(c.db)
+}
+
+// GetClientLocationsTable exports ClientLocations Table.
+func (c *Context) GetClientLocationsTable() *sync.Map {
+	if c.config.IsCache() {
+		// Return from cache.
+		return c.news
+	}
+
+	// Load data from database then return it.
+	return orm.LoadClientLocationCode(c.db)
+}
+
 // GetCompanyDocumentResourcesTable exports CompanyDocumentResources table.
 func (c *Context) GetCompanyDocumentResourcesTable() *sync.Map {
 	if c.config.IsCache() {

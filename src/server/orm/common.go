@@ -156,10 +156,14 @@ type Users struct {
 	Enabled        string `gorm:"type:smallint;column:Enabled"`
 }
 
+// ClientTypes is the ClientTypes Table
 type ClientTypes struct {
-	ClientTypeCode string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
+	ClientTypeCode    string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
+	ClientDescription string `gorm:"type:nvarchar(50);column:ClientTypeCode"`
 }
 
+// ClientLocations is the ClientLocations Table
 type ClientLocations struct {
 	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
+	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`
 }
