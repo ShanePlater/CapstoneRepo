@@ -157,13 +157,13 @@ type Users struct {
 }
 
 // ClientTypes is the ClientTypes Table
-type ClientTypes struct {
-	ClientTypeCode    string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
-	ClientDescription string `gorm:"type:nvarchar(50);column:ClientTypeCode"`
+type Clienttypes struct {
+	ClientTypeCode  string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
+	CodeDescription string `gorm:"type:nvarchar(50);column:CodeDescription"`
 }
 
 // ClientLocations is the ClientLocations Table
-type ClientLocations struct {
+type Clientlocations struct {
 	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
 	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`
 }

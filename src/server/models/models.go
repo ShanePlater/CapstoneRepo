@@ -31,8 +31,8 @@ func New(config *config.Context) *Context {
 	c.projects = orm.LoadProjects(c.db)
 	c.clients = orm.LoadClients(c.db)
 	c.users = orm.LoadUsers(c.db)
-	c.clienttypes = orm.LoadClientTypeCode(c.db)
-	c.clientlocations = orm.LoadClientLocationCode(c.db)
+	c.clientTypes = orm.LoadClientTypeCode(c.db)
+	c.clientLocations = orm.LoadClientLocationCode(c.db)
 
 	return c
 }

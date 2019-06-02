@@ -67,6 +67,12 @@ func (c *Context) GetOptions(name string) interface{} {
 	case "getOptionOffices":
 		res.reserveString = append(res.reserveString, "OfficeCode", "Name")
 		c.GetOfficesTable().Range(res.rangeOptions)
+	case "getClientTypes":
+		res.reserveString = append(res.reserveString, "ClientTypeCode", "CodeDescription")
+		c.GetClientTypesTable().Range(res.rangeOptions)
+	case "getClientLocations":
+		res.reserveString = append(res.reserveString, "ClientLocationCode", "ClientLocation")
+		c.GetClientLocationsTable().Range(res.rangeOptions)
 	default:
 	}
 
