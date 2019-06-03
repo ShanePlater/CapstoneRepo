@@ -129,17 +129,16 @@ type Project struct {
 	Division   string
 }
 type Project2 struct {
-	ID         string
-	Name       string
-	ClientName string
-	Address    string
-	Suburb     string
-	Location   string
-	Type       string
-	Status     string
-	StartDate  string
-	EndDate    string
-	//CR = Client Rep
+	ID          string
+	Name        string
+	ClientName  string
+	Address     string
+	Suburb      string
+	Location    string
+	Type        string
+	Status      string
+	StartDate   string
+	EndDate     string
 	CRName      string
 	CRPhone     string
 	CRMobile    string
@@ -153,20 +152,27 @@ type Project2 struct {
 
 //Data type for Client Input Page
 type Client2 struct {
-	ID          string
-	Name        string
-	ABN         string
-	ACN         string
-	Type        string
-	FirstName   string
-	LastName    string
-	Location    string
-	PhoneNumber string
-	FaxNumber   string
-	Address     string
-	Suburb      string
-	Postcode    string
-	Email       string
+	ClientID              string
+	ClientOfficeCode      string
+	ClientName            string
+	ClientABNNumber       string
+	ClientACNNumber       string
+	ClientTypeCode        string
+	FirstName             string
+	LastName              string
+	ClientLocationCode    string
+	StreetAddress         string
+	StreetSuburb          string
+	StreetState           string
+	StreetPostcode        string
+	PostalAddress         string
+	PostalAddressSuburb   string
+	PostalAddressState    string
+	PostalAddressPostcode string
+	PhoneNumber           string
+	FaxNumber             string
+	MobileNumber          string
+	EMailAddress          string
 }
 
 // SearchJSON is the body of searchProjects, searchUsers,

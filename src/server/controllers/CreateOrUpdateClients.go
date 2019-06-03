@@ -19,10 +19,10 @@ func createOrUpdateClients(g *gin.Context, m *models.Context) {
 		return
 	}
 	// client name, project number, pro name, address, suburb, location, type, status, start date, client rep name, telephone, mobile, email, division
-	if data.Name == "" || data.ClientName == "" || data.Address == "" || data.Suburb == "" || data.Location == "" || data.Type == "" || data.Status == "" || data.StartDate == "" || data.EndDate == "" || data.CRName == "" || data.CRPhone == "" || data.CRMobile == "" || data.CREmail == "" || data.Division == "" {
+	if data.ClientOfficeCode == "" || data.ClientName == "" || data.ClientABNNumber == "" || data.ClientACNNumber == "" || data.ClientTypeCode == "" || data.FirstName == "" || data.LastName == "" || data.ClientLocationCode == "" || data.StreetAddress == "" || data.StreetSuburb == "" || data.StreetPostcode == "" || data.PhoneNumber == "" || data.FaxNumber == "" || data.EMailAddress == "" {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss one or multiple parameters"})
-		fmt.Println("controllers/createOrUpdateProjects.go missing a parameter error")
-		fmt.Println("\n name" + data.Name + "\n client" + data.ClientName + "\n address" + data.Address + "\n suburb" + data.Suburb + "\n location" + data.Location + "\n type" + data.Type + "\n status" + data.Status + "\n startdate" + data.StartDate + "\n enddate" + data.EndDate + "\n CRName" + data.CRName + "\n CRPhone" + data.CRPhone + "\n CRmobile" + data.CRMobile + "\n CREemail" + data.CREmail + "\n division" + data.Division)
+		fmt.Println("controllers/createOrUpdateClients.go missing a parameter error")
+		//fmt.Println("\n name" + data.Name + "\n client" + data.ClientName + "\n address" + data.Address + "\n suburb" + data.Suburb + "\n location" + data.Location + "\n type" + data.Type + "\n status" + data.Status + "\n startdate" + data.StartDate + "\n enddate" + data.EndDate + "\n CRName" + data.CRName + "\n CRPhone" + data.CRPhone + "\n CRmobile" + data.CRMobile + "\n CREemail" + data.CREmail + "\n division" + data.Division)
 		return
 	}
 
@@ -50,9 +50,9 @@ func createOrUpdateClients(g *gin.Context, m *models.Context) {
 
 	*/
 	// Update project record; or create a new project record if ID is not defined.
-	if err := m.CreateOrUpdateProjects(&data); err != nil {
+	if err := m.CreateOrUpdateClients(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjects.go  there was an error updateing or creating the project")
+		fmt.Println("controllers/createOrUpdateClients.go  there was an error updateing or creating the client")
 		return
 	}
 
