@@ -230,7 +230,8 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          Name: this.form.projectname,
+          ID: 0,
+          OfficeCode: 'BNE',
           ClientName: this.form.clientName,
           Address: this.form.projectaddress,
           Suburb: this.form.projectsuburb,

@@ -151,6 +151,24 @@ type Project2 struct {
 	Description string
 }
 
+//Data type for Client Input Page
+type Client2 struct {
+	ID          string
+	Name        string
+	ABN         string
+	ACN         string
+	Type        string
+	FirstName   string
+	LastName    string
+	Location    string
+	PhoneNumber string
+	FaxNumber   string
+	Address     string
+	Suburb      string
+	Postcode    string
+	Email       string
+}
+
 // SearchJSON is the body of searchProjects, searchUsers,
 // searchClients, and searchResources API request.
 type SearchJSON struct {
