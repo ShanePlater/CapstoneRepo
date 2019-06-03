@@ -110,7 +110,7 @@
             <br>
 
 
-          <h4 style="font-size:20px"> Details </h4>
+          <h4 style="font-size:20px"> Details3 </h4>
           <!-- Project Details -->
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
@@ -123,9 +123,15 @@
 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Add New Project</el-button>
+              <el-button type="primary" @click="validate">Add New Project</el-button>
             </el-form-item>
           </el-form>
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+                <li v-for="error in errors">{{ error }}</li>
+              </ul>
+            </p>
         </el-col>
       </el-row>
     </div>    
@@ -143,6 +149,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       title: 'Enter Project Details',
       projects: [],
       options: {
@@ -241,6 +248,65 @@ export default {
           Manager: this.form.projectmanager,
         }),
       });
+    },
+    validate() {
+      this.errors = [];
+      if (this.form.clientName == '') {
+        this.errors.push('Client Name Required');
+      }
+      if (this.form.projectnumber == '') {
+        this.errors.push('Project Number Required');
+      }
+      if (this.form.projectname == '') {
+        this.errors.push('Project Name Required');
+      }
+      if (this.form.projectaddress == '') {
+        this.errors.push('Project Address Required');
+      }
+      if (this.form.projectsuburb == '') {
+        this.errors.push('Project Suburb Required');
+      }
+      if (this.form.projectlocationcode == '') {
+        this.errors.push('Project Location Required');
+      }
+      if (this.form.projecttypecode == '') {
+        this.errors.push('Project Type Required');
+      }
+      if (this.form.projectstatuscode == '') {
+        this.errors.push('Project Status Required');
+      }
+      if (this.form.clientrepname == '') {
+        this.errors.push('Client Representative Name Required');
+      }
+      if (this.form.clientrepworknum == '') {
+        this.errors.push('Client Representative Telephone Number Required');
+      }
+      if (this.form.clientrepmobnum == '') {
+        this.errors.push('Client Representative Mobile Number Required');
+      }
+      if (this.form.clientrepemail == '') {
+        this.errors.push('Client Representative Email Required');
+      }
+      if (this.form.division == '') {
+        this.errors.push('Internal Division Required');
+      }
+      if (this.form.projectdirector == '') {
+        this.errors.push('Internal Project Director  Required');
+      }
+      if (this.form.projectmanager == '') {
+        this.errors.push('Internal Project Manager Required');
+      }
+      if (this.form.projectvalue == '') {
+        this.errors.push('Project Value Required');
+      }
+      if (this.form.projectdescription == '') {
+        this.errors.push('Project Description Required');
+      }
+      if (this.errors.length == 0) {
+        this.redirecting();
+        this.updatePage();
+      }
+      // this.redirecting();
     },
     getOptions(method) {
       fetch(method, {
