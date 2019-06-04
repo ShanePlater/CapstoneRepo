@@ -21,7 +21,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("createNews", createOrUpdateNews)
 	c.handler.Store("updateNews", createOrUpdateNews)
 	c.handler.Store("createOrUpdateProject", createOrUpdateProjects)
-	c.handler.Store("createOrUpdateClient", createOrUpdateProjects)
+	c.handler.Store("createOrUpdateClient", createOrUpdateClients)
 	c.handler.Store("removeNews", removeNews)
 	c.handler.Store("recent", recent)
 	c.handler.Store("createSuggestion", createSuggestion)

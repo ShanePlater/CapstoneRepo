@@ -120,7 +120,7 @@
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="search">Add New Client</el-button>
+              <el-button type="primary" @click="redirecting">Add New Client</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -141,7 +141,7 @@ import api from '@/api.conf';
 export default {
   name: 'new-client',
   components: {
-    Search,
+
   },
   data() {
     return {
@@ -221,29 +221,27 @@ export default {
   },
   methods: {
     redirecting() {
-      fetch(api.addProject, {
+      fetch(api.addClient, {
         method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          Name: this.form.projectname,
-          ClientName: this.form.clientName,
-          Address: this.form.projectaddress,
-          Suburb: this.form.projectsuburb,
-          Location: this.form.projectlocationcode,
-          Type: this.form.projecttypecode,
-          Status: this.form.projectstatuscode,
-          StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-01-29 00:00:00',
-          CRName: this.form.clientrepname,
-          CRPhone: this.form.clientrepworknum,
-          CRMobile: this.form.clientrepmobnum,
-          CREmail: this.form.clientrepemail,
-          Division: this.form.division,
-          Director: this.form.projectdirector,
-          Manager: this.form.projectmanager,
+          ClientName: this.form.ClientName,
+          ClientOfficeCode: 'BNE',
+          ClientABNNumber: this.form.ClientABN,
+          ClientACNNumber: this.form.ClientACN,
+          ClientTypeCode: this.form.projecttypecode,
+          FirstName: this.form.ClientFirstName,
+          LastName: this.form.ClientLastName,
+          ClientLocationCode: this.form.projectlocationcode,
+          StreetAddress: this.form.ClientAddress,
+          StreetSuburb: this.form.ClientSuburb,
+          StreetPostcode: this.form.ClientPostcode,
+          PhoneNumber: this.form.ClientPhoneNumber,
+          FaxNumber: this.form.ClientFaxNumber,
+          EMailAddress: this.form.ClientEmail,
         }),
       });
     },
