@@ -31,5 +31,5 @@ export default {
   getProjectsSiteInspectionsByProjectNumber: `${baseURL}/post/getProjectsSiteInspectionsByProjectNumber`,
   getManagerUsernameByDivisionCode: `${baseURL}/post/getManagerUsernameByDivisionCode`,
   addProject: `${baseURL}/post/createOrUpdateProject`,
-  addClient: `${baseURL}/post/createOrUpdateClient`,
+  addClient: `${baseURL}/post/createOrUpdateClients`,
 };

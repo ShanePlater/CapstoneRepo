@@ -251,58 +251,58 @@ export default {
     },
     validate() {
       this.errors = [];
-      if (this.form.clientName == '') {
+      if (this.form.clientName === '') {
         this.errors.push('Client Name Required');
       }
-      if (this.form.projectnumber == '') {
+      if (this.form.projectnumber === '') {
         this.errors.push('Project Number Required');
       }
-      if (this.form.projectname == '') {
+      if (this.form.projectname === '') {
         this.errors.push('Project Name Required');
       }
-      if (this.form.projectaddress == '') {
+      if (this.form.projectaddress === '') {
         this.errors.push('Project Address Required');
       }
-      if (this.form.projectsuburb == '') {
+      if (this.form.projectsuburb === '') {
         this.errors.push('Project Suburb Required');
       }
-      if (this.form.projectlocationcode == '') {
+      if (this.form.projectlocationcode === '') {
         this.errors.push('Project Location Required');
       }
-      if (this.form.projecttypecode == '') {
+      if (this.form.projecttypecode === '') {
         this.errors.push('Project Type Required');
       }
-      if (this.form.projectstatuscode == '') {
+      if (this.form.projectstatuscode === '') {
         this.errors.push('Project Status Required');
       }
-      if (this.form.clientrepname == '') {
+      if (this.form.clientrepname === '') {
         this.errors.push('Client Representative Name Required');
       }
-      if (this.form.clientrepworknum == '') {
+      if (this.form.clientrepworknum === '') {
         this.errors.push('Client Representative Telephone Number Required');
       }
-      if (this.form.clientrepmobnum == '') {
+      if (this.form.clientrepmobnum === '') {
         this.errors.push('Client Representative Mobile Number Required');
       }
-      if (this.form.clientrepemail == '') {
+      if (this.form.clientrepemail === '') {
         this.errors.push('Client Representative Email Required');
       }
-      if (this.form.division == '') {
+      if (this.form.division === '') {
         this.errors.push('Internal Division Required');
       }
-      if (this.form.projectdirector == '') {
+      if (this.form.projectdirector === '') {
         this.errors.push('Internal Project Director  Required');
       }
-      if (this.form.projectmanager == '') {
+      if (this.form.projectmanager === '') {
         this.errors.push('Internal Project Manager Required');
       }
-      if (this.form.projectvalue == '') {
+      if (this.form.projectvalue === '') {
         this.errors.push('Project Value Required');
       }
-      if (this.form.projectdescription == '') {
+      if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');
       }
-      if (this.errors.length == 0) {
+      if (this.errors.length === 0) {
         this.redirecting();
         this.updatePage();
       }
