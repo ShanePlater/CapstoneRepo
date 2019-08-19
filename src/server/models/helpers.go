@@ -22,7 +22,7 @@ func (c *Context) GetNewsTable() *sync.Map {
 	return orm.LoadNews(c.db)
 }
 
-// GetClienTypes gets Client Types.
+//GetClientTypesTable gets Client Types.
 func (c *Context) GetClientTypesTable() *sync.Map {
 	if c.config.IsCache() {
 		// Return from cache.

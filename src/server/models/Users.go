@@ -44,6 +44,7 @@ func (a *copy) rangeUsersSearch(key, value interface{}) bool {
 	return true
 }
 
+//GetUsersByDivisionCode return list of users in range by division code
 func (c *Context) GetUsersByDivisionCode(data *types.GetDivisionsJSON) interface{} {
 	divisionCode := c.locateDivisionCode(data.Office, data.Division)
 	if divisionCode != -1 {
@@ -54,6 +55,7 @@ func (c *Context) GetUsersByDivisionCode(data *types.GetDivisionsJSON) interface
 	return nil
 }
 
+//rangeUsersByDivisionCode find user range based on division
 func (a *copy) rangeUsersByDivisionCode(key, value interface{}) bool {
 	v := reflect.ValueOf(value)
 	if v.FieldByName("DivisionCode").String() == utils.Itoa(a.reserveInt[0]) {

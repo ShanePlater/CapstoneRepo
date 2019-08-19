@@ -8,7 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// creates Client
+//CreateOrUpdateClients facilitating creation of new clients
 func CreateOrUpdateClients(p *Clients, db *gorm.DB) error {
 	fmt.Println("orm/Clients.go/createOrUpdateClientss to create Client in orm")
 	// Update record.
@@ -55,7 +55,7 @@ func CreateOrUpdateClients(p *Clients, db *gorm.DB) error {
 
 	// Check if News is created successfully.
 	if db.NewRecord(p) {
-		return errors.New("Failed to create new Client.")
+		return errors.New("failed to create new Client")
 	}
 
 	return nil

@@ -115,6 +115,7 @@ type Projects struct {
 	ProjectLocationCode   string `gorm:"type:nvarchar(MAX);column:ProjectLocationCode"`
 	ProjectDescription    string `gorm:"type:nvarchar(MAX);column:ProjectDescription"`
 	ProjectValue          string `gorm:"type:decimal(18,0);column:ProjectValue"`
+	ArchiveLocation       string `gorm:"type:nvarchar(MAX);column:ArchiveLocation"`
 }
 
 // Clients is Clients table.
@@ -156,13 +157,13 @@ type Users struct {
 	Enabled        string `gorm:"type:smallint;column:Enabled"`
 }
 
-// ClientTypes is the ClientTypes Table
+//Clienttypes is the ClientTypes Table
 type Clienttypes struct {
 	ClientTypeCode  string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
 	CodeDescription string `gorm:"type:nvarchar(50);column:CodeDescription"`
 }
 
-// ClientLocations is the ClientLocations Table
+//Clientlocations is the ClientLocations Table
 type Clientlocations struct {
 	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
 	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`

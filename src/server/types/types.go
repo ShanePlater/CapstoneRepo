@@ -128,26 +128,29 @@ type Project struct {
 	Address    string
 	Division   string
 }
+
+// Project2
 type Project2 struct {
-	ID          string
-	Name        string
-	ClientName  string
-	Address     string
-	Suburb      string
-	Location    string
-	Type        string
-	Status      string
-	StartDate   string
-	EndDate     string
-	CRName      string
-	CRPhone     string
-	CRMobile    string
-	CREmail     string
-	Division    string
-	Director    string
-	Manager     string
-	Value       string
-	Description string
+	ID              string
+	Name            string
+	ClientName      string
+	Address         string
+	Suburb          string
+	Location        string
+	Type            string
+	Status          string
+	StartDate       string
+	EndDate         string
+	CRName          string
+	CRPhone         string
+	CRMobile        string
+	CREmail         string
+	Division        string
+	Director        string
+	Manager         string
+	Value           string
+	Description     string
+	ArchiveLocation string
 }
 
 //Data type for Client Input Page

@@ -1,7 +1,7 @@
-mssql: sqlserver://sa:Capstone4Blanket6@STUDIO-XPS/?encrypt=disable&database=lrintranet
+mssql: sqlserver://sa:gh29sV3^0zzC@lr-bne-erp-01.lar.net.au/SQLEXPRESS?database=lrintranet
 
 server:
-  port: 8080
+  port: 8082
   website: ./dist
 #go build -o  lar-server.exe -ldflags "-s -w -X main.mode=debug" -v
 email:

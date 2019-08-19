@@ -174,7 +174,7 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 	return true
 }
 
-//comment
+//CreateOrUpdateProjects comment
 func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	fmt.Println("models/ CreatingOrUpdateProjects")
 
@@ -203,6 +203,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 		ProjectLocationCode:   data.Location,
 		ProjectDescription:    data.Description,
 		ProjectValue:          data.Value,
+		ArchiveLocation:       data.ArchiveLocation,
 	}
 
 	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
@@ -217,24 +218,25 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 
 	// Update data.
 	*data = types.Project2{
-		ID:          r.ProjectNumber,
-		Name:        r.ProjectName,
-		Address:     r.ProjectAddress,
-		Suburb:      r.ProjectSuburb,
-		Location:    r.ProjectLocationCode,
-		Type:        r.ProjectTypeCode,
-		Status:      r.ProjectStatusCode,
-		StartDate:   r.ProjectStartDate,
-		EndDate:     r.ProjectEndDate,
-		CRName:      r.ClientRepName,
-		CRPhone:     r.ClientRepTelephone,
-		CRMobile:    r.ClientRepMobile,
-		CREmail:     r.ClientRepEmailAddress,
-		Division:    r.Division,
-		Director:    r.ProjectDirector,
-		Manager:     r.ProjectManager,
-		Value:       r.ProjectValue,
-		Description: r.ProjectDescription,
+		ID:              r.ProjectNumber,
+		Name:            r.ProjectName,
+		Address:         r.ProjectAddress,
+		Suburb:          r.ProjectSuburb,
+		Location:        r.ProjectLocationCode,
+		Type:            r.ProjectTypeCode,
+		Status:          r.ProjectStatusCode,
+		StartDate:       r.ProjectStartDate,
+		EndDate:         r.ProjectEndDate,
+		CRName:          r.ClientRepName,
+		CRPhone:         r.ClientRepTelephone,
+		CRMobile:        r.ClientRepMobile,
+		CREmail:         r.ClientRepEmailAddress,
+		Division:        r.Division,
+		Director:        r.ProjectDirector,
+		Manager:         r.ProjectManager,
+		Value:           r.ProjectValue,
+		Description:     r.ProjectDescription,
+		ArchiveLocation: r.ArchiveLocation,
 	}
 
 	return nil

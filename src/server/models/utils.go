@@ -273,14 +273,17 @@ func iSValueShouldBeSearched(name string) bool {
 	return false
 }
 
+//GetProject get list of projects
 func (c *Context) GetProject(data *types.GetByIDJSON) (interface{}, bool) {
 	return c.GetProjectsTable().Load(data.ID)
 }
 
+//GetClient get list of clients and return in table format
 func (c *Context) GetClient(data *types.GetByIDJSON) (interface{}, bool) {
 	return c.GetClientsTable().Load(data.ID)
 }
 
+//GetSuggestionItemURL legacy code unsure of use
 func (c *Context) GetSuggestionItemURL(data *types.SearchJSON) string {
 	var wg sync.WaitGroup
 

@@ -49,7 +49,7 @@ func (a *copy) rangeClientsSearch(key, value interface{}) bool {
 	return true
 }
 
-//comment
+//CreateOrUpdateClients create client class and upload to database
 func (c *Context) CreateOrUpdateClients(data *types.Client2) error {
 	fmt.Println("models/ CreatingOrUpdateClients")
 

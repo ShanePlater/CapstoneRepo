@@ -8,7 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// creates project
+//CreateOrUpdateProjects creates project
 func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	fmt.Println("orm/Projects.go/createOrUpdateProjects to create project in orm")
 	// Update record.
@@ -46,7 +46,7 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 
 	// Check if News is created successfully.
 	if db.NewRecord(p) {
-		return errors.New("Failed to create new project.")
+		return errors.New("failed to create new project")
 	}
 
 	return nil

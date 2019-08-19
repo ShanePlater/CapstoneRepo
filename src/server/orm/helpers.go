@@ -198,7 +198,7 @@ func LoadClients(db *gorm.DB) *sync.Map {
 	return m
 }
 
-//return all records in ClientLocationCodes
+//LoadClientLocationCode return all records in ClientLocationCodes
 func LoadClientLocationCode(db *gorm.DB) *sync.Map {
 	var r []Clientlocations
 
@@ -214,7 +214,7 @@ func LoadClientLocationCode(db *gorm.DB) *sync.Map {
 	return m
 }
 
-//return all records in ClientTypeCode
+//LoadClientTypeCode return all records in ClientTypeCode
 func LoadClientTypeCode(db *gorm.DB) *sync.Map {
 	var r []Clienttypes
 

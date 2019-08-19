@@ -8,22 +8,14 @@
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
           <el-form-item label="Fields marked in bold are required.">
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
           </el-form-item>
-=======
-          </el-form-item> 
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
 
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>
           
           <!-- project information -->
             <el-form-item label="Client Name:">
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
               <el-input v-model="form.clientName"></el-input>
-=======
-              <el-input v-model="form.clientname"></el-input>
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
             </el-form-item>
 
             <el-form-item label="Project Number">
@@ -37,7 +29,6 @@
 
             <el-form-item label="Address:">
               <el-input v-model="form.projectaddress"></el-input>
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
             </el-form-item>
 
 
@@ -49,23 +40,6 @@
               <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
                 <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
-=======
-            </el-form-item>
-
-
-            <el-form-item label="Suburb:">
-              <el-input v-model="form.projectsuburb"></el-input>
-            </el-form-item>
-
-
-            <el-form-item label="Location:">
-              <el-input v-model="form.projectlocation"></el-input>
-            </el-form-item>
-
-
-            <el-form-item label="Type:">
-              <el-input v-model="form.projecttypecode"></el-input>
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
             </el-form-item>
 
             <el-form-item label="Type">
@@ -74,15 +48,10 @@
               </el-select>
             </el-form-item>
 
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
             <el-form-item label="Status">
               <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
                 <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
-=======
-            <el-form-item label="Status:">
-              <el-input v-model="form.projectstatuscode"></el-input>
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
             </el-form-item>
 
 
@@ -125,15 +94,10 @@
           
           <!-- internal information -->
 
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
             <el-form-item label="Division">
               <el-select v-model="form.division" placeholder="Pick a division">
                 <el-option v-for="option in options.divisions" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
               </el-select>
-=======
-            <el-form-item label="Division:">
-              <el-input v-model="form.division"></el-input>
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
             </el-form-item>
 
             <el-form-item label="Project Director:">
@@ -146,11 +110,7 @@
             <br>
 
 
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
           <h4 style="font-size:20px"> Details3 </h4>
-=======
-          <h4 style="font-size:20px"> Details </h4>
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
           <!-- Project Details -->
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
@@ -160,6 +120,9 @@
               <el-input v-model="form.projectdescription"></el-input>
             </el-form-item>
             
+            <el-form-item label="Archive Location:">
+              <el-input v-model="form.archivelocation"></el-input>
+            </el-form-item>
 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
@@ -169,7 +132,7 @@
             <p v-if="errors.length">
               <b>Please correct the following error(s):</b>
               <ul>
-                <li v-for="error in errors">{{ error }}</li>
+               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </p>
         </el-col>
@@ -189,10 +152,7 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD:src/website/src/views/NewProject.vue
       errors: [],
-=======
->>>>>>> 836cd2b2462902bad62161e7eea8a3c0942d5638:source-code/website/src/views/NewProject.vue
       title: 'Enter Project Details',
       projects: [],
       options: {
@@ -248,6 +208,7 @@ export default {
         projectmanager: '',
         projectvalue: '',
         projectdescription: '',
+        archivelocation: '',
       },
     };
   },
@@ -289,6 +250,7 @@ export default {
           Division: this.form.division,
           Director: this.form.projectdirector,
           Manager: this.form.projectmanager,
+          ArchiveLocation: this.form.archivelocation,
         }),
       });
     },
@@ -349,7 +311,7 @@ export default {
         this.redirecting();
         this.updatePage();
       }
-      // this.redirecting();
+      this.redirecting('/NewProject');
     },
     getOptions(method) {
       fetch(method, {
@@ -407,6 +369,7 @@ export default {
         projectmanager: '',
         projectvalue: '',
         projectdescription: '',
+        archivelocation: '',
       };
     },
   },
