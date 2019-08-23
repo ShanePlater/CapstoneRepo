@@ -32,4 +32,5 @@ export default {
   getManagerUsernameByDivisionCode: `${baseURL}/post/getManagerUsernameByDivisionCode`,
   addProject: `${baseURL}/post/createOrUpdateProject`,
   addClient: `${baseURL}/post/createOrUpdateClients`,
+  uploadDocument: `${baseURL}/post/uploadDocument`,
 };

@@ -14,6 +14,7 @@ import RedbookSearch from '@/views/RedbookSearch';
 import ProjectDetails from '@/views/ProjectDetails';
 import ClientDetails from '@/views/ClientDetails';
 import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
+import DocumentUpload from '@/views/DocumentUpload';
 
 Vue.use(Router);
 
@@ -69,6 +70,7 @@ export default new Router({
       name: 'NewClient',
       component: NewClient,
     },
+    
     {
       path: '/search/:keyword',
       name: 'Search Result',
@@ -88,5 +90,10 @@ export default new Router({
       path: '/siteinspections/:id',
       name: 'Project Site Inspections',
       component: ProjectsSiteInspections,
+    },
+    {
+      path: '/document-upload',
+      name: 'DocumentUpload',
+      component: DocumentUpload,
     }],
 });

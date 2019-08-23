@@ -143,8 +143,6 @@
 
 <script>
 import api from '@/api.conf';
-// import Search from '@/views/Search';
-
 export default {
   name: 'new-project',
   components: {
@@ -233,6 +231,7 @@ export default {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        // the start and end dates here are they hardcoded or are they just placeholders where the data gets taken from the datetime picker 
         body: JSON.stringify({
           Name: this.form.projectname,
           ClientName: this.form.clientName,
