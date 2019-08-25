@@ -283,6 +283,11 @@ func (c *Context) GetClient(data *types.GetByIDJSON) (interface{}, bool) {
 	return c.GetClientsTable().Load(data.ID)
 }
 
+//GetProjectSiteInspections get list of Site inspections and return in table format
+func (c *Context) GetProjectSiteInspections(data *types.GetByIDJSON) (interface{}, bool) {
+	return c.GetProjectSiteInspectionsTable().Load(data.ID)
+}
+
 //GetSuggestionItemURL legacy code unsure of use
 func (c *Context) GetSuggestionItemURL(data *types.SearchJSON) string {
 	var wg sync.WaitGroup

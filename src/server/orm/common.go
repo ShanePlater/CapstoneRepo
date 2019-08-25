@@ -168,3 +168,12 @@ type Clientlocations struct {
 	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
 	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`
 }
+
+//ProjectSiteInspections is the ProjectSiteInspections Table
+type ProjectSiteInspections struct {
+	InspectionID       string `gorm:"type:int;column:InspectionId"`
+	ProjectNumber      string `gorm:"type:nvarchar(7);column:ProjectNumber"`
+	InspectedBy        string `gorm:"type:nvarchar(50);column:InspectedBy"`
+	InspectionDateTime string `gorm:"type:datetime;column:InspectionDateTime"`
+	InspectionDetails  string `gorm:"type:nvarchar(max);column:InspectionDetails"`
+}

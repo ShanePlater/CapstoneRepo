@@ -245,3 +245,19 @@ func LoadUsers(db *gorm.DB) *sync.Map {
 
 	return m
 }
+
+// LoadSiteInspections return all records in ProjectSiteInspections table.
+func LoadSiteInspections(db *gorm.DB) *sync.Map {
+	var r []ProjectSiteInspections
+
+	// Get all records and check error.
+	checkErr(db.Find(&r).Error)
+
+	// Store records in sync.Map.
+	m := &sync.Map{}
+	for _, v := range r {
+		m.Store(v.InspectionID, v)
+	}
+
+	return m
+}

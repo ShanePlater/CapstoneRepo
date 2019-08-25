@@ -238,3 +238,12 @@ type ClientTypeCode struct {
 	ClientTypeCode  string
 	CodeDescription string
 }
+
+//ProjectSiteInspections represents a clienttypecode for creating Site Inspections
+type ProjectSiteInspections struct {
+	InspectionID       string
+	ProjectNumber      string
+	InspectedBy        string
+	InspectionDateTime string
+	InspectionDetails  string
+}

@@ -175,3 +175,14 @@ func (c *Context) GetUsersTable() *sync.Map {
 	// Load data from database then return it.
 	return orm.LoadUsers(c.db)
 }
+
+// GetProjectSiteInspectionsTable exports ProjectSiteInspections table.
+func (c *Context) GetProjectSiteInspectionsTable() *sync.Map {
+	if c.config.IsCache() {
+		// Return from cache.
+		return c.users
+	}
+
+	// Load data from database then return it.
+	return orm.LoadSiteInspections(c.db)
+}
