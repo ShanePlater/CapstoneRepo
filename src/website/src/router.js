@@ -62,15 +62,14 @@ export default new Router({
     },
     {
       path: '/new-project',
-      name: 'NewProject',
+      name: 'Add New Project',
       component: NewProject,
     },
     {
       path: '/new-client',
-      name: 'NewClient',
+      name: 'Add New Client',
       component: NewClient,
     },
-    
     {
       path: '/search/:keyword',
       name: 'Search Result',
@@ -93,7 +92,7 @@ export default new Router({
     },
     {
       path: '/document-upload',
-      name: 'DocumentUpload',
+      name: 'Upload New Document',
       component: DocumentUpload,
     }],
 });

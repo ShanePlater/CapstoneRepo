@@ -32,37 +32,29 @@ what this page needs:
           <h2 style="font-size:20px"> Document Information </h2>
           
           <!-- document information -->
-            <el-form-item label="Select File:">
-             <!-- file chooser is inline with this label-->
-            </el-form-item>
-            <el-form-item>
-              <el-button type="button" @click="filePicker">Choose File</el-button>
-            </el-form-item>
+            <el-form-item label="Select File:">              
+             <el-upload action="" :auto-upload="false" :on-change="handleChange" :file-list="files">
+              <el-button slot="trigger" size="small" type="primary">Select file</el-button>
+              </el-upload>
+            </el-form-item>            
             <el-form-item label="Category:">
               <!-- category selection in form of drop down box-->
-            </el-form-item>            
-
-            <el-form-item label="Document Name:">
-              <el-input v-model="form.docName"></el-input>
             </el-form-item>
-
-
+            <el-form-item label="Document Name:">
+              <el-input v-model="form.fileName"></el-input>
+            </el-form-item>
             <el-form-item label="File Revision:">
               <el-input v-model="form.fileRevision"></el-input>
             </el-form-item>
-
-
             <el-form-item label="Authorised By:">
-              <el-input v-model="form.authBy"></el-input>
-            </el-form-item>            
-
+              <el-input v-model="form.authorizedBy"></el-input>
+            </el-form-item> 
             <el-form-item label="Authorised Date:">
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+              <el-date-picker v-model="form.datePeriod" type="text" placeholder="Pick a date" :picker-options="datePicker">
               </el-date-picker>
             </el-form-item>
-            <br>            
-
+            <br> 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
               <el-button type="primary" @click="validate">Create</el-button>
@@ -85,52 +77,30 @@ what this page needs:
 
 <script>
 import api from '@/api.conf';
+
 export default {
   name: 'document-upload',
   components: {
-
   },
   data() {
     return {
+      files: [],
       errors: [],
-      title: 'Upload New Document',      
+      title: 'Upload New Document',
       datePicker: {
-        shortcuts: [{
-          text: 'Last week',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 7));
-            picker.$emit('pick', [start, end]);
-          },
-        }, {
-          text: 'Last month',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 30));
-            picker.$emit('pick', [start, end]);
-          },
-        }, {
-          text: 'Last 3 months',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - (3600 * 1000 * 24 * 90));
-            picker.$emit('pick', [start, end]);
-          },
-        }],
       },
       form: {
-        docName: '',
-        category: '',
+        fileID: '',
+        fileName: '',
         fileRevision: '',
-        authBy: '',
-        authDate: '1999-01-29 00:00:00',                
+        authorizedBy: '',
+        authorizedDate: '',
+        categoryID: '',
+        URL: '',
       },
     };
   },
-  created() { // dont think i need this 
+  created() { // dont think i need this
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
     }
@@ -146,40 +116,41 @@ export default {
     '$route.query.res': 'updatePage',
   },
   methods: {
-
     redirecting() {
       fetch(api.addProject, {
         method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-        },        
-        body: JSON.stringify({          
-          docName: this.form.docName,
-          category: this.form.catagory,
+        },
+        body: JSON.stringify({
+          fileID: this.form.fileName,
+          fileName: this.form.fileName,
           fileRevision: this.form.fileRevision,
-          authBy: this.form.authBy,
-          authDate: this.form.datePeriod,  // this is probably wrong         
+          authorizedBy: this.form.authorizedBy,
+          authorizedDate: this.form.datePeriod,
+          categoryID: this.form.categoryID,
+          URL: '',
         }),
       });
     },
     validate() {
       this.errors = [];
-      if (this.form.docName === '') {
+      if (this.form.fileName === '') {
         this.errors.push('Document Name Required');
       }
-      if (this.form.catagory === '') {
+      if (this.form.categoryID === '') {
         this.errors.push('Category not Selected');
       }
       if (this.form.fileRevision === '') {
         this.errors.push('File Revision Number Required');
-      }  
-      if (this.form.authBy === '') {
+      }
+      if (this.form.authorizedBy === '') {
         this.errors.push('Autherised Personnel Selection Required');
-      }     
-      if (this.form.authDate === '1999-01-29 00:00:00') {
+      }
+      if (this.form.authorizedDate === '') {
         this.errors.push('Authorisation Date Required');
-      } 
+      }
       if (this.errors.length === 0) {
         this.redirecting();
         this.updatePage();
@@ -219,24 +190,27 @@ export default {
     },
     */
     updatePage() {
-      /*
+      // this is called if the page refreshes upon upload
       if (this.$route.query.res === 'true') {
         this.title = 'Upload New Document';
         return;
       }
-      */
-      this.title = 'Upload New Document';      
+      this.title = 'Upload New Document';
       this.form = {
-       docName: '',
-        category: '',
+        fileID: '',
+        fileName: '',
         fileRevision: '',
-        authBy: '',
-        authDate: '1999-01-29 00:00:00', 
+        authorizedBy: '',
+        authorizedDate: '',
+        categoryID: '',
+        URL: '',
       };
+    },
+    handleChange(file, fileList) {
+      this.files = fileList.splice(-1);
     },
   },
 };
 </script>
-
 <style scoped>
 </style>
