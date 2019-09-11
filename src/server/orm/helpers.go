@@ -248,7 +248,7 @@ func LoadUsers(db *gorm.DB) *sync.Map {
 
 // LoadSiteInspections return all records in ProjectSiteInspections table.
 func LoadSiteInspections(db *gorm.DB) *sync.Map {
-	var r []ProjectSiteInspections
+	var r []Projectssiteinspections
 
 	// Get all records and check error.
 	checkErr(db.Find(&r).Error)

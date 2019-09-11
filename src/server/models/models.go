@@ -33,6 +33,7 @@ func New(config *config.Context) *Context {
 	c.users = orm.LoadUsers(c.db)
 	c.clientTypes = orm.LoadClientTypeCode(c.db)
 	c.clientLocations = orm.LoadClientLocationCode(c.db)
+	c.projectsSiteInspections = orm.LoadSiteInspections(c.db)
 
 	return c
 }

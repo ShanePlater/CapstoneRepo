@@ -9,11 +9,11 @@ import (
 )
 
 //CreateOrUpdateProjectSiteInspections facilitating creation of new SiteInspections
-func CreateOrUpdateProjectSiteInspections(p *ProjectSiteInspections, db *gorm.DB) error {
+func CreateOrUpdateProjectSiteInspections(p *Projectssiteinspections, db *gorm.DB) error {
 	fmt.Println("orm/Clients.go/createOrUpdateClientss to create Client in orm")
 	// Update record.
 	if p.InspectionID != "0" {
-		r := &ProjectSiteInspections{InspectionID: p.InspectionID}
+		r := &Projectssiteinspections{InspectionID: p.InspectionID}
 		db.First(r)
 		fmt.Println("ProjectSiteInspections not 0")
 		if err := db.Model(r).Updates(p).Error; err != nil {
@@ -27,14 +27,14 @@ func CreateOrUpdateProjectSiteInspections(p *ProjectSiteInspections, db *gorm.DB
 	fmt.Println("survived 1st if")
 
 	// Create record.
-	last := &ProjectSiteInspections{}
+	last := &Projectssiteinspections{}
 	fmt.Println("record created")
 	// Generate new primary key.
 	var primkeyloopcount int
 	for {
 		db.Last(last)
 		p.InspectionID = utils.Itoa(utils.Atoi(last.InspectionID) + 1)
-		check := ProjectSiteInspections{InspectionID: p.InspectionID}
+		check := Projectssiteinspections{InspectionID: p.InspectionID}
 		primkeyloopcount++
 
 		fmt.Println(primkeyloopcount)

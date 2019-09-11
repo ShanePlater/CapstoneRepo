@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"server/models"
 	"server/types"
@@ -11,7 +12,7 @@ import (
 
 func getProjectSiteInspections(g *gin.Context, m *models.Context) {
 	var data types.GetByIDJSON
-
+	fmt.Println("controllers/getProjectSiteInspections.go  Linked")
 	// Unmarshal application/json and bind to struct.
 	if err := g.BindJSON(&data); err != nil {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
@@ -23,9 +24,11 @@ func getProjectSiteInspections(g *gin.Context, m *models.Context) {
 		g.JSON(http.StatusBadRequest, nil)
 		return
 	}
+	fmt.Println("controllers/getProjectSiteInspections.go Past Bad Request")
 
 	if res, ok := m.GetProjectSiteInspections(&data); ok {
 		// Serve the result.
+		fmt.Println("controllers/getProjectSiteInspections.go  Result Served")
 		g.JSON(http.StatusOK, res)
 		return
 	}

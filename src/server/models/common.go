@@ -62,7 +62,7 @@ type Context struct {
 	clientTypes *sync.Map
 
 	//ProjectSiteInspections
-	projectSiteInspections *sync.Map
+	projectsSiteInspections *sync.Map
 }
 
 // copy is utilized to pass data from interface to another interface.

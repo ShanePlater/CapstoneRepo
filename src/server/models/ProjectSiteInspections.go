@@ -15,7 +15,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspectio
 
 	//current hard coded values: clientID, Client Office Code
 	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
-	r := orm.ProjectSiteInspections{
+	r := orm.Projectssiteinspections{
 		InspectionID:       "0",
 		ProjectNumber:      data.ProjectNumber,
 		InspectedBy:        data.InspectedBy,
@@ -30,7 +30,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspectio
 
 	// Check if cache is enabled.
 	if c.config.IsCache() {
-		c.projectSiteInspections.Store(r.InspectionID, r)
+		c.projectsSiteInspections.Store(r.InspectionID, r)
 	}
 
 	// Update data.

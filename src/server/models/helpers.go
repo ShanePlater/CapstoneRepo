@@ -180,7 +180,7 @@ func (c *Context) GetUsersTable() *sync.Map {
 func (c *Context) GetProjectSiteInspectionsTable() *sync.Map {
 	if c.config.IsCache() {
 		// Return from cache.
-		return c.users
+		return c.projectsSiteInspections
 	}
 
 	// Load data from database then return it.

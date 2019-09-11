@@ -26,29 +26,6 @@ func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 		return
 	}
 
-	/*
-		// Check Start Date Format.
-		t, err := time.Parse(time.RFC3339, data.StartDate)
-		if err != nil {
-			g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-			fmt.Println("controllers/createOrUpdateProjects.go Error formatting the START date and time")
-			return
-		}
-		// Check End Date Format.
-		t, err = time.Parse(time.RFC3339, data.EndDate)
-		if err != nil {
-			g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-			fmt.Println("controllers/createOrUpdateProjects.go Error formatting the END date and time")
-			return
-		}
-
-
-		// Format StartDate. dont think this is required, if it gets to this point then the dates should already be correct
-		data.StartDate = t.Format(time.RFC3339)
-
-		data.EndDate = t.Format(time.RFC3339)
-
-	*/
 	// Update project record; or create a new project record if ID is not defined.
 	if err := m.CreateOrUpdateSiteInspections(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
