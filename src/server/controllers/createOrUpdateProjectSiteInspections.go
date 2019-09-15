@@ -12,7 +12,7 @@ import (
 func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 	fmt.Println("Attempting createOrUpdateProjectSiteInspections.go in controllers")
 
-	var data types.ProjectSiteInspections
+	var data types.ProjectsSiteInspections
 
 	if err := g.BindJSON(&data); err != nil {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})

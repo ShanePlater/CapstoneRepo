@@ -7,7 +7,7 @@ import (
 )
 
 //CreateOrUpdateSiteInspections create client class and upload to database
-func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspections) error {
+func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectsSiteInspections) error {
 	fmt.Println("models/ CreatingOrUpdateSiteInspections")
 
 	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
@@ -34,7 +34,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspectio
 	}
 
 	// Update data.
-	*data = types.ProjectSiteInspections{
+	*data = types.ProjectsSiteInspections{
 		InspectionID:       r.InspectionID,
 		ProjectNumber:      r.ProjectNumber,
 		InspectedBy:        r.InspectedBy,
