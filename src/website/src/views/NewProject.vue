@@ -346,7 +346,7 @@ export default {
     },
     updatePage() {
       if (this.$route.query.res === 'true') {
-        this.title = 'It Worked';
+        this.title = '';
         return;
       }
       this.title = 'New Project';

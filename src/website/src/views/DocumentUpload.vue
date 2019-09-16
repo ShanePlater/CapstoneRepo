@@ -1,21 +1,16 @@
 <!--
 what this page needs:
-  file chooser implemented and figure out what return values will be utilise
-    - i dont think this needs any backend input due to only being the pointer for the file being chosen
-  category field needs to be changed to a dropdown box which contains a list of categories
-    - need a get request for the list of categories assuming they are held on a table in the db
-  auth by field needs to be converted to a dropdown box which contains a list of people able to authorise documents
-    - need a get request for the list of authorised people
-  create button needs to take the document and upload a copy to a folder in the static directory
-    - post request needs to take document information and store that in the database
-    - i dont know what the naming convention nigel wants  for the document stored in the static directory.
-    - i dont know how to tie this into the logged in user so the db knows who uploaded the file if necessary
-  cancel button needs to return to previous or home page idk
-    - this button is in the image that nigel sent so i assume he wants it included
-  dateTimePicker needs to be a singular date instead of a range
-    - 
-  make sure all routers are connected and the page can be viewed
--->
+  current file upload functionality is only for the helpdesk tickets 
+  need to look at how i can either modify that to facilitate these files
+  or replicate it for what is trying to be done
+
+  need to find out how i can save the category path value if it cant be assigned when its selected
+
+  this process might be split up into two seperate process
+  1. upload file and get the file id
+  2. upload 
+  test everything
+  -->
 <template>
   <section>
     <div v-if="title === 'Upload New Document'">
@@ -38,7 +33,9 @@ what this page needs:
               </el-upload>
             </el-form-item>            
             <el-form-item label="Category:">
-              <!-- category selection in form of drop down box-->
+              <el-select v-model="form.categoryID" placeholder="Select A Category">
+                <el-option v-for="option in options.categories" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="Document Name:">
               <el-input v-model="form.fileName"></el-input>
@@ -87,6 +84,9 @@ export default {
       files: [],
       errors: [],
       title: 'Upload New Document',
+      options: {
+        categories: [],
+      },
       datePicker: {
       },
       form: {
@@ -96,7 +96,6 @@ export default {
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',
-        URL: '',
       },
     };
   },
@@ -104,8 +103,8 @@ export default {
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
     }
+    this.getOptions(api.getOptionCategories);
     /* maybe add a get options for category if it doesnt already exist
-    this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
@@ -117,20 +116,19 @@ export default {
   },
   methods: {
     redirecting() {
-      fetch(api.addProject, {
+      fetch(api.uploadFile, {
         method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fileID: this.form.fileName,
+          fileID: this.files[0].name,
           fileName: this.form.fileName,
           fileRevision: this.form.fileRevision,
           authorizedBy: this.form.authorizedBy,
           authorizedDate: this.form.datePeriod,
-          categoryID: this.form.categoryID,
-          URL: '',
+          categoryID: this.form.categoryID.value,
         }),
       });
     },
@@ -143,13 +141,13 @@ export default {
         this.errors.push('Category not Selected');
       }
       if (this.form.fileRevision === '') {
-        this.errors.push('File Revision Number Required');
+        this.errors.push('File Revision Value Required');
       }
       if (this.form.authorizedBy === '') {
-        this.errors.push('Autherised Personnel Selection Required');
+        this.errors.push('Autherized Personnel Selection Required');
       }
       if (this.form.authorizedDate === '') {
-        this.errors.push('Authorisation Date Required');
+        this.errors.push('Authorization Date Required');
       }
       if (this.errors.length === 0) {
         this.redirecting();
@@ -157,7 +155,6 @@ export default {
       }
       this.redirecting('/DocumentUpload');
     },
-    /*
     getOptions(method) {
       fetch(method, {
         method: 'get',
@@ -168,27 +165,14 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           switch (method) {
-            case api.getOptionLocations:
-              this.options.locations = data;
-              break;
-            case api.getOptionTypes:
-              this.options.types = data;
-              break;
-            case api.getOptionStatuss:
-              this.options.statuss = data;
-              break;
-            case api.getOptionDivisions:
-              this.options.divisions = data;
-              break;
-            case api.getOptionOffices:
-              this.options.offices = data;
+            case api.getOptionCategories:
+              this.options.categories = data;
               break;
             default:
           }
         });
       });
     },
-    */
     updatePage() {
       // this is called if the page refreshes upon upload
       if (this.$route.query.res === 'true') {
@@ -203,7 +187,6 @@ export default {
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',
-        URL: '',
       };
     },
     handleChange(file, fileList) {
