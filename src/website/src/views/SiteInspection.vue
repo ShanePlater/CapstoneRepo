@@ -33,7 +33,8 @@
 export default {
   name: 'siteinspection',
   components: {},
-  methods: {},
+  methods: {
+  },
 };
 </script>
 
