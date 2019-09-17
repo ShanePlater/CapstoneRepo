@@ -1,7 +1,6 @@
 <template>
   <section>
-    <div v-if="title === 'New Site Inspection Record'">
-      <h1>{{ title }}</h1>
+      <h1>New Site Inspection Record</h1>
       <br>
       <el-row>
         <el-col :span="12">
@@ -43,15 +42,17 @@
           </el-form>
         </el-col>
       </el-row>
-    </div>
-    <div v-else>
-      <el-row v-loading="isSearching">
-        <search :table="clients"></search>
-      </el-row>
-    </div>
   </section>
 </template>
 
+<script>
+
+export default {
+  name: 'siteinspection',
+  components: {},
+  methods: {},
+};
+</script>
 
 <style scoped>
 
