@@ -14,6 +14,7 @@ import RedbookSearch from '@/views/RedbookSearch';
 import ProjectDetails from '@/views/ProjectDetails';
 import ClientDetails from '@/views/ClientDetails';
 import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
+import SiteInspection from '@/views/SiteInspection';
 
 Vue.use(Router);
 
@@ -83,6 +84,11 @@ export default new Router({
       path: '/client/:id',
       name: 'Client Details',
       component: ClientDetails,
+    },
+    {
+      path: '/siteinspection/',
+      name: 'siteinspection',
+      component: SiteInspection,
     },
     {
       path: '/siteinspections/:id',
