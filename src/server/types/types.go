@@ -44,13 +44,13 @@ type GetNewsJSON struct {
 
 // Resource represents a document resource entity.
 type Resource struct {
-	FileID         string
-	FileName       string
-	FileRevision   string
-	AuthorizedBy   string
-	AuthorizedDate string
-	CategoryID     int
-	URL            string
+	FileName         string
+	FileFriendlyName string
+	FileRevision     string
+	AuthorizedBy     string
+	AuthorizedDate   string
+	CategoryID       int
+	URL              string
 }
 
 // RecentJSON is the body of recent API request.

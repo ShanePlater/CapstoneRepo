@@ -38,7 +38,7 @@ what this page needs:
               </el-select>
             </el-form-item>
             <el-form-item label="Document Name:">
-              <el-input v-model="form.fileName"></el-input>
+              <el-input v-model="form.friendlyFileName"></el-input>
             </el-form-item>
             <el-form-item label="File Revision:">
               <el-input v-model="form.fileRevision"></el-input>
@@ -80,8 +80,7 @@ export default {
   components: {
   },
   data() {
-    return {
-      files: [],
+    return {      
       errors: [],
       title: 'Upload New Document',
       options: {
@@ -89,52 +88,48 @@ export default {
       },
       datePicker: {
       },
-      form: {
-        fileID: '',
+      form: {        
         fileName: '',
+        friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',
+        files: [],
       },
     };
   },
-  created() { // dont think i need this
+  created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
     }
     this.getOptions(api.getOptionCategories);
-    /* maybe add a get options for category if it doesnt already exist
-    this.getOptions(api.getOptionTypes);
-    this.getOptions(api.getOptionStatuss);
-    this.getOptions(api.getOptionDivisions);
-    this.getOptions(api.getOptionOffices);
-    */
   },
   watch: {
     '$route.query.res': 'updatePage',
   },
   methods: {
     redirecting() {
-      fetch(api.uploadFile, {
+      fetch(api.uploadResource, {
         method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fileID: this.files[0].name,
-          fileName: this.form.fileName,
+          fileName: this.files[0].name,
+          friendlyFileName: this.form.fileName,
           fileRevision: this.form.fileRevision,
           authorizedBy: this.form.authorizedBy,
           authorizedDate: this.form.datePeriod,
           categoryID: this.form.categoryID.value,
+          files: this.form.files,
         }),
       });
     },
     validate() {
       this.errors = [];
-      if (this.form.fileName === '') {
+      if (this.form.friendlyFileName === '') {
         this.errors.push('Document Name Required');
       }
       if (this.form.categoryID === '') {
@@ -181,8 +176,8 @@ export default {
       }
       this.title = 'Upload New Document';
       this.form = {
-        fileID: '',
         fileName: '',
+        friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
