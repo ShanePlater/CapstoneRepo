@@ -66,7 +66,7 @@ func main() {
 
 	// get values through getters
 	host := p.MustGetString("host")
-	port := p.GetInt("port", 8081)
+	port := p.GetInt("port", 8080)
 
 	// or through Decode
 	type Config struct {
