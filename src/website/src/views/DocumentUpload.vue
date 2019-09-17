@@ -28,7 +28,7 @@ what this page needs:
           
           <!-- document information -->
             <el-form-item label="Select File:">              
-             <el-upload action="" :auto-upload="false" :multiple="false" :on-change="handleChange" :file-list="files"> <!-- change on-change to on-exceed -->
+             <el-upload action="" :auto-upload="false" :on-change="handleChange" :file-list="files"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
             </el-form-item>            
@@ -80,7 +80,8 @@ export default {
   components: {
   },
   data() {
-    return {      
+    return {     
+      files: [], 
       errors: [],
       title: 'Upload New Document',
       options: {
@@ -94,8 +95,7 @@ export default {
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
-        categoryID: '',
-        files: [],
+        categoryID: '',        
       },
     };
   },

@@ -12,8 +12,8 @@ import (
 
 func uploadResource(g *gin.Context, m *models.Context) {
 	var res []types.Resource
-	
-	path := m.GetConf().Get("server.website") + "/static/" + 
+
+	path := m.GetConf().Get("server.website") + "/static/"
 
 	// Check if folder exists.
 	if _, err := os.Stat(path); os.IsNotExist(err) {
