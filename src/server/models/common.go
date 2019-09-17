@@ -61,7 +61,7 @@ type Context struct {
 	//clienttypecode table
 	clientTypes *sync.Map
 
-	//ProjectSiteInspections
+	//ProjectSiteInspections table.
 	projectsSiteInspections *sync.Map
 }
 

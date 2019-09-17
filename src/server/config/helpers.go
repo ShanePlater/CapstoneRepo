@@ -1,6 +1,8 @@
 package config
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // Get returns the value associated with the key as a string.
 func (c *Context) Get(key string) string {

@@ -2,6 +2,7 @@ package models
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"net/smtp"
 	"reflect"
@@ -285,6 +286,7 @@ func (c *Context) GetClient(data *types.GetByIDJSON) (interface{}, bool) {
 
 //GetProjectSiteInspections get list of Site inspections and return in table format
 func (c *Context) GetProjectSiteInspections(data *types.GetByIDJSON) (interface{}, bool) {
+	fmt.Println("controllers/getProjectSiteInspections.go  Before Table Load")
 	return c.GetProjectSiteInspectionsTable().Load(data.ID)
 }
 

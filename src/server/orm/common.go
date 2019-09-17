@@ -169,7 +169,7 @@ type Clientlocations struct {
 	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`
 }
 
-//ProjectsSiteInspections is the ProjectSiteInspections Table
+//Projectssiteinspections ... is the ProjectSiteInspections Table
 type Projectssiteinspections struct {
 	InspectionID       string `gorm:"type:int;column:InspectionId"`
 	ProjectNumber      string `gorm:"type:nvarchar(7);column:ProjectNumber"`

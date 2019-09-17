@@ -29,7 +29,7 @@ func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 	// Update project record; or create a new project record if ID is not defined.
 	if err := m.CreateOrUpdateSiteInspections(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjectSiteInspection.go  there was an error updateing or creating the ProjectSiteInspection")
+		fmt.Println("controllers/createOrUpdateProjectSiteInspection.go  there was an error updating or creating the ProjectSiteInspection")
 		return
 	}
 

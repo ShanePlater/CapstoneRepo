@@ -180,11 +180,10 @@ func (c *Context) GetUsersTable() *sync.Map {
 // GetProjectSiteInspectionsTable exports ProjectSiteInspections table.
 func (c *Context) GetProjectSiteInspectionsTable() *sync.Map {
 	if c.config.IsCache() {
-		// Return from cache.
-		fmt.Println("controllers/getProjectSiteInspections.go  Cache enabled")
+		fmt.Println("controllers/getProjectSiteInspections.go  whygodwhy")
 		return c.projectsSiteInspections
 	}
-
+	fmt.Println("controllers/getProjectSiteInspections.go  Cache enabled")
 	// Load data from database then return it.
 	return orm.LoadSiteInspections(c.db)
 }
