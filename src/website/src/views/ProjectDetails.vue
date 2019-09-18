@@ -44,12 +44,17 @@
       <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
       </el-pagination>
     </el-row>
+    <br>
+    <el-row>
+      <el-button type="primary" @click="gotonewinspection">Add New Site Inspection</el-button>
+    </el-row>
   </section>
 </template>
 
 <script>
 import api from '@/api.conf';
 import InspectionsTable from '@/components/InspectionsTable';
+import router from '@/router';
 
 export default {
   name: 'project-details',
@@ -82,6 +87,9 @@ export default {
     pullData() {
       this.pullProjectDetails();
       this.searchInspections();
+    },
+    gotonewinspection() {
+      router.push({ name: 'siteinspection' });
     },
     pullProjectDetails() {
       fetch(api.getProject, {

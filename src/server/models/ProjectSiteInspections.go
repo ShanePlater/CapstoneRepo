@@ -7,7 +7,7 @@ import (
 )
 
 //CreateOrUpdateSiteInspections create client class and upload to database
-func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspections) error {
+func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectsSiteInspections) error {
 	fmt.Println("models/ CreatingOrUpdateSiteInspections")
 
 	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
@@ -15,7 +15,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspectio
 
 	//current hard coded values: clientID, Client Office Code
 	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
-	r := orm.ProjectSiteInspections{
+	r := orm.Projectssiteinspections{
 		InspectionID:       "0",
 		ProjectNumber:      data.ProjectNumber,
 		InspectedBy:        data.InspectedBy,
@@ -30,11 +30,11 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectSiteInspectio
 
 	// Check if cache is enabled.
 	if c.config.IsCache() {
-		c.projectSiteInspections.Store(r.InspectionID, r)
+		c.projectsSiteInspections.Store(r.InspectionID, r)
 	}
 
 	// Update data.
-	*data = types.ProjectSiteInspections{
+	*data = types.ProjectsSiteInspections{
 		InspectionID:       r.InspectionID,
 		ProjectNumber:      r.ProjectNumber,
 		InspectedBy:        r.InspectedBy,

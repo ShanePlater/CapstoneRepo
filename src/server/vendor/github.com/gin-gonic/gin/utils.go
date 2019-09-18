@@ -143,7 +143,7 @@ func resolveAddress(addr []string) string {
 			return ":" + port
 		}
 		debugPrint("Environment variable PORT is undefined. Using port :8080 by default")
-		return ":8081"
+		return ":8080"
 	case 1:
 		return addr[0]
 	default:

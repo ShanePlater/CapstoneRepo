@@ -45,6 +45,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getSuggestionItemURL", getSuggestionItemURL)
 	c.handler.Store("getDivisions", getDivisions)
 	c.handler.Store("getMe", getMe)
+	c.handler.Store("getProjectsSiteInspectionsByProjectNumber", getProjectSiteInspections)
 	c.handler.Store("createOrUpdateProjectSiteInspections", createOrUpdateProjectSiteInspections)
 
 	return c

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"server/models"
 	"server/types"
@@ -20,6 +21,7 @@ func getProject(g *gin.Context, m *models.Context) {
 
 	// Return nil if ID is whitespace only or empty.
 	if strings.Replace(data.ID, " ", "", -1) == "" {
+		fmt.Println("controllers/getProject.go  whitespace ID")
 		g.JSON(http.StatusBadRequest, nil)
 		return
 	}

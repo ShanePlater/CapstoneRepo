@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"server/config"
 	"server/orm"
 	"sync"
@@ -179,10 +180,10 @@ func (c *Context) GetUsersTable() *sync.Map {
 // GetProjectSiteInspectionsTable exports ProjectSiteInspections table.
 func (c *Context) GetProjectSiteInspectionsTable() *sync.Map {
 	if c.config.IsCache() {
-		// Return from cache.
-		return c.users
+		fmt.Println("controllers/getProjectSiteInspections.go  whygodwhy")
+		return c.projectsSiteInspections
 	}
-
+	fmt.Println("controllers/getProjectSiteInspections.go  Cache enabled")
 	// Load data from database then return it.
 	return orm.LoadSiteInspections(c.db)
 }
