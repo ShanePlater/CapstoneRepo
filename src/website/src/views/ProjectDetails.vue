@@ -46,7 +46,7 @@
     </el-row>
     <br>
     <el-row>
-      <el-button type="primary" @click="gotonewinspection">Add New Site Inspection</el-button>
+      <el-button type="primary" @click="gotonewinspection(content.ProjectNumber)">Add New Site Inspection</el-button>
     </el-row>
   </section>
 </template>
@@ -88,8 +88,8 @@ export default {
       this.pullProjectDetails();
       this.searchInspections();
     },
-    gotonewinspection() {
-      router.push({ name: 'Site Inspection' });
+    gotonewinspection(projectnumberid) {
+      this.$router.push(`/siteinspection/${projectnumberid}`);
     },
     pullProjectDetails() {
       fetch(api.getProject, {
