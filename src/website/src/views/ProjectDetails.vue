@@ -89,7 +89,7 @@ export default {
       this.searchInspections();
     },
     gotonewinspection() {
-      router.push({ name: 'siteinspection' });
+      router.push({ name: 'Site Inspection' });
     },
     pullProjectDetails() {
       fetch(api.getProject, {
