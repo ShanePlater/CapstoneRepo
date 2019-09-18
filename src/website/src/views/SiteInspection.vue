@@ -85,9 +85,7 @@ export default {
     };
   },
   methods: {
-    contactHelpdesk() {
-      window.location.href = 'mailto:Helpdesk@lar.net.au';
-    },
+
   },
 };
 </script>
