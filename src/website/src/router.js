@@ -86,7 +86,7 @@ export default new Router({
       component: ClientDetails,
     },
     {
-      path: '/siteinspection',
+      path: '/siteinspection/:id',
       name: 'Site Inspection',
       component: SiteInspection,
     },
