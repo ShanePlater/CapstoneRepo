@@ -200,8 +200,6 @@ export default {
         ClientSuburbPostal: '',
         ClientStatePostal: '',
         ClientPostcodePostal: '',
-
-
       },
       isSearching: true,
     };
