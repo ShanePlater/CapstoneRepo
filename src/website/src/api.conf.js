@@ -31,4 +31,5 @@ export default {
   getManagerUsernameByDivisionCode: `${baseURL}/post/getManagerUsernameByDivisionCode`,
   addProject: `${baseURL}/post/createOrUpdateProject`,
   addClient: `${baseURL}/post/createOrUpdateClients`,
+  addSiteInspection: `${baseURL}/post/createOrUpdateProjectSiteInspections`,
 };

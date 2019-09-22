@@ -19,19 +19,26 @@
                 </el-form-item>       
 
                 <el-form-item label="Inspection Date:">
-                  <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+                  <el-date-picker v-model="form.InspectionDate" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
                   </el-date-picker>
                 </el-form-item>
 
                 <el-form-item label="Details:">
                   <el-input v-model="form.Details" type="textarea"></el-input>
                 </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="redirecting">Add Site Inspection</el-button>
+                </el-form-item>
+
               </el-form>
             </el-col>
           </el-row>
   </section>
 </template>
 <script>
+
+import api from '@/api.conf';
 
 export default {
   name: 'siteinspection',
@@ -85,7 +92,22 @@ export default {
     };
   },
   methods: {
-
+    redirecting() {
+      fetch(api.addSiteInspection, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ProjectNumber: this.form.ProjectNumber,
+          InspectionID: this.form.InspectionNumber,
+          InspectedBy: this.form.InspectedBy,
+          InspectionDateTime: this.form.InspectionDate,
+          InspectionDetails: this.form.Details,
+        }),
+      });
+    },
   },
 };
 </script>
