@@ -56,6 +56,9 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 		return
 	}
 
+	//reload the cache
+	m.ReloadCache()
+
 	// Serve the result.
 	g.JSON(http.StatusOK, data)
 }

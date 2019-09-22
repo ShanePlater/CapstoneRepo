@@ -393,3 +393,4 @@ func trimUnexpectedCharactors(text string) string {
 	re := regexp.MustCompile("[0-9A-Za-z\\s]")
 	return strings.Join(re.FindAllString(text, -1), "")
 }
+

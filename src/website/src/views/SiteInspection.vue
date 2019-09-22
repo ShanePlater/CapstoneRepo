@@ -7,7 +7,7 @@
               <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
 
                 <el-form-item label="Project Number:">
-                  <el-input v-model="form.ProjectNumber">{{ this.$route.params.id }}</el-input>
+                  <el-input v-model="form.ProjectNumber"></el-input>
                 </el-form-item>
 
                 <el-form-item label="Inspection Number:">
@@ -75,7 +75,7 @@ export default {
         }],
       },
       form: {
-        ProjectNumber: '',
+        ProjectNumber: this.$route.params.id,
         InspectionNumber: '',
         InspectedBy: '',
         InspectionDate: '',

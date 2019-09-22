@@ -187,3 +187,16 @@ func (c *Context) GetProjectSiteInspectionsTable() *sync.Map {
 	// Load data from database then return it.
 	return orm.LoadSiteInspections(c.db)
 }
+
+//ReloadCache reloads all tables into sync.map
+func (c *Context) ReloadCache() *sync.Map {
+
+	fmt.Println("controllers/getProjectSiteInspections.go  Reloading Tables")
+	// Load data from database then return it.
+	m := orm.LoadSiteInspections(c.db)
+	m = orm.LoadUsers(c.db)
+	m = orm.LoadClients(c.db)
+	m = orm.LoadProjects(c.db)
+	fmt.Println("controllers/getProjectSiteInspections.go  Past Table Reloading")
+	return m
+}
