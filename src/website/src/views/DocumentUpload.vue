@@ -95,7 +95,8 @@ export default {
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
-        categoryID: '',        
+        categoryID: '',
+        url: '',     
       },
     };
   },
@@ -111,10 +112,10 @@ export default {
   methods: {
     redirecting() {
       fetch(api.uploadResource, {
-        method: 'post',
+        method: 'post',       
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
         body: JSON.stringify({
           fileName: this.files[0].name,
@@ -123,8 +124,8 @@ export default {
           authorizedBy: this.form.authorizedBy,
           authorizedDate: this.form.datePeriod,
           categoryID: this.form.categoryID.value,
-          files: this.form.files,
-        }),
+          url: this.form.url,
+        }),       
       });
     },
     validate() {

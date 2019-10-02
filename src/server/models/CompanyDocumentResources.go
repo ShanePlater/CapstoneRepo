@@ -37,6 +37,8 @@ func (c *Context) GetRecentCompanyDocumentResources(id, length int) []interface{
 	return res.intf[:length]
 }
 
+
+
 func (a *copy) rangeCompanyDocumentResources(key, value interface{}) bool {
 	categoryID := reflect.ValueOf(value).FieldByName("CategoryID").String()
 
