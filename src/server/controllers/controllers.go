@@ -29,6 +29,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("createHelpDeskTicket", createHelpDeskTicket)
 	c.handler.Store("getHelpDeskTickets", getHelpDeskTickets)
 	c.handler.Store("uploadFile", uploadFile)
+	c.handler.Store("uploadResource", uploadResource)
 	c.handler.Store("getOptionLocations", getOptions)
 	c.handler.Store("getOptionTypes", getOptions)
 	c.handler.Store("getOptionStatuss", getOptions)

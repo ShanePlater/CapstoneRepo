@@ -20,24 +20,6 @@ func UpdateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
 
 // CreateAttachedResource creates the file record.
 func CreateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
-	/*
-		var last Companydocumentresources
-
-		db.Last(&last)
-		if last.FileName != f.FileName {
-			// Generate new primary key.
-
-			for {
-				db.Last(&last)
-				//f.FileName = utils.Itoa(utils.Atoi(last.FileName) + 1)
-				check := Companydocumentresources{FileName: f.FileName}
-
-				// Break for loop if primary key is available.
-
-
-			}
-		}
-	*/
 	if !db.NewRecord(f.FileName) {
 		return errors.New("this file already exists")
 	}

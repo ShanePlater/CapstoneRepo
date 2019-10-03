@@ -28,7 +28,7 @@ what this page needs:
           
           <!-- document information -->
             <el-form-item label="Select File:">              
-             <el-upload action="" :auto-upload="false" :on-change="handleChange" :file-list="files"> <!-- change on-change to on-exceed -->
+             <el-upload :auto-upload="false" :on-change="handleChange" :file-list="files"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
             </el-form-item>            
@@ -57,7 +57,7 @@ what this page needs:
               <el-button type="primary" @click="validate">Create</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="validate">Cancel</el-button>
+              <el-button type="primary" @click="doNothing">Cancel</el-button>
             </el-form-item>
           </el-form>
             <p v-if="errors.length">
@@ -80,8 +80,8 @@ export default {
   components: {
   },
   data() {
-    return {     
-      files: [], 
+    return {
+      files: [],
       errors: [],
       title: 'Upload New Document',
       options: {
@@ -89,17 +89,17 @@ export default {
       },
       datePicker: {
       },
-      form: {        
+      form: {
         fileName: '',
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
-        authorizedDate: '',
+        authorizedDate: '1999-01-29 00:00:00',
         categoryID: '',
         url: '',     
       },
     };
-  },
+  },  
   created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
@@ -110,14 +110,16 @@ export default {
     '$route.query.res': 'updatePage',
   },
   methods: {
-    redirecting() {
+    redirecting() { 
+      const formData = new FormData();   
+      formData.append('files', this.fileList);             
       fetch(api.uploadResource, {
-        method: 'post',       
+        method: 'post',
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
-        },
-        body: JSON.stringify({
+          Accept: 'application/json',      
+          'content-type': 'multipart/form-data',
+        },  
+        body: JSON.stringify({  
           fileName: this.files[0].name,
           friendlyFileName: this.form.fileName,
           fileRevision: this.form.fileRevision,
@@ -126,7 +128,7 @@ export default {
           categoryID: this.form.categoryID.value,
           url: this.form.url,
         }),       
-      });
+      });     
     },
     validate() {
       this.errors = [];
@@ -145,11 +147,11 @@ export default {
       if (this.form.authorizedDate === '') {
         this.errors.push('Authorization Date Required');
       }
-      if (this.errors.length === 0) {
+      if (this.errors.length === 0) {        
         this.redirecting();
         this.updatePage();
       }
-      this.redirecting('/DocumentUpload');
+      this.redirecting('/DocumentUpload'); // if their are errors reset the page and do nothing
     },
     getOptions(method) {
       fetch(method, {
@@ -187,6 +189,9 @@ export default {
     },
     handleChange(file, fileList) {
       this.files = fileList.splice(-1);
+    },
+    doNothing() {
+
     },
   },
 };
