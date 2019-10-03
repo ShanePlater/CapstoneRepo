@@ -81,9 +81,10 @@ export default {
   },
   data() {
     return {
+      formData: new FormData(), 
       files: [],
       errors: [],
-      title: 'Upload New Document',
+      title: 'Upload New Document',     
       options: {
         categories: [],
       },
@@ -96,10 +97,11 @@ export default {
         authorizedBy: '',
         authorizedDate: '1999-01-29 00:00:00',
         categoryID: '',
-        url: '',     
+        url: '',
       },
+      
     };
-  },  
+  },
   created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
@@ -109,26 +111,12 @@ export default {
   watch: {
     '$route.query.res': 'updatePage',
   },
-  methods: {
+  methods: { // still throwing error in g.multipartform()
     redirecting() { 
-      const formData = new FormData();   
-      formData.append('files', this.fileList);             
       fetch(api.uploadResource, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',      
-          'content-type': 'multipart/form-data',
-        },  
-        body: JSON.stringify({  
-          fileName: this.files[0].name,
-          friendlyFileName: this.form.fileName,
-          fileRevision: this.form.fileRevision,
-          authorizedBy: this.form.authorizedBy,
-          authorizedDate: this.form.datePeriod,
-          categoryID: this.form.categoryID.value,
-          url: this.form.url,
-        }),       
-      });     
+        method: 'post',          
+        body: this.formData,
+      });         
     },
     validate() {
       this.errors = [];
@@ -147,7 +135,17 @@ export default {
       if (this.form.authorizedDate === '') {
         this.errors.push('Authorization Date Required');
       }
-      if (this.errors.length === 0) {        
+      if (this.errors.length === 0) {  
+        let JSONData = JSON.stringify({
+            fileName: this.files[0].name,
+            friendlyFileName: this.form.friendlyFileName,
+            fileRevision: this.form.fileRevision,
+            authorizedBy: this.form.authorizedBy,
+            authorizedDate: this.form.datePeriod,
+            categoryID: this.form.categoryID.value,
+            url: this.form.url,
+        });
+        this.formData.append('data', JSONData);  
         this.redirecting();
         this.updatePage();
       }
@@ -185,10 +183,13 @@ export default {
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',
+        JSONData: '',
       };
     },
     handleChange(file, fileList) {
-      this.files = fileList.splice(-1);
+      this.files = fileList.slice(-1);
+      this.formData = new FormData();
+      this.formData.append('file', file, file.fileName);
     },
     doNothing() {
 
