@@ -25,10 +25,10 @@ what this page needs:
 
            <!-- DOCUMENT INFORMATION  --> 
           <h2 style="font-size:20px"> Document Information </h2>
-          
+         
           <!-- document information -->
             <el-form-item label="Select File:">              
-             <el-upload :auto-upload="false" :on-change="handleChange" :file-list="files"> <!-- change on-change to on-exceed -->
+             <el-upload ref="fileUpload" name="file" :multiple="false" :auto-upload="false" :on-change="handleChange" :file-list="fileList"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
             </el-form-item>            
@@ -75,14 +75,15 @@ what this page needs:
 <script>
 import api from '@/api.conf';
 
+
 export default {
   name: 'document-upload',
   components: {
   },
   data() {
-    return {
-      formData: new FormData(), 
-      files: [],
+    return {   
+      file: File,   
+      fileList: [],
       errors: [],
       title: 'Upload New Document',     
       options: {
@@ -90,7 +91,7 @@ export default {
       },
       datePicker: {
       },
-      form: {
+      form: {        
         fileName: '',
         friendlyFileName: '',
         fileRevision: '',
@@ -99,7 +100,6 @@ export default {
         categoryID: '',
         url: '',
       },
-      
     };
   },
   created() { 
@@ -112,11 +112,32 @@ export default {
     '$route.query.res': 'updatePage',
   },
   methods: { // still throwing error in g.multipartform()
-    redirecting() { 
+    redirecting() {
+      /* 
+      const formData = new FormData();      
+      formData.append('files', this.file);
+      const JSONData = 
+      formData.append('data', JSONData);  
+      */
+     const formData = new FormData();
+     formData.append('file', this.file);
+     formData.append('fileList' , this.$refs.file);
+     const JSONData = JSON.stringify({
+            fileName: this.file.fileName,
+            friendlyFileName: this.form.friendlyFileName,
+            fileRevision: this.form.fileRevision,
+            authorizedBy: this.form.authorizedBy,
+            authorizedDate: this.form.datePeriod,
+            categoryID: this.form.categoryID.value,
+            url: this.form.url,
+        });
+        formData.append('data', JSONData);
+
       fetch(api.uploadResource, {
-        method: 'post',          
-        body: this.formData,
-      });         
+        method: 'post',   
+        body: formData,
+      });
+           
     },
     validate() {
       this.errors = [];
@@ -135,17 +156,7 @@ export default {
       if (this.form.authorizedDate === '') {
         this.errors.push('Authorization Date Required');
       }
-      if (this.errors.length === 0) {  
-        let JSONData = JSON.stringify({
-            fileName: this.files[0].name,
-            friendlyFileName: this.form.friendlyFileName,
-            fileRevision: this.form.fileRevision,
-            authorizedBy: this.form.authorizedBy,
-            authorizedDate: this.form.datePeriod,
-            categoryID: this.form.categoryID.value,
-            url: this.form.url,
-        });
-        this.formData.append('data', JSONData);  
+      if (this.errors.length === 0) {          
         this.redirecting();
         this.updatePage();
       }
@@ -186,10 +197,13 @@ export default {
         JSONData: '',
       };
     },
-    handleChange(file, fileList) {
-      this.files = fileList.slice(-1);
-      this.formData = new FormData();
-      this.formData.append('file', file, file.fileName);
+    handleChange(file, fileList){
+      this.fileList = fileList;
+      this.file = document.getElementById('fileUpload').files[0];
+    },
+    handleExceed() {
+      this.errors.push('Only one file can be uplaoded at a time');      
+      
     },
     doNothing() {
 

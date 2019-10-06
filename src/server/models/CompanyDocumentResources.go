@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"reflect"
 	"server/types"
 	"server/utils"
@@ -36,8 +37,6 @@ func (c *Context) GetRecentCompanyDocumentResources(id, length int) []interface{
 	// Return slice as specific number of document records is required.
 	return res.intf[:length]
 }
-
-
 
 func (a *copy) rangeCompanyDocumentResources(key, value interface{}) bool {
 	categoryID := reflect.ValueOf(value).FieldByName("CategoryID").String()
@@ -114,4 +113,13 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 		}
 	}
 	return true
+}
+
+// CreateOrUpdateResource import resource data to DB
+func (c *Context) CreateOrUpdateResource(data *types.Resource) error {
+	fmt.Println("models/ CreatingOrUpdateResource")
+
+	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
+
+	return nil
 }
