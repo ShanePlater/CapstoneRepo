@@ -11,6 +11,7 @@ import (
 
 func uploadResource(g *gin.Context, m *models.Context) {
 
+
 	path := m.GetConf().Get("server.website") + "/static/testfolder/"
 
 	// Check if folder exists.
@@ -121,5 +122,5 @@ func uploadResource(g *gin.Context, m *models.Context) {
 	fmt.Println("Reached the end")
 	// ok right now im looking into how multipart will send the form data and the form file
 	//
-	g.JSON(http.StatusOK, nil)
+	g.JSON(http.StatusOK, "")
 }

@@ -121,7 +121,7 @@ export default {
       */
      const formData = new FormData();
      formData.append('file', this.file);
-     formData.append('fileList' , this.$refs.file);
+     formData.append('fileList' , this.fileList);
      const JSONData = JSON.stringify({
             fileName: this.file.fileName,
             friendlyFileName: this.form.friendlyFileName,
@@ -199,7 +199,7 @@ export default {
     },
     handleChange(file, fileList){
       this.fileList = fileList;
-      this.file = document.getElementById('fileUpload').files[0];
+      this.file = file;
     },
     handleExceed() {
       this.errors.push('Only one file can be uplaoded at a time');      
