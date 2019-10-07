@@ -56,6 +56,8 @@ func createOrUpdateClients(g *gin.Context, m *models.Context) {
 		return
 	}
 
+	//Refresh Cache so Clients can be searched immediately after upload
+	m.ReloadCache()
 	// Serve the result.
 	g.JSON(http.StatusOK, data)
 }
