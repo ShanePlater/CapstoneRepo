@@ -33,6 +33,8 @@ func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 		return
 	}
 
+	//Refresh cache so that SI can be seen immediately after upload
+	m.ReloadCache()
 	// Serve the result.
 	g.JSON(http.StatusOK, data)
 }

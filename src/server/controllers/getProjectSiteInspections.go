@@ -33,8 +33,6 @@ func getProjectSiteInspections(g *gin.Context, m *models.Context) {
 		fmt.Println("controllers/getProjectSiteInspections.go  Result Served")
 		g.JSON(http.StatusOK, res)
 		return
-	} else {
-		fmt.Println(ok)
 	}
 	g.JSON(http.StatusBadRequest, nil)
 }

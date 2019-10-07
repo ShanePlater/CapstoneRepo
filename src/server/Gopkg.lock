@@ -233,12 +233,28 @@
   revision = "bd91bbf73e9a4a801adbfb97133c992678533126"
 
 [[projects]]
+  digest = "1:039b95e6ba078fe5a22315dcae7bc9859226ee34672ce9ab01708576bf2abd38"
+  name = "gopkg.in/asn1-ber.v1"
+  packages = ["."]
+  pruneopts = ""
+  revision = "f715ec2f112d1e4195b827ad68cf44017a3ef2b1"
+  version = "v1.3"
+
+[[projects]]
   digest = "1:dd549e360e5a8f982a28c2bcbe667307ceffe538ed9afc7c965524f1ac285b3f"
   name = "gopkg.in/go-playground/validator.v8"
   packages = ["."]
   pruneopts = ""
   revision = "5f1438d3fca68893a817e4a66806cea46a9e4ebf"
   version = "v8.18.2"
+
+[[projects]]
+  digest = "1:727d3e2863f85ea4dd6822bee460b7102ea5da3aa178e1231165bc6dd9fe08d0"
+  name = "gopkg.in/ldap.v3"
+  packages = ["."]
+  pruneopts = ""
+  revision = "9f0d712775a0973b7824a1585a86a4ea1d5263d9"
+  version = "v3.0.3"
 
 [[projects]]
   branch = "v2"
@@ -257,6 +273,7 @@
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mssql",
     "github.com/spf13/viper",
+    "gopkg.in/ldap.v3",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
