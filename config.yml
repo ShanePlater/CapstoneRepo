@@ -1,7 +1,7 @@
 mssql: sqlserver://sa:Capstone4Blanket6@127.0.0.1/MSSQLSERVER?encrypt=disable&database=lrintranet
 sqlserver://sa:Capstone4Blanket6@DESKTOP-5PO3I3G/MSSQLSERVER?encrypt=disable&database=lrintranet
 server:
-  port: 8080
+  port: 8082
   website: ./dist
 
 email:

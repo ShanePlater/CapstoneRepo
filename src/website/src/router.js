@@ -15,7 +15,7 @@ import ProjectDetails from '@/views/ProjectDetails';
 import ClientDetails from '@/views/ClientDetails';
 import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
 import SiteInspection from '@/views/SiteInspection';
-
+import DocumentUpload from '@/views/DocumentUpload';
 Vue.use(Router);
 
 export default new Router({
@@ -62,12 +62,12 @@ export default new Router({
     },
     {
       path: '/new-project',
-      name: 'NewProject',
+      name: 'Add New Project',
       component: NewProject,
     },
     {
       path: '/new-client',
-      name: 'NewClient',
+      name: 'Add New Client',
       component: NewClient,
     },
     {
@@ -94,5 +94,10 @@ export default new Router({
       path: '/siteinspections/:id',
       name: 'Project Site Inspections',
       component: ProjectsSiteInspections,
+    },
+    {
+      path: '/document-upload',
+      name: 'Upload New Document',
+      component: DocumentUpload,
     }],
 });

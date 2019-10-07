@@ -2,8 +2,11 @@ package models
 
 import (
 	"fmt"
+	"reflect"
 	"server/orm"
 	"server/types"
+	"sort"
+	"strings"
 )
 
 //CreateOrUpdateSiteInspections create client class and upload to database
@@ -43,4 +46,38 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectsSiteInspecti
 	}
 
 	return nil
+}
+
+// GetProjectsSiteInspectionsByProjectNumber return inspections which achieve the given requirements
+func (c *Context) GetProjectsSiteInspectionsByProjectNumber(data *types.GetByIDJSON) interface{} {
+	// Set ID for search.
+	res := &copy{context: c,
+		reserveString: []string{data.ID}}
+
+	// Obtain records which contains the ID.
+	c.GetProjectSiteInspectionsTable().Range(res.rangeProjectsSiteInspectionsByProjectNumber)
+
+	// Sort records in order latest to oldest.
+	sort.Sort(byDate(res.intf))
+
+	return res.intf
+}
+
+func (a *copy) rangeProjectsSiteInspectionsByProjectNumber(key, value interface{}) bool {
+	if strings.Compare(reflect.ValueOf(value).FieldByName("ProjectNumber").String(), a.reserveString[0]) == 0 {
+		p := types.ProjectsSiteInspections{
+			InspectionID:       reflect.ValueOf(value).FieldByName("InspectionID").String(),
+			InspectionDateTime: reflect.ValueOf(value).FieldByName("InspectionDateTime").String(),
+			InspectionDetails:  reflect.ValueOf(value).FieldByName("InspectionDetails").String(),
+		}
+		if d, ok := a.context.GetUsersTable().Load(reflect.ValueOf(value).FieldByName("InspectedBy").String()); ok {
+			p.InspectedBy = reflect.ValueOf(d).FieldByName("FirstName").String() + " " + reflect.ValueOf(d).FieldByName("LastName").String()
+		} else {
+			p.InspectedBy = reflect.ValueOf(value).FieldByName("InspectedBy").String()
+		}
+		// Pass value to interface in copy.
+		a.intf = append(a.intf, p)
+	}
+
+	return true
 }

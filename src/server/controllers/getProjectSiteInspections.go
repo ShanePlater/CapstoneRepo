@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"server/models"
 	"server/types"
@@ -12,8 +11,8 @@ import (
 
 func getProjectSiteInspections(g *gin.Context, m *models.Context) {
 	var data types.GetByIDJSON
-	// Valid project w/ site inspection: B14533 Project Number for debugging
-	fmt.Println("controllers/getProjectSiteInspections.go  Linked")
+
+	//B14453 Is a good testing project for site inspections
 	// Unmarshal application/json and bind to struct.
 	if err := g.BindJSON(&data); err != nil {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
@@ -22,17 +21,9 @@ func getProjectSiteInspections(g *gin.Context, m *models.Context) {
 
 	// Return nil if ID is whitespace only or empty.
 	if strings.Replace(data.ID, " ", "", -1) == "" {
-		fmt.Println("controllers/getProjectSiteInspections.go Return Nil")
 		g.JSON(http.StatusBadRequest, nil)
 		return
 	}
-	fmt.Println("controllers/getProjectSiteInspections.go Past Bad Request")
 
-	if res, ok := m.GetProjectSiteInspections(&data); ok {
-		// Serve the result.
-		fmt.Println("controllers/getProjectSiteInspections.go  Result Served")
-		g.JSON(http.StatusOK, res)
-		return
-	}
-	g.JSON(http.StatusBadRequest, nil)
+	g.JSON(http.StatusOK, m.GetProjectsSiteInspectionsByProjectNumber(&data))
 }
