@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"reflect"
 	"server/types"
 	"server/utils"
@@ -54,13 +55,13 @@ func (a *copy) rangeCompanyDocumentResources(key, value interface{}) bool {
 
 	// Pass value to interface in copy.
 	a.intf = append(a.intf, types.Resource{
-		FileID:         reflect.ValueOf(value).FieldByName("FileName").String(),
-		FileName:       reflect.ValueOf(value).FieldByName("FileFriendlyName").String(),
-		FileRevision:   reflect.ValueOf(value).FieldByName("FileRevision").String(),
-		AuthorizedBy:   reflect.ValueOf(value).FieldByName("AuthorizedBy").String(),
-		AuthorizedDate: reflect.ValueOf(value).FieldByName("AuthorizedDate").String(),
-		CategoryID:     utils.Atoi(categoryID),
-		URL:            "/static/" + reflect.ValueOf(c).FieldByName("CategoryFolderPath").String() + "/" + reflect.ValueOf(value).FieldByName("FileName").String(),
+		FileName:         reflect.ValueOf(value).FieldByName("FileName").String(),
+		FileFriendlyName: reflect.ValueOf(value).FieldByName("FileFriendlyName").String(),
+		FileRevision:     reflect.ValueOf(value).FieldByName("FileRevision").String(),
+		AuthorizedBy:     reflect.ValueOf(value).FieldByName("AuthorizedBy").String(),
+		AuthorizedDate:   reflect.ValueOf(value).FieldByName("AuthorizedDate").String(),
+		CategoryID:       utils.Atoi(categoryID),
+		URL:              "/static/" + reflect.ValueOf(c).FieldByName("CategoryFolderPath").String() + "/" + reflect.ValueOf(value).FieldByName("FileName").String(),
 	})
 
 	// Return true for keep looping through map. Otherwise, loop exit.
@@ -96,13 +97,13 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
 		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.Resource{
-				FileID:         reflect.ValueOf(value).FieldByName("FileName").String(),
-				FileName:       reflect.ValueOf(value).FieldByName("FileFriendlyName").String(),
-				FileRevision:   reflect.ValueOf(value).FieldByName("FileRevision").String(),
-				AuthorizedBy:   reflect.ValueOf(value).FieldByName("AuthorizedBy").String(),
-				AuthorizedDate: reflect.ValueOf(value).FieldByName("AuthorizedDate").String(),
-				CategoryID:     utils.Atoi(categoryID),
-				URL:            "/static/" + reflect.ValueOf(c).FieldByName("CategoryFolderPath").String() + "/" + reflect.ValueOf(value).FieldByName("FileName").String(),
+				FileName:         reflect.ValueOf(value).FieldByName("FileName").String(),
+				FileFriendlyName: reflect.ValueOf(value).FieldByName("FileFriendlyName").String(),
+				FileRevision:     reflect.ValueOf(value).FieldByName("FileRevision").String(),
+				AuthorizedBy:     reflect.ValueOf(value).FieldByName("AuthorizedBy").String(),
+				AuthorizedDate:   reflect.ValueOf(value).FieldByName("AuthorizedDate").String(),
+				CategoryID:       utils.Atoi(categoryID),
+				URL:              "/static/" + reflect.ValueOf(c).FieldByName("CategoryFolderPath").String() + "/" + reflect.ValueOf(value).FieldByName("FileName").String(),
 			}
 
 			// Pass value to interface in copy.
@@ -112,4 +113,13 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 		}
 	}
 	return true
+}
+
+// CreateOrUpdateResource import resource data to DB
+func (c *Context) CreateOrUpdateResource(data *types.Resource) error {
+	fmt.Println("models/ CreatingOrUpdateResource")
+
+	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
+
+	return nil
 }

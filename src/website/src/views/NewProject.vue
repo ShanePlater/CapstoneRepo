@@ -110,7 +110,7 @@
             <br>
 
 
-          <h4 style="font-size:20px"> Details3 </h4>
+          <h4 style="font-size:20px"> Details </h4>
           <!-- Project Details -->
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
@@ -143,7 +143,6 @@
 
 <script>
 import api from '@/api.conf';
-// import Search from '@/views/Search';
 
 export default {
   name: 'new-project',
@@ -233,6 +232,8 @@ export default {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
+        //  the start and end dates here are they hardcoded or
+        //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
           Name: this.form.projectname,
           ClientName: this.form.clientName,
@@ -345,7 +346,7 @@ export default {
     },
     updatePage() {
       if (this.$route.query.res === 'true') {
-        this.title = 'It Worked';
+        this.title = '';
         return;
       }
       this.title = 'New Project';

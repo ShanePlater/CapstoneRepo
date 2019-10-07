@@ -74,6 +74,9 @@ func (c *Context) GetOptions(name string) interface{} {
 	case "getClientLocations":
 		res.reserveString = append(res.reserveString, "ClientLocationCode", "ClientLocation")
 		c.GetClientLocationsTable().Range(res.rangeOptions)
+	case "getOptionCategories":
+		res.reserveString = append(res.reserveString, "CategoryID", "CategoryName")
+		c.GetCompanyDocumentResourceCategoriesTable().Range(res.rangeOptions)
 	default:
 	}
 
