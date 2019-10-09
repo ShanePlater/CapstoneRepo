@@ -30,8 +30,8 @@ export default {
       value: [],
       list: [],
       loading: false,
-      states: [ //This is where you need to enter the Client names / client IDs I think. They need to be in JSON object form like { value: "clientID", label: "client name"}.
-      ]
+      states: [ // They need to be in JSON object form like { value: "clientID", label: "client name"}.
+      ],
     };
   },
   mounted() {

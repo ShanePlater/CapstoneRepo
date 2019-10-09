@@ -17,6 +17,8 @@ import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
 import SiteInspection from '@/views/SiteInspection';
 import DocumentUpload from '@/views/DocumentUpload';
 import ExistingClientCheck from '@/views/ExistingClientCheck';
+import UpdateClient from '@/views/UpdateClient';
+
 Vue.use(Router);
 
 export default new Router({
