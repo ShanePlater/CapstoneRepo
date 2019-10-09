@@ -99,5 +99,10 @@ export default new Router({
       path: '/document-upload',
       name: 'Upload New Document',
       component: DocumentUpload,
+    },
+    {
+      path: '/updateclient/:id',
+      name: 'Update Client',
+      component: UpdateClient,
     }],
 });

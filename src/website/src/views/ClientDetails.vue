@@ -5,6 +5,7 @@
     </el-row>
     <el-row>
       <h3>Client Information</h3>
+      <el-button type="primary" @click="gotoupdate(content.ClientID)">Add Site Inspection</el-button>
       <hr>
       <p><strong>ID:</strong> {{ content.ClientID }}</p>
       <p><strong>Name:</strong> {{ content.ClientName }}</p>
@@ -82,6 +83,9 @@ export default {
     page: 'updateSlice',
   },
   methods: {
+    gotoupdate(ClientID) {
+      this.$router.push(`/updateclient/${ClientID}`);
+    },
     pullData() {
       this.pullClientDetails();
       this.searchProjects();
