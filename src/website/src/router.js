@@ -18,6 +18,7 @@ import SiteInspection from '@/views/SiteInspection';
 import DocumentUpload from '@/views/DocumentUpload';
 import ExistingClientCheck from '@/views/ExistingClientCheck';
 import UpdateClient from '@/views/UpdateClient';
+import UpdateProject from '@/views/UpdateProject';
 
 Vue.use(Router);
 
@@ -112,5 +113,10 @@ export default new Router({
       path: '/updateclient/:id',
       name: 'Update Client',
       component: UpdateClient,
+    },
+    {
+      path: '/updateproject/:id',
+      name: 'Update Project',
+      component: UpdateProject,
     }],
 });
