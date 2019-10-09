@@ -5,6 +5,7 @@
     </el-row>
     <el-row>
       <h3>Project Information</h3>
+      <el-button type="primary" @click="gotoupdate(content.ProjectNumber)">Update Project Information</el-button>
       <hr>
       <p><strong>ID:</strong> {{ content.ProjectNumber }}</p>
       <p><strong>Name:</strong> {{ content.ProjectName }}</p>
@@ -84,6 +85,9 @@ export default {
     page: 'updateSlice',
   },
   methods: {
+    gotoupdate(ProjectNumber) {
+      this.$router.push(`/updateproject/${ProjectNumber}`);
+    },
     pullData() {
       this.pullProjectDetails();
       this.searchInspections();
