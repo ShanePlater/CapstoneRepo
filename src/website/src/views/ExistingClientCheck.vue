@@ -6,7 +6,7 @@
     <el-button type="primary" @click="redirecting">Add New Client</el-button>
     <br>
     <el-select
-      v-model="value"
+      v-model="ClientPicker"
       multiple
       filterable
       remote
@@ -14,34 +14,53 @@
       placeholder="Please enter a client"
       :remote-method="remoteMethod"
       :loading="loading">
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-option v-for="option in options.clients" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
     </el-select>
-    <br>
 
-    <el-button type="primary" @click="toprojectinput(value)">Continue to Project Input</el-button>
+    <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
+      <el-form-item label="Division">
+        <el-select v-model="form.division" placeholder="Pick a division">
+          <el-option v-for="option in options.clients" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+
+    <el-button type="primary" @click="toprojectinput(ClientPicker.value)">Continue to Project Input</el-button>
   </div>
 </template>
 
 <script>
+import api from '@/api.conf';
+
 export default {
   data() {
     return {
-      options: [],
+      options: {
+        clients: [],
+      },
       value: [],
       list: [],
       loading: false,
       states: [ // They need to be in JSON object form like { value: "clientID", label: "client name"}.
       ],
+      form: {
+        division: '',
+      },
     };
   },
-  mounted() {
+  created() {
+    this.getClients();
+  },
+  /* mounted() {
     this.list = this.states.map(item => {
       return { value: item, label: item };
     });
   },
+  */
   methods: {
+    /*
     remoteMethod(query) {
-      if (query !== "") {
+      if (query !== '') {
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
@@ -53,8 +72,9 @@ export default {
         this.options = [];
       }
     },
-    getClients(){
-       fetch(api.getClient, {
+    */
+    getClients() {
+      fetch(api.getOptionClients, {
         method: 'get',
         headers: {
           Accept: 'application/json',
@@ -62,7 +82,7 @@ export default {
         },
       }).then((reponse) => {
         reponse.json().then((data) => {
-          this.options = data;
+          this.options.clients = data;
         });
       });
     },
@@ -72,6 +92,6 @@ export default {
     toprojectinput(clientnumberID) {
       this.$router.push(`/new-project/${clientnumberID}`);
     },
-  }
+  },
 };
 </script>
