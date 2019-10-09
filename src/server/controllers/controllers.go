@@ -36,6 +36,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getOptionDivisions", getOptions)
 	c.handler.Store("getOptionOffices", getOptions)
 	c.handler.Store("getOptionCategories", getOptions)
+	c.handler.Store("getOptionClients", getOptions)
 	c.handler.Store("searchRedbook", searchRedbook)
 	c.handler.Store("searchProjects", search)
 	c.handler.Store("searchUsers", search)
@@ -47,7 +48,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getSuggestionItemURL", getSuggestionItemURL)
 	c.handler.Store("getDivisions", getDivisions)
 	c.handler.Store("getMe", getMe)
-	c.handler.Store("getProjectsSiteInspectionsByProjectNumber", getProjectSiteInspections)
+	c.handler.Store("getProjectsSiteInspectionsByProjectNumber", getProjectsSiteInspectionsByProjectNumber)
 	c.handler.Store("createOrUpdateProjectSiteInspections", createOrUpdateProjectSiteInspections)
 
 	return c

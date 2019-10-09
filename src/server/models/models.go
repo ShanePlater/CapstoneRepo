@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"server/config"
 	"server/orm"
 )
@@ -35,7 +34,6 @@ func New(config *config.Context) *Context {
 	c.clientTypes = orm.LoadClientTypeCode(c.db)
 	c.clientLocations = orm.LoadClientLocationCode(c.db)
 	c.projectsSiteInspections = orm.LoadSiteInspections(c.db)
-	fmt.Println("models/models.go  FIRST DATA STORAGE")
 
 	return c
 }

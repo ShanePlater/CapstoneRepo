@@ -53,11 +53,24 @@ export default {
         this.options = [];
       }
     },
+    getClients(){
+       fetch(api.getClient, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((reponse) => {
+        reponse.json().then((data) => {
+          this.options.clients = data;
+        });
+      });
+    },
     redirecting() {
       this.$router.push(`/new-client`);
     },
     toprojectinput() {
-      this.$router.push(`/new-project`);
+      this.$router.push(`/new-project${clientnumberID}`);
     },
   }
 };
