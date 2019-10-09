@@ -3,88 +3,112 @@
     <h1>Does this project belong to a new or existing client?</h1>
     <br>
     <p>If your client does not already exist, please click the the link below to add a new client. If the client does exist, search it in the field below then click Continue
-    <el-button type="primary" @click="redirecting">Add New Client</el-button>
-    <br>
-    <el-select
-      v-model="ClientPicker"
-      multiple
-      filterable
-      remote
-      reserve-keyword
-      placeholder="Please enter a client"
-      :remote-method="remoteMethod"
-      :loading="loading">
-      <el-option v-for="option in options.clients" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
-    </el-select>
-
-    <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-      <el-form-item label="Division">
-        <el-select v-model="form.division" placeholder="Pick a division">
-          <el-option v-for="option in options.clients" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-
+    <el-button type="primary" @click="redirecting">Add New Client</el-button>  
+  <div>
+      <el-row>
+        <h1>Search Results</h1>
+      </el-row>
+      <el-row type="flex" class="row-bg" v-if="table === undefined">
+        <el-col :span="24">
+          <el-tabs v-model="name" type="card">
+            <el-tab-pane label="Client Profiles" name="clients">
+              <client-table :table="clients.slice"></client-table>
+            </el-tab-pane>
+          </el-tabs>
+        </el-col>
+      </el-row>
+      <br><br><br>
+      <el-row type="flex" class="row-bg" align="middle" justify="center" v-if="totalPage != 0">
+        <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
+        </el-pagination>
+      </el-row>
+    </div>
     <el-button type="primary" @click="toprojectinput(ClientPicker.value)">Continue to Project Input</el-button>
   </div>
 </template>
 
 <script>
 import api from '@/api.conf';
+import ClientTable from '@/components/ClientTable';
+import Search from '@/views/Search';
 
 export default {
+  name: 'search',
+  components: {
+    ClientTable,
+  },
+  props: {
+    table: Array,
+  },
   data() {
     return {
-      options: {
-        clients: [],
-      },
-      value: [],
-      list: [],
-      loading: false,
-      states: [ // They need to be in JSON object form like { value: "clientID", label: "client name"}.
-      ],
-      form: {
-        division: '',
+      clients: {
+        data: [],
+        slice: [],
+        page: 1,
       },
     };
   },
   created() {
-    this.getClients();
   },
-  /* mounted() {
-    this.list = this.states.map(item => {
-      return { value: item, label: item };
-    });
+  watch: {
+    '$route.params.keyword': 'searchClients',
+    page: 'updateSlice',
+    table: 'initPropTable',
   },
-  */
   methods: {
-    /*
-    remoteMethod(query) {
-      if (query !== '') {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options = this.list.filter(item => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options = [];
-      }
-    },
-    */
-    getClients() {
-      fetch(api.getOptionClients, {
-        method: 'get',
+    searchClients() {
+      fetch(api.searchClients, {
+        method: 'post',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-      }).then((reponse) => {
-        reponse.json().then((data) => {
-          this.options.clients = data;
+        body: JSON.stringify({
+          Keyword: this.$route.params.keyword,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data === null) {
+            this.clients.page = 0;
+            this.clients.data = [];
+            this.clients.slice = [];
+            if (this.name === 'clients') {
+              this.updateTotalPage(this.clients.data.length);
+              this.page = this.clients.page;
+            }
+            return;
+          }
+          this.clients.data = [];
+          this.clients.page = 1;
+          data.forEach((item) => {
+            this.clients.data.push(item);
+          });
+          // this.clients.data.sort((a, b) => (a.Name.charCodeAt(0) - b.Name.charCodeAt(0)));
+          this.clients.slice = this.generateNewSlice(this.clients);
+          if (this.name === 'clients') {
+            this.updateTotalPage(this.clients.data.length);
+            this.page = this.clients.page;
+          }
         });
       });
+    },
+    updatePage(key) {
+      this.page = key;
+    },
+    generateNewSlice(data) {
+      return data.data.slice((data.page - 1) * 10, data.page * 10);
+    },
+    updateSlice() {
+      this.clients.page = this.page;
+      this.clients.slice = this.generateNewSlice(this.clients);
+    },
+    updateTotalPage(num) {
+      if (num === 0) {
+        this.totalPage = 0;
+        return;
+      }
+      this.totalPage = num;
     },
     redirecting() {
       this.$router.push(`/new-client`);
