@@ -4,24 +4,31 @@
     <br>
     <p>If your client does not already exist, please click the the link below to add a new client. If the client does exist, search it in the field below then click Continue
     <el-button type="primary" @click="redirecting">Add New Client</el-button>  
-  <div>
-      <el-row>
-        <h1>Search Results</h1>
-      </el-row>
-      <el-row type="flex" class="row-bg" v-if="table === undefined">
-        <el-col :span="24">
-          <el-tabs v-model="name" type="card">
-            <el-tab-pane label="Client Profiles" name="clients">
-              <client-table :table="clients.slice"></client-table>
-            </el-tab-pane>
-          </el-tabs>
-        </el-col>
-      </el-row>
-      <br><br><br>
-      <el-row type="flex" class="row-bg" align="middle" justify="center" v-if="totalPage != 0">
-        <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
-        </el-pagination>
-      </el-row>
+    <!-- Form to enter keyword -->
+    <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
+      <el-form-item label="Client Name:">
+        <el-input v-model="form.clientName"></el-input>
+      </el-form-item>  
+    </el-form>
+    <el-button type="primary" @click="searchClients">Search Clients</el-button>  
+    <div>
+        <el-row>
+          <h1>Search Results</h1>
+        </el-row>
+        <el-row type="flex" class="row-bg" v-if="table === undefined">
+          <el-col :span="24">
+            <el-tabs v-model="name" type="card">
+              <el-tab-pane label="Client Profiles" name="clients">
+                <client-table :table="clients.slice"></client-table>
+              </el-tab-pane>
+            </el-tabs>
+          </el-col>
+        </el-row>
+        <br><br><br>
+        <el-row type="flex" class="row-bg" align="middle" justify="center" v-if="totalPage != 0">
+          <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
+          </el-pagination>
+        </el-row>
     </div>
     <el-button type="primary" @click="toprojectinput(ClientPicker.value)">Continue to Project Input</el-button>
   </div>
@@ -47,6 +54,9 @@ export default {
         slice: [],
         page: 1,
       },
+      form: {
+        clientName: '',
+      }
     };
   },
   created() {
@@ -65,7 +75,7 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          Keyword: this.$route.params.keyword,
+          Keyword: this.form.clientName,
         }),
       }).then((response) => {
         response.json().then((data) => {
