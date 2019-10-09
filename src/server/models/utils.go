@@ -77,6 +77,9 @@ func (c *Context) GetOptions(name string) interface{} {
 	case "getOptionCategories":
 		res.reserveString = append(res.reserveString, "CategoryID", "CategoryName")
 		c.GetCompanyDocumentResourceCategoriesTable().Range(res.rangeOptions)
+	case "getOptionClients":
+		res.reserveString = append(res.reserveString, "ClientID", "ClientName")
+		c.GetClientsTable().Range(res.rangeOptions)
 	default:
 	}
 
@@ -396,4 +399,3 @@ func trimUnexpectedCharactors(text string) string {
 	re := regexp.MustCompile("[0-9A-Za-z\\s]")
 	return strings.Join(re.FindAllString(text, -1), "")
 }
-

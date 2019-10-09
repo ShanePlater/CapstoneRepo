@@ -22,6 +22,7 @@ export default {
   getOptionDivisions: `${baseURL}/get/getOptionDivisions`,
   getOptionOffices: `${baseURL}/get/getOptionOffices`,
   getOptionCategories: `${baseURL}/get/getOptionCategories`,
+  getOptionClients: `${baseURL}/post/getAllClients`,
   fetchSuggestions: `${baseURL}/post/fetchSuggestions`,
   getClient: `${baseURL}/post/getClient`,
   getProject: `${baseURL}/post/getProject`,
@@ -33,5 +34,5 @@ export default {
   addProject: `${baseURL}/post/createOrUpdateProject`,
   addClient: `${baseURL}/post/createOrUpdateClients`,
   addSiteInspection: `${baseURL}/post/createOrUpdateProjectSiteInspections`,
-  uploadResource: `${baseURL}/post/uploadResource`,  
+  uploadResource: `${baseURL}/post/uploadResource`,
 };
