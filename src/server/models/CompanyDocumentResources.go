@@ -6,7 +6,6 @@ import (
 	"server/types"
 	"server/utils"
 	"sort"
-	"strings"
 )
 
 type byAuthorizedDate []interface{}
@@ -95,7 +94,8 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 	}
 
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
-		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+		if CaseInsensitiveContains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+			//if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.Resource{
 				FileName:         reflect.ValueOf(value).FieldByName("FileName").String(),
 				FileFriendlyName: reflect.ValueOf(value).FieldByName("FileFriendlyName").String(),

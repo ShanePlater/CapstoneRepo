@@ -7,7 +7,6 @@ import (
 	"server/types"
 	"server/utils"
 	"sort"
-	"strings"
 )
 
 // SearchRedbook return projects which achieve the given requirements.
@@ -67,17 +66,20 @@ func (a *copy) rangeRedbook(key, value interface{}) bool {
 	}
 
 	// Check if client name or company name matches.
-	if a.reserveString[0] != "" && !strings.Contains(p.ClientName, a.reserveString[0]) && !strings.Contains(p.Company, a.reserveString[0]) {
+	if a.reserveString[0] != "" && !CaseInsensitiveContains(p.ClientName, a.reserveString[0]) && !CaseInsensitiveContains(p.Company, a.reserveString[0]) {
+		// old strings.Contains(p.ClientName, a.reserveString[0]) && !strings.Contains(p.Company, a.reserveString[0])
 		return true
 	}
 
 	// Check if address matches.
-	if a.reserveString[1] != "" && !strings.Contains(p.Address, a.reserveString[1]) {
+	if a.reserveString[1] != "" && !CaseInsensitiveContains(p.Address, a.reserveString[1]) {
+		// old !strings.Contains(p.Address, a.reserveString[1])
 		return true
 	}
 
 	// Check if suburb matches.
-	if a.reserveString[2] != "" && !strings.Contains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2]) {
+	if a.reserveString[2] != "" && !CaseInsensitiveContains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2]) {
+		//  strings.Contains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2])
 		return true
 	}
 
@@ -147,7 +149,8 @@ func (c *Context) SearchProjects(keyword string) interface{} {
 // rangeProjectsSearch pass records which achieve requirements.
 func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
-		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+		if CaseInsensitiveContains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+			//if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.Project{
 				ID:         reflect.ValueOf(value).FieldByName("ProjectNumber").String(),
 				Name:       reflect.ValueOf(value).FieldByName("ProjectName").String(),

@@ -5,7 +5,6 @@ import (
 	"server/types"
 	"server/utils"
 	"sort"
-	"strings"
 )
 
 // SearchUsers return Users which achieve the given requirements.
@@ -25,7 +24,8 @@ func (c *Context) SearchUsers(keyword string) interface{} {
 // rangeUsersSearch pass records which achieve requirements.
 func (a *copy) rangeUsersSearch(key, value interface{}) bool {
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
-		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+		if CaseInsensitiveContains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+			//if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.User{
 				ID:             reflect.ValueOf(value).FieldByName("Username").String(),
 				Name:           reflect.ValueOf(value).FieldByName("FirstName").String() + " " + reflect.ValueOf(value).FieldByName("LastName").String(),

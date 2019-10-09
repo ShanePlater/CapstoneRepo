@@ -6,7 +6,6 @@ import (
 	"server/orm"
 	"server/types"
 	"sort"
-	"strings"
 )
 
 // SearchClients return Clients which achieve the given requirements.
@@ -26,7 +25,8 @@ func (c *Context) SearchClients(keyword string) interface{} {
 // rangeClientsSearch pass records which achieve requirements.
 func (a *copy) rangeClientsSearch(key, value interface{}) bool {
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
-		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+		if CaseInsensitiveContains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+			//if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.Client{
 				ID:          reflect.ValueOf(value).FieldByName("ClientID").String(),
 				Name:        reflect.ValueOf(value).FieldByName("ClientName").String(),
