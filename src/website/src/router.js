@@ -102,14 +102,13 @@ export default new Router({
       component: DocumentUpload,
     },
     {
-<<<<<<< HEAD
       path: '/ExistingClientCheck',
       name: 'Existing Client Check',
       component: ExistingClientCheck,
-=======
+    },
+    {
       path: '/updateclient/:id',
       name: 'Update Client',
       component: UpdateClient,
->>>>>>> 10f7b83ec3b9542eea192d3a02ebc4e82b2e4cd6
     }],
 });
