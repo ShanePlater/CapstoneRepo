@@ -16,6 +16,7 @@ import ClientDetails from '@/views/ClientDetails';
 import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
 import SiteInspection from '@/views/SiteInspection';
 import DocumentUpload from '@/views/DocumentUpload';
+import ExistingClientCheck from '@/views/ExistingClientCheck';
 Vue.use(Router);
 
 export default new Router({
@@ -99,5 +100,10 @@ export default new Router({
       path: '/document-upload',
       name: 'Upload New Document',
       component: DocumentUpload,
+    },
+    {
+      path: '/ExistingClientCheck',
+      name: 'Existing Client Check',
+      component: ExistingClientCheck,
     }],
 });

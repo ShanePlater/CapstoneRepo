@@ -62,7 +62,7 @@ export default {
         },
       }).then((reponse) => {
         reponse.json().then((data) => {
-          this.options.clients = data;
+          this.options = data;
         });
       });
     },
