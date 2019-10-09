@@ -18,7 +18,7 @@
     </el-select>
     <br>
 
-    <el-button type="primary" @click="toprojectinput">Continue to Project Input</el-button>
+    <el-button type="primary" @click="toprojectinput(value)">Continue to Project Input</el-button>
   </div>
 </template>
 
@@ -69,8 +69,8 @@ export default {
     redirecting() {
       this.$router.push(`/new-client`);
     },
-    toprojectinput() {
-      this.$router.push(`/new-project${clientnumberID}`);
+    toprojectinput(clientnumberID) {
+      this.$router.push(`/new-project/${clientnumberID}`);
     },
   }
 };

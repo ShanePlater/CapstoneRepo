@@ -62,7 +62,7 @@ export default new Router({
       component: RedbookSearch,
     },
     {
-      path: '/new-project',
+      path: '/new-project:id',
       name: 'Add New Project',
       component: NewProject,
     },
@@ -102,8 +102,8 @@ export default new Router({
       component: DocumentUpload,
     },
     {
-      path: '/ExistingClientCheck',
-      name: 'Existing Client Check',
+      path: '/existingclientcheck',
+      name: 'New Project',
       component: ExistingClientCheck,
     },
     {
