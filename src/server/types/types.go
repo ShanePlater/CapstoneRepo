@@ -247,3 +247,9 @@ type ProjectsSiteInspections struct {
 	InspectionDateTime string
 	InspectionDetails  string
 }
+
+//Authenticator holds username and pw for AD auth
+type Authenticator struct {
+	Username string
+	Password string
+}

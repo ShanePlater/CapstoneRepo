@@ -1,0 +1,48 @@
+package controllers
+
+import (
+	"fmt"
+	"net/http"
+	"server/models"
+	"server/types"
+
+	"github.com/gin-gonic/gin"
+	auth "gopkg.in/korylprince/go-ad-auth.v2"
+)
+
+//ADAuth - Connects to the LAR domain when an authenticator.
+func ADAuth(g *gin.Context, m *models.Context) {
+
+	var data types.Authenticator
+
+	if err := g.BindJSON(&data); err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	config := &auth.Config{
+		Server:   "LR-BNE-DC-01",        /* Box that contains domain controller */
+		Port:     389,                   /* Default Port for AD connection */
+		BaseDN:   "OU=lar,DC=net,DC=au", /* Domain */
+		Security: auth.SecurityStartTLS,
+	}
+
+	username := data.Username
+	password := data.Password
+
+	status, err := auth.Authenticate(config, username, password)
+
+	if err != nil {
+		//handle err
+		fmt.Println("controllers/adauth.go Handle err")
+		return
+	}
+
+	if !status {
+		//handle failed authentication
+		fmt.Println("controllers/adauth.go Failed Auth")
+		return
+	}
+
+	fmt.Println("controllers/adauth.go End of func")
+}

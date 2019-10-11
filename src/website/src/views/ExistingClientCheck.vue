@@ -10,7 +10,8 @@
         <el-input v-model="form.clientName"></el-input>
       </el-form-item>  
     </el-form>
-    <el-button type="primary" @click="searchClients">Search Clients</el-button>  
+    <el-button type="primary" @click="searchClients">Search Clients</el-button>
+    <el-button type="primary" @click="testADAuth">Search Clients</el-button>
     <div>
         <el-row>
           <h1>Search Results</h1>
@@ -37,7 +38,6 @@
 <script>
 import api from '@/api.conf';
 import ClientTable from '@/components/ClientTable';
-import Search from '@/views/Search';
 
 export default {
   name: 'search',
@@ -56,7 +56,7 @@ export default {
       },
       form: {
         clientName: '',
-      }
+      },
     };
   },
   created() {
@@ -125,6 +125,21 @@ export default {
     },
     toprojectinput(clientnumberID) {
       this.$router.push(`/new-project/${clientnumberID}`);
+    },
+    testADAuth(clientnumberID) {
+            fetch(api.authenticateAD, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        //  the start and end dates here are they hardcoded or
+        //  are they just placeholders where the data gets taken from the datetime picker
+        body: JSON.stringify({
+          Username: 'training',
+          Password: 'Laptop4Paper3',
+        }),
+      });
     },
   },
 };
