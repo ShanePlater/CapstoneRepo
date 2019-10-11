@@ -11,11 +11,12 @@ import (
 )
 
 //ADAuth - Connects to the LAR domain when an authenticator.
-func ADAuth(g *gin.Context, m *models.Context) {
+func authenticateAD(g *gin.Context, m *models.Context) {
 
 	var data types.Authenticator
-
+	fmt.Println("controllers/adauth.go at controllers")
 	if err := g.BindJSON(&data); err != nil {
+		fmt.Println("controllers/adauth.go error when marshelling")
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
