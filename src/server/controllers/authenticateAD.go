@@ -36,6 +36,7 @@ func authenticateAD(g *gin.Context, m *models.Context) {
 	if err != nil {
 		//handle err
 		fmt.Println("controllers/adauth.go Handle err")
+		fmt.Println(err)
 		return
 	}
 
