@@ -5,7 +5,7 @@
     </el-row>
     <el-row>
       <h3>Client Information</h3>
-      <el-button type="primary" @click="gotoupdate(content.ClientID)">Add Site Inspection</el-button>
+      <el-button type="primary" @click="gotoupdate(content.ClientID)">Edit Client</el-button>
       <hr>
       <p><strong>ID:</strong> {{ content.ClientID }}</p>
       <p><strong>Name:</strong> {{ content.ClientName }}</p>
