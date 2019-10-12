@@ -10,6 +10,7 @@ what this page needs:
   1. upload file and get the file id
   2. upload 
   test everything
+  https://laracasts.com/discuss/channels/vue/element-ui-data-attribute-not-getting-updated-on-submission
   -->
 <template>
   <section>
@@ -28,7 +29,17 @@ what this page needs:
          
           <!-- document information -->
             <el-form-item label="Select File:">              
-             <el-upload ref="fileUpload" name="file" :multiple="false" :auto-upload="false" :on-change="handleChange" :file-list="fileList"> <!-- change on-change to on-exceed -->
+              <el-upload
+                action="/api/v1/post/uploadResource" 
+                ref="upload" 
+                name="file"                 
+                :multiple="false" 
+                :auto-upload="false" 
+                :before-upload="handleData"               
+                :on-success="handleSuccess" 
+                :on-remove="handleRemove"
+                :on-progress="handleProgress"                                     
+                :data="form"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
             </el-form-item>            
@@ -48,7 +59,7 @@ what this page needs:
             </el-form-item> 
             <el-form-item label="Authorised Date:">
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.datePeriod" type="text" placeholder="Pick a date" :picker-options="datePicker">
+              <el-date-picker v-model="form.authorizedDate" type="text" placeholder="Pick a date" :picker-options="datePicker">
               </el-date-picker>
             </el-form-item>
             <br> 
@@ -81,9 +92,7 @@ export default {
   components: {
   },
   data() {
-    return {   
-      file: File,   
-      fileList: [],
+    return {                    
       errors: [],
       title: 'Upload New Document',     
       options: {
@@ -91,8 +100,7 @@ export default {
       },
       datePicker: {
       },
-      form: {        
-        fileName: '',
+      form: {
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
@@ -101,7 +109,7 @@ export default {
         url: '',
       },
     };
-  },
+  },  
   created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
@@ -112,32 +120,8 @@ export default {
     '$route.query.res': 'updatePage',
   },
   methods: { // still throwing error in g.multipartform()
-    redirecting() {
-      /* 
-      const formData = new FormData();      
-      formData.append('files', this.file);
-      const JSONData = 
-      formData.append('data', JSONData);  
-      */
-     const formData = new FormData();
-     formData.append('file', this.file);
-     formData.append('fileList' , this.fileList);
-     const JSONData = JSON.stringify({
-            fileName: this.file.fileName,
-            friendlyFileName: this.form.friendlyFileName,
-            fileRevision: this.form.fileRevision,
-            authorizedBy: this.form.authorizedBy,
-            authorizedDate: this.form.datePeriod,
-            categoryID: this.form.categoryID.value,
-            url: this.form.url,
-        });
-        formData.append('data', JSONData);
-
-      fetch(api.uploadResource, {
-        method: 'post',   
-        body: formData,
-      });
-           
+    redirecting() {      
+        this.$refs.upload.submit();
     },
     validate() {
       this.errors = [];
@@ -186,24 +170,31 @@ export default {
         this.title = 'Upload New Document';
         return;
       }
-      this.title = 'Upload New Document';
-      this.form = {
-        fileName: '',
+      this.title = 'Upload New Document';      
+      this.form = {       
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
-        categoryID: '',
-        JSONData: '',
+        categoryID: '',        
       };
     },
-    handleChange(file, fileList){
-      this.fileList = fileList;
-      this.file = file;
+    handleSuccess(response, file){      
+      this.updatePage();      
     },
+
     handleExceed() {
-      this.errors.push('Only one file can be uplaoded at a time');      
+      this.errors.push('Only one file can be uplaoded at a time');    
       
+    },
+    handleRemove(file) {
+
+    },
+    handleData(file) {
+          
+    },
+    handleProgress(event, file) {
+
     },
     doNothing() {
 
