@@ -151,7 +151,6 @@ export default {
   },
   data() {
     return {
-      content: '',
       errors: [],
       title: 'Enter Project Details',
       projects: [],

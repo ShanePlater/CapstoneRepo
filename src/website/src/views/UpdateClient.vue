@@ -7,7 +7,7 @@
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
             <el-form-item label="Client Name">
-              <el-input v-model="form.ClientName" value="this.content.ClientName"></el-input>
+              <el-input v-model="form.ClientName" value="test"></el-input>
             </el-form-item>
 
            <!-- CLIENT INFORMATION  --> 
