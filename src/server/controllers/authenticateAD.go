@@ -22,7 +22,7 @@ func authenticateAD(g *gin.Context, m *models.Context) {
 	}
 
 	config := &auth.Config{
-		Server:   "LR-BNE-DC-01",        /* Box that contains domain controller */
+		Server:   "LR-BNE-ERP-01",       /* Box that contains domain controller */
 		Port:     389,                   /* Default Port for AD connection */
 		BaseDN:   "OU=lar,DC=net,DC=au", /* Domain */
 		Security: auth.SecurityStartTLS,
