@@ -15,6 +15,7 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 	var data types.Project2
 
 	if err := g.BindJSON(&data); err != nil {
+		fmt.Println(err)
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
@@ -49,6 +50,7 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 		data.EndDate = t.Format(time.RFC3339)
 
 	*/
+
 	// Update project record; or create a new project record if ID is not defined.
 	if err := m.CreateOrUpdateProjects(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})

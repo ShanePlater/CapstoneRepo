@@ -52,24 +52,3 @@ func main() {
 	// Run backend server.
 	r.Run(":" + c.Get("server.port"))
 }
-
-/*
-//creates a new engine that allows the use of auth
-func engine() *gin.Engine {
-	r := gin.New()
-
-
-	/* Leaving this out for testing purposes
-	r.POST("/api/v1/post/login", login)
-	r.GET("/api/v1/get/logout", logout)
-
-	private := r.Group("/private")
-	private.Use(AuthRequired)
-	{
-		private.GET("/me", me)
-		private.GET("/status", status)
-	}
-
-	return r
-}
-*/

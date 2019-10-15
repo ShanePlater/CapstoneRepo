@@ -9,20 +9,19 @@ import (
 	"server/models"
 	"server/types"
 	"server/utils"
-	"Date"
+
 	"github.com/gin-gonic/gin"
 )
 
 func uploadResource(g *gin.Context, m *models.Context) {
 	//var data types.Resource
-	date := new Date(g.Request.FormValue("authorizedDate"))
 
 	data := new(types.Resource)
 
 	data.FileFriendlyName = g.Request.FormValue("friendlyFileName")
 	data.FileRevision = g.Request.FormValue("fileRevision")
 	data.AuthorizedBy = g.Request.FormValue("authorizedBy")
-	data.AuthorizedDate = date
+	data.AuthorizedDate = g.Request.FormValue("authorizedDate")
 	data.CategoryID = utils.Atoi(g.Request.FormValue("categoryID"))
 	data.URL = g.Request.FormValue("url")
 

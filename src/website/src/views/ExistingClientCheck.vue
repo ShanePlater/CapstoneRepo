@@ -2,6 +2,7 @@
   <div>
     <h1>Does this project belong to a new or existing client?</h1>
     <br>
+    <login> </login>
     <p>If your client does not already exist, please click the the link below to add a new client. If the client does exist, search it in the field below then click Continue
     <el-button type="primary" @click="redirecting">Add New Client</el-button>  
     <!-- Form to enter keyword -->
@@ -11,7 +12,6 @@
       </el-form-item>  
     </el-form>
     <el-button type="primary" @click="searchClients">Search Clients</el-button>
-    <el-button type="primary" @click="testADAuth">Test AD</el-button>
     <div>
         <el-row>
           <h1>Search Results</h1>
@@ -38,11 +38,13 @@
 <script>
 import api from '@/api.conf';
 import ClientTable from '@/components/ClientTable';
+import Login from '@/components/Login';
 
 export default {
   name: 'search',
   components: {
     ClientTable,
+    Login,
   },
   props: {
     table: Array,
@@ -54,6 +56,8 @@ export default {
         slice: [],
         page: 1,
       },
+      page: 0,
+      name: 'clients',
       form: {
         clientName: '',
       },
@@ -123,24 +127,8 @@ export default {
     redirecting() {
       this.$router.push('/new-client');
     },
-    toprojectinput(clientnumberID) {
-      this.$router.push('/new-project/${clientnumberID}');
-    },
-    testADAuth(clientnumberID) {
-            fetch(api.authenticateAD, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        //  the start and end dates here are they hardcoded or
-        //  are they just placeholders where the data gets taken from the datetime picker
-        //  temp user & pw to make sure I can actually authenticate with AD
-        body: JSON.stringify({
-          Username: 'training',
-          Password: 'Laptop4Paper3',
-        }),
-      });
+    toprojectinput() {
+      this.$router.push('/new-project');
     },
   },
 };
