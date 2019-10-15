@@ -25,9 +25,6 @@
             </el-tabs>
           </el-col>
         </el-row>
-        <el-row v-else>
-           <client-table :table="clients.slice"></client-table>
-        </el-row>
         <br><br><br>
         <el-row type="flex" class="row-bg" align="middle" justify="center" v-if="totalPage != 0">
           <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
@@ -59,6 +56,8 @@ export default {
         slice: [],
         page: 1,
       },
+      page: 0,
+      name: 'clients',
       form: {
         clientName: '',
       },
