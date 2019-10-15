@@ -85,7 +85,9 @@ func login(c *gin.Context, username string, password string) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return
 	}
-	fmt.Println("controllers/adauth.go good auth, login called")
+	fmt.Println("controllers/adauth.go good auth, succesful ")
+
+	me(c, username)
 	c.JSON(http.StatusOK, gin.H{"message": "Successfully authenticated user"})
 }
 
@@ -107,6 +109,7 @@ func logout(c *gin.Context, username string) {
 func me(c *gin.Context, username string) {
 	session := sessions.Default(c)
 	user := session.Get(username)
+	fmt.Println("controllers/me session grabbed")
 	c.JSON(http.StatusOK, gin.H{"user": user})
 }
 
