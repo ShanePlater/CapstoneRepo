@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 	"server/models"
-	"server/types"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,9 +42,7 @@ func uploadResource(g *gin.Context, m *models.Context) {
 	if err := g.SaveUploadedFile(header, path+header.Filename); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
-	}	
-
-
+	}
 
 	fmt.Println("Reached the end")
 	g.JSON(http.StatusOK, header.Filename)

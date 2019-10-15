@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"server/utils"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 )
@@ -30,7 +31,17 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	// Generate new primary key.
 	for {
 		db.Last(last)
-		p.ProjectNumber = utils.Itoa(utils.Atoi(last.ProjectNumber) + 1)
+		p.ProjectNumber = last.ProjectNumber
+
+		//This is very messy as for the primary keys L&R uses a character instead of an int
+		//it means when we try and add 1 to the primary key, it breaks the system as its a char
+
+		//grab the last 5 chars in the string (which will always be numbers)
+		lastproj := utils.Atoi(string(p.ProjectNumber[len(p.ProjectNumber)-5:]))
+		//create the new primary key by adding 1 to the old number
+		newkey := lastproj + 1
+		//replace the old 4 digits with the new four digits.
+		strings.Replace(p.ProjectNumber, utils.Itoa(lastproj), utils.Itoa(newkey), -1)
 		check := Projects{ProjectNumber: p.ProjectNumber}
 
 		// Break for loop if primary key is available.
@@ -48,6 +59,6 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	if db.NewRecord(p) {
 		return errors.New("failed to create new project")
 	}
-
+	fmt.Println("orm/Projects.go/createOrUpdateProjects End of ORM")
 	return nil
 }
