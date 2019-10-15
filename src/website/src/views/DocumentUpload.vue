@@ -36,8 +36,8 @@ what this page needs:
                 accept=".xlsx, .docx, .pptx, .pdf"
                 :multiple='false'               
                 :auto-upload="false" 
-                :on-error="handleError"
-                :on-exceed="handleExceed"                                     
+                :on-success="handleSuccess"
+                :on-error="handleError"                                                     
                 :data="form"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
@@ -57,9 +57,11 @@ what this page needs:
               <el-input v-model="form.authorizedBy"></el-input>
             </el-form-item> 
             <el-form-item label="Authorised Date:">
+              <div class="demonstration">Value: {{form.authorizedDate}} </div>
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date">
-              </el-date-picker>
+              <el-date-picker v-model="form.authorizedDate" type="datetime" placeholder="Pick a date" format="yyyy-MM-dd HH:mm:ss" value-format='YYYY-MM-DD HH:mm:ss'>
+              
+              </el-date-picker> 
             </el-form-item>
             <br> 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
@@ -108,7 +110,7 @@ export default {
         url: '',
       },
     };
-  },  
+  },
   created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
@@ -119,7 +121,12 @@ export default {
     '$route.query.res': 'updatePage',
   },
   methods: {
-    redirecting() {      
+    redirecting() {    
+      
+        var d = new Date(this.form.authorizedDate);
+        var dateConv = d.toISOString();
+        this.form.authorizedDate = dateConv;
+       
         this.$refs.upload.submit();
     },
     validate() {
@@ -178,17 +185,10 @@ export default {
         categoryID: '',        
       };
     },
-    handleSuccess(response, file){      
+    handleSuccess(response, file, fileList){      
       this.updatePage();      
-    },
-
-    handleExceed() {
-      this.errors.push('Only one file can be uplaoded at a time');  
-      this.redirecting();
-      this.updatePage();
-    },
-    
-    handleError(err) {
+    },    
+    handleError(err, file, fileList) {
       this.errors.push(err);
       this.redirecting();
       this.updatePage();
