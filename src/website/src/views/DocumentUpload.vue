@@ -32,13 +32,12 @@ what this page needs:
               <el-upload
                 action="/api/v1/post/uploadResource" 
                 ref="upload" 
-                name="file"                 
-                :multiple="false" 
+                name="file"
+                accept=".xlsx, .docx, .pptx, .pdf"
+                :multiple='false'               
                 :auto-upload="false" 
-                :before-upload="handleData"               
-                :on-success="handleSuccess" 
-                :on-remove="handleRemove"
-                :on-progress="handleProgress"                                     
+                :on-error="handleError"
+                :on-exceed="handleExceed"                                     
                 :data="form"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
@@ -59,7 +58,7 @@ what this page needs:
             </el-form-item> 
             <el-form-item label="Authorised Date:">
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.authorizedDate" type="text" placeholder="Pick a date" :picker-options="datePicker">
+              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date">
               </el-date-picker>
             </el-form-item>
             <br> 
@@ -104,7 +103,7 @@ export default {
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
-        authorizedDate: '1999-01-29 00:00:00',
+        authorizedDate: '',
         categoryID: '',
         url: '',
       },
@@ -119,7 +118,7 @@ export default {
   watch: {
     '$route.query.res': 'updatePage',
   },
-  methods: { // still throwing error in g.multipartform()
+  methods: {
     redirecting() {      
         this.$refs.upload.submit();
     },
@@ -184,17 +183,15 @@ export default {
     },
 
     handleExceed() {
-      this.errors.push('Only one file can be uplaoded at a time');    
-      
+      this.errors.push('Only one file can be uplaoded at a time');  
+      this.redirecting();
+      this.updatePage();
     },
-    handleRemove(file) {
-
-    },
-    handleData(file) {
-          
-    },
-    handleProgress(event, file) {
-
+    
+    handleError(err) {
+      this.errors.push(err);
+      this.redirecting();
+      this.updatePage();
     },
     doNothing() {
 
