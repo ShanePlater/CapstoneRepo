@@ -6,7 +6,7 @@
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-          <el-form-item label="Fields marked in bold are required.">
+          <el-form-item label="Enter information below">
           </el-form-item>
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>

@@ -198,11 +198,14 @@ export default {
   },
   created() {
     if (this.$route.query.res === 'true') {
-      this.$router.replace('/NewClient');
+      this.$router.replace('/updateclient/:id');
     }
     this.pullClientDetails();
     this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
+    this.getOptions(api.getOptionStatuss);
+    this.getOptions(api.getOptionDivisions);
+    this.getOptions(api.getOptionOffices);
   },
 
   methods: {
@@ -282,6 +285,15 @@ export default {
               break;
             case api.getOptionTypes:
               this.options.types = data;
+              break;
+            case api.getOptionStatuss:
+              this.options.statuss = data;
+              break;
+            case api.getOptionDivisions:
+              this.options.divisions = data;
+              break;
+            case api.getOptionOffices:
+              this.options.offices = data;
               break;
             default:
           }

@@ -1,12 +1,12 @@
 <template>
   <section>
-    <div v-if="title === 'Enter Project Details'">
-      <h1>{{ title }}</h1>
+    <div>
+      <h1>Update Project</h1>
       <br>
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-          <el-form-item label="Fields marked in bold are required.">
+          <el-form-item label="Edit information below">
           </el-form-item>
 
            <!-- PROJECT INFORMATION  --> 
@@ -144,13 +144,14 @@
 import api from '@/api.conf';
 
 export default {
-  name: 'new-project',
+  name: 'update-project',
   components: {
   },
   data() {
     return {
       errors: [],
-      title: 'Enter Project Details',
+      title: 'Update Project',
+      content: '',
       projects: [],
       options: {
         locations: [],
@@ -187,26 +188,27 @@ export default {
         }],
       },
       form: {
-        projectnumber: this.content.ProjectNumber,
-        projectname: this.content.ProjectName,
-        clientName: this.content.ClientName,
-        projectlocationcode: this.content.ProjectLocationCode,
-        projectaddress: this.content.ProjectAddress,
-        projectsuburb: this.content.ProjectSuburb,
-        projecttypecode: this.content.ProjectTypeCode,
-        projectstatuscode: this.content.ProjectStatusCode,
+        projectnumber: '',
+        projectname: '',
+        clientName: '',
+        projectlocationcode: '',
+        projectaddress: '',
+        projectsuburb: '',
+        projecttypecode: '',
+        projectstatuscode: '',
         datePeriod: '',
-        clientrepname: this.content.ClientRepName,
-        clientrepworknum: this.content.ClientRepTelephone,
-        clientrepmobnum: this.content.ClientRepMobile,
-        clientrepemail: this.content.ClientRepEmailAddress,
-        division: this.content.Division,
-        projectdirector: this.content.ProjectDirector,
-        projectmanager: this.content.ProjectManager,
-        projectvalue: this.content.ProjectValue,
-        projectdescription: this.content.ProjectDescription,
+        clientrepname: '',
+        clientrepworknum: '',
+        clientrepmobnum: '',
+        clientrepemail: '',
+        division: '',
+        projectdirector: '',
+        projectmanager: '',
+        projectvalue: '',
+        projectdescription: '',
         archivelocation: '',
       },
+      isSearching: true,
     };
   },
   created() {
@@ -220,9 +222,7 @@ export default {
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
   },
-  watch: {
-    '$route.query.res': 'updatePage',
-  },
+
   methods: {
     pullProjectDetails() {
       fetch(api.getProject, {
@@ -237,8 +237,24 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
-          this.clientURL = `//${window.location.host}/#/client/${this.content
-            .ClientID}`;
+          this.form.projectnumber = data.ProjectNumber;
+          this.form.projectname = data.ProjectName;
+          this.form.clientName = data.clientName;
+          this.form.projectlocationcode = data.ProjectLocationCode;
+          this.form.projectaddress = data.ProjectAddress;
+          this.form.projectsuburb = data.ProjectSuburb;
+          this.form.projecttypecode = data.ProjectTypeCode;
+          this.form.projectstatuscode = data.ProjectStatusCode;
+          this.form.datePeriod = data.ProjectStartDate;
+          this.form.clientrepname = data.ClientRepName;
+          this.form.clientrepworknum = data.ClientRepTelephone;
+          this.form.clientrepmobnum = data.ClientRepMobile;
+          this.form.clientrepemail = data.ClientRepEmailAddress;
+          this.form.division = data.Division;
+          this.form.projectdirector = data.ProjectDirector;
+          this.form.projectmanager = data.ProjectManager;
+          this.form.projectvalue = data.ProjectValue;
+          this.form.projectdescription = data.ProjectDescription;
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
           }
@@ -369,7 +385,7 @@ export default {
     },
     updatePage() {
       if (this.$route.query.res === 'true') {
-        this.title = '';
+        this.title = 'Search Result';
         return;
       }
       this.title = 'New Project';
