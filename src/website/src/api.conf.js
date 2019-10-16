@@ -23,6 +23,7 @@ export default {
   getOptionOffices: `${baseURL}/get/getOptionOffices`,
   getOptionCategories: `${baseURL}/get/getOptionCategories`,
   getOptionClients: `${baseURL}/get/getOptionClients`,
+  getOptionUsers: `${baseURL}/get/getOptionUsers`,
   fetchSuggestions: `${baseURL}/post/fetchSuggestions`,
   getClient: `${baseURL}/post/getClient`,
   getProject: `${baseURL}/post/getProject`,

@@ -49,7 +49,7 @@ func inTimePeriod(start, end, check string) bool {
 // Divisions table, and Offices table.
 func (c *Context) GetOptions(name string) interface{} {
 	// Set given time period.
-	res := &copy{}
+	res := &copy{reserveInt: []int{45}}
 
 	// Obtain records.
 	switch name {
@@ -80,6 +80,10 @@ func (c *Context) GetOptions(name string) interface{} {
 	case "getOptionClients":
 		res.reserveString = append(res.reserveString, "ClientID", "ClientName")
 		c.GetClientsTable().Range(res.rangeOptions)
+	case "getOptionUsers":
+		res.reserveString = append(res.reserveString, "Username", "UserName")
+
+		c.GetUsersTable().Range(res.rangeUserOptionsByDivCode)
 	default:
 	}
 
