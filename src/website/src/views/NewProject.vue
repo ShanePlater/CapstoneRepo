@@ -212,6 +212,7 @@ export default {
     if (this.$route.query.res === 'true') {
       this.$router.replace('/NewProject');
     }
+    this.pullClientDetails();
     this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
@@ -250,6 +251,22 @@ export default {
           Manager: this.form.projectmanager,
           ArchiveLocation: this.form.archivelocation,
         }),
+      });
+    },
+    pullClientDetails() {
+      fetch(api.getClient, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: this.$route.params.id,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.form.clientName = data.ClientName;
+        });
       });
     },
     validate() {

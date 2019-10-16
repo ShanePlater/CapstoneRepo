@@ -65,7 +65,7 @@ export default new Router({
       component: RedbookSearch,
     },
     {
-      path: '/new-project',
+      path: '/new-project/:id',
       name: 'Add New Project',
       component: NewProject,
     },
