@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"reflect"
+	"server/orm"
 	"server/types"
 	"server/utils"
 	"sort"
@@ -118,6 +119,25 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 // CreateOrUpdateResource import resource data to DB
 func (c *Context) CreateOrUpdateResource(data *types.Resource) error {
 	fmt.Println("models/ CreatingOrUpdateResource")
+	//date := new Date()
+
+	r := orm.Companydocumentresources{
+		FileName:         data.FileName,
+		FileFriendlyName: data.FileFriendlyName,
+		FileRevision:     data.FileRevision,
+		AuthorizedBy:     data.AuthorizedBy,
+		AuthorizedDate:   data.AuthorizedDate,
+		DownloadCount:    "0",
+		CategoryID:       utils.Itoa(data.CategoryID),
+	}
+	if err := orm.CreateAttachedResource(&r, c.db); err != nil {
+		fmt.Println("Models/ Error in CompanyDocumentResources.go")
+		return err
+	}
+	// Check if cache is enabled.
+	if c.config.IsCache() {
+		c.companyDocumentResources.Store(r.FileName, r)
+	}
 
 	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
 

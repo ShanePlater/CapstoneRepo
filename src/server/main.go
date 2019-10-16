@@ -6,6 +6,7 @@ import (
 	"server/models"
 
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,7 @@ func main() {
 
 	// Initialize router.
 	r := gin.Default()
+	r.Use(sessions.Sessions("mysession", sessions.NewCookieStore([]byte("secret"))))
 	r.Use(gzip.Gzip(gzip.BestCompression))
 	if mode == "debug" {
 		r.Use(func(c *gin.Context) {

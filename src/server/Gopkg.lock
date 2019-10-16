@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:d55006554e83099f43c7769b5054109058a7c5417ed33645043663a831c287a4"
+  name = "github.com/boj/redistore"
+  packages = ["."]
+  pruneopts = ""
+  revision = "fc113767cd6b051980f260d6dbe84b2740c46ab0"
+  version = "v1.2"
+
+[[projects]]
   branch = "master"
   digest = "1:2fcfc6c3fb8dfe0d80d7789272230d3ac7db15022b66817113f98d9fff880225"
   name = "github.com/denisenkom/go-mssqldb"
@@ -18,6 +26,17 @@
   version = "v1.4.2"
 
 [[projects]]
+  digest = "1:9525d0e79ccf382e32edeef466b9a91f16eb0eebdca5971a03fad1bb3be9cd89"
+  name = "github.com/garyburd/redigo"
+  packages = [
+    "internal",
+    "redis",
+  ]
+  pruneopts = ""
+  revision = "a69d19351219b6dd56f274f96d85a7014a2ec34e"
+  version = "v1.6.0"
+
+[[projects]]
   branch = "master"
   digest = "1:7bf517f598967cc1f468a8ea876c85b0efb233206202b75a098e2b0e2c9e7bfd"
   name = "github.com/gin-contrib/gzip"
@@ -32,6 +51,14 @@
   packages = ["."]
   pruneopts = ""
   revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0ddc0950effb0af7df8912559da42294cae0a6974ef7e88d8ba2ce8f9064eb36"
+  name = "github.com/gin-gonic/contrib"
+  packages = ["sessions"]
+  pruneopts = ""
+  revision = "35076c1b2beaf5f26634fe6468bce6707c3d880a"
 
 [[projects]]
   branch = "master"
@@ -54,6 +81,30 @@
   packages = ["proto"]
   pruneopts = ""
   revision = "17ce1425424ab154092bbb43af630bd647f3bb0d"
+
+[[projects]]
+  digest = "1:dbbeb8ddb0be949954c8157ee8439c2adfd8dc1c9510eb44a6e58cb68c3dce28"
+  name = "github.com/gorilla/context"
+  packages = ["."]
+  pruneopts = ""
+  revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
+  version = "v1.1.1"
+
+[[projects]]
+  digest = "1:51a1d17ba9fe6648d9fdd5b822baa616d6ec7f28c8669c2091126d206796b5ae"
+  name = "github.com/gorilla/securecookie"
+  packages = ["."]
+  pruneopts = ""
+  revision = "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
+  version = "v1.1.1"
+
+[[projects]]
+  digest = "1:2c2d6229f9afe4e2fc1f74b6b245b8ccd44ac04cac3e3a3b1b3e21df4b45461b"
+  name = "github.com/gorilla/sessions"
+  packages = ["."]
+  pruneopts = ""
+  revision = "4355a998706e83fe1d71c31b07af94e34f68d74a"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
@@ -283,6 +334,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/gin-contrib/gzip",
+    "github.com/gin-gonic/contrib/sessions",
     "github.com/gin-gonic/gin",
     "github.com/jinzhu/gorm",
     "github.com/jinzhu/gorm/dialects/mssql",

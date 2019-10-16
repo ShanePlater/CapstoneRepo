@@ -17,7 +17,7 @@ what this page needs:
     <div v-if="title === 'Upload New Document'">
       <h1>{{ title }}</h1>
       <br>
-     
+      <login> </login>
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
@@ -32,13 +32,12 @@ what this page needs:
               <el-upload
                 action="/api/v1/post/uploadResource" 
                 ref="upload" 
-                name="file"                 
-                :multiple="false" 
+                name="file"
+                accept=".xlsx, .docx, .pptx, .pdf"
+                :multiple='false'               
                 :auto-upload="false" 
-                :before-upload="handleData"               
-                :on-success="handleSuccess" 
-                :on-remove="handleRemove"
-                :on-progress="handleProgress"                                     
+                :on-success="handleSuccess"
+                :on-error="handleError"                                                     
                 :data="form"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
@@ -58,9 +57,11 @@ what this page needs:
               <el-input v-model="form.authorizedBy"></el-input>
             </el-form-item> 
             <el-form-item label="Authorised Date:">
+              <div class="demonstration">Value: {{form.authorizedDate}} </div>
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.authorizedDate" type="text" placeholder="Pick a date" :picker-options="datePicker">
-              </el-date-picker>
+              <el-date-picker v-model="form.authorizedDate" type="datetime" placeholder="Pick a date" format="yyyy-MM-dd HH:mm:ss" value-format='YYYY-MM-DD HH:mm:ss'>
+              
+              </el-date-picker> 
             </el-form-item>
             <br> 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
@@ -85,11 +86,13 @@ what this page needs:
 
 <script>
 import api from '@/api.conf';
+import Login from '@/components/Login';
 
 
 export default {
   name: 'document-upload',
   components: {
+    Login,
   },
   data() {
     return {                    
@@ -104,12 +107,12 @@ export default {
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
-        authorizedDate: '1999-01-29 00:00:00',
+        authorizedDate: '',
         categoryID: '',
         url: '',
       },
     };
-  },  
+  },
   created() { 
     if (this.$route.query.res === 'true') {
       this.$router.replace('/DocumentUpload');
@@ -119,8 +122,13 @@ export default {
   watch: {
     '$route.query.res': 'updatePage',
   },
-  methods: { // still throwing error in g.multipartform()
-    redirecting() {      
+  methods: {
+    redirecting() {    
+      
+        var d = new Date(this.form.authorizedDate);
+        var dateConv = d.toISOString();
+        this.form.authorizedDate = dateConv;
+       
         this.$refs.upload.submit();
     },
     validate() {
@@ -179,22 +187,13 @@ export default {
         categoryID: '',        
       };
     },
-    handleSuccess(response, file){      
+    handleSuccess(response, file, fileList){      
       this.updatePage();      
-    },
-
-    handleExceed() {
-      this.errors.push('Only one file can be uplaoded at a time');    
-      
-    },
-    handleRemove(file) {
-
-    },
-    handleData(file) {
-          
-    },
-    handleProgress(event, file) {
-
+    },    
+    handleError(err, file, fileList) {
+      this.errors.push(err);
+      this.redirecting();
+      this.updatePage();
     },
     doNothing() {
 

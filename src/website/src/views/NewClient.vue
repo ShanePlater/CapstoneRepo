@@ -3,16 +3,15 @@
     <div v-if="title === 'New Client'">
       <h1>{{ title }}</h1>
       <br>
+      <login> </login>
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-
 
            <!-- CLIENT INFORMATION  --> 
           <h2 style="font-size:20px"> Client Information </h2>
           
           <!-- client information -->
-
 
             <el-form-item label="Client Name">
               <el-input v-model="form.ClientName"></el-input>
@@ -28,13 +27,13 @@
             </el-form-item>
 
             <el-form-item label="Location">
-              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
                 <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="Type">
-              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+              <el-select v-model="form.ClientType" placeholder="Pick a type">
                 <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
@@ -68,6 +67,12 @@
 
             <el-form-item label="Client E-Mail Address">
               <el-input v-model="form.ClientEmail"></el-input>
+            </el-form-item>
+
+            <el-form-item label="Client Office Code">
+              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
+                <el-option v-for="option in options.offices" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
+              </el-select>
             </el-form-item>
 
           <br>
@@ -137,11 +142,12 @@
 <script>
 import api from '@/api.conf';
 // import Search from '@/views/Search';
+import Login from '@/components/Login';
 
 export default {
   name: 'new-client',
   components: {
-
+    Login,
   },
   data() {
     return {
@@ -195,6 +201,7 @@ export default {
         ClientAddress: '',
         ClientSuburb: '',
         ClientState: '',
+        ClientOffice: '',
         ClientPostcode: '',
         ClientAddressPostal: '',
         ClientSuburbPostal: '',
@@ -227,19 +234,20 @@ export default {
         },
         body: JSON.stringify({
           ClientName: this.form.ClientName,
-          ClientOfficeCode: 'BNE',
+          ClientOfficeCode: this.form.ClientOffice,
           ClientABNNumber: this.form.ClientABN,
           ClientACNNumber: this.form.ClientACN,
-          ClientTypeCode: this.form.projecttypecode,
+          ClientTypeCode: this.form.ClientType,
           FirstName: this.form.ClientFirstName,
           LastName: this.form.ClientLastName,
-          ClientLocationCode: this.form.projectlocationcode,
+          ClientLocationCode: this.form.ClientLocation,
           StreetAddress: this.form.ClientAddress,
           StreetSuburb: this.form.ClientSuburb,
           StreetPostcode: this.form.ClientPostcode,
           PhoneNumber: this.form.ClientPhoneNumber,
           FaxNumber: this.form.ClientFaxNumber,
           EMailAddress: this.form.ClientEmail,
+          ClientOffice: this.form.ClientOffice,
         }),
       });
     },
@@ -259,6 +267,9 @@ export default {
             case api.getOptionTypes:
               this.options.types = data;
               break;
+            case api.getOptionOffices:
+              this.options.offices = data;
+             break;
             default:
           }
         });

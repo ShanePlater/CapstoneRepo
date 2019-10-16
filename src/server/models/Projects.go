@@ -219,7 +219,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 		c.projects.Store(r.ProjectNumber, r)
 	}
 
-	// Update data.
+	// Update data. try removing this and see if it e
 	*data = types.Project2{
 		ID:              r.ProjectNumber,
 		Name:            r.ProjectName,

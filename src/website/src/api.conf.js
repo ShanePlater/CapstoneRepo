@@ -35,5 +35,5 @@ export default {
   addClient: `${baseURL}/post/createOrUpdateClients`,
   addSiteInspection: `${baseURL}/post/createOrUpdateProjectSiteInspections`,
   uploadResource: `${baseURL}/post/uploadResource`,
-  authenticateAD: `${baseURL}/post/authenticateAD`,
+  authRequired: `${baseURL}/post/authRequired`,
 };

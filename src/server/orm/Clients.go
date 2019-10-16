@@ -30,20 +30,25 @@ func CreateOrUpdateClients(p *Clients, db *gorm.DB) error {
 	last := &Clients{}
 	fmt.Println("record created")
 	// Generate new primary key.
-	var primkeyloopcount int
 	for {
-		db.Last(last)
+		db.Last(&last)
 		p.ClientID = utils.Itoa(utils.Atoi(last.ClientID) + 1)
-		check := Clients{ClientID: p.ClientID}
-		primkeyloopcount++
 
-		fmt.Println(primkeyloopcount)
+		/*
+			check := Clients{ClientID: p.ClientID}
+				primkeyloopcount++
+				if primkeyloopcount < 5 {
+					fmt.Println(last.ClientID + "check vs" + p.ClientID)
+					fmt.Println(db.NewRecord(check))
+				}
 
-		// Break for loop if primary key is available.
-		if db.NewRecord(check) {
-			fmt.Println("primary key made")
-			break
-		}
+				// Break for loop if primary key is available.
+				if db.NewRecord(check) {
+					fmt.Println("primary key made")
+					break
+				}
+		*/
+		break
 	}
 
 	fmt.Println("primary key generated")

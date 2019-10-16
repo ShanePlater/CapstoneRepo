@@ -40,6 +40,7 @@
       <p><strong>Suburb:</strong> {{ content.PostalAddressSuburb }}</p>
       <p><strong>State:</strong> {{ content.PostalAddressState }}</p>
       <p><strong>Postcode:</strong> {{ content.PostalAddressPostcode }}</p>
+      <el-button type="primary" @click="authenticate">Authenticate Check</el-button>
     </el-row>
     <br>
     <el-row>

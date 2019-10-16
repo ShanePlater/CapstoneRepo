@@ -11,7 +11,6 @@
       </el-form-item>  
     </el-form>
     <el-button type="primary" @click="searchClients">Search Clients</el-button>
-    <el-button type="primary" @click="testADAuth">Test AD</el-button>
     <div>
         <el-row>
           <h1>Search Results</h1>
@@ -54,6 +53,8 @@ export default {
         slice: [],
         page: 1,
       },
+      page: 0,
+      name: 'clients',
       form: {
         clientName: '',
       },
@@ -123,24 +124,8 @@ export default {
     redirecting() {
       this.$router.push('/new-client');
     },
-    toprojectinput(clientnumberID) {
-      this.$router.push('/new-project/${clientnumberID}');
-    },
-    testADAuth(clientnumberID) {
-            fetch(api.authenticateAD, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        //  the start and end dates here are they hardcoded or
-        //  are they just placeholders where the data gets taken from the datetime picker
-        //  temp user & pw to make sure I can actually authenticate with AD
-        body: JSON.stringify({
-          Username: 'training',
-          Password: 'Laptop4Paper3',
-        }),
-      });
+    toprojectinput() {
+      this.$router.push('/new-project');
     },
   },
 };
