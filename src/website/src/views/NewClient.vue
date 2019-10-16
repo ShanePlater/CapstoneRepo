@@ -7,12 +7,10 @@
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
 
-
            <!-- CLIENT INFORMATION  --> 
           <h2 style="font-size:20px"> Client Information </h2>
           
           <!-- client information -->
-
 
             <el-form-item label="Client Name">
               <el-input v-model="form.ClientName"></el-input>
@@ -147,7 +145,6 @@ import api from '@/api.conf';
 export default {
   name: 'new-client',
   components: {
-
   },
   data() {
     return {
@@ -269,7 +266,7 @@ export default {
               break;
             case api.getOptionOffices:
               this.options.offices = data;
-             break;
+            break;
             default:
           }
         });

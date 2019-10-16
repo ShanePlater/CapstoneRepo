@@ -2,15 +2,15 @@
   <div>
     <h1>Does this project belong to a new or existing client?</h1>
     <br>
-    <login> </login>
-    <p>If your client does not already exist, please click the the link below to add a new client. If the client does exist, search it in the field below then click Continue
-    <el-button type="primary" @click="redirecting">Add New Client</el-button>  
+    <p>If your client does not already exist, please click the the link below to add a new client. If the client does exist, search it in the field below then click add:</p>
+    <br>
     <!-- Form to enter keyword -->
     <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
       <el-form-item label="Client Name:">
         <el-input v-model="form.clientName"></el-input>
       </el-form-item>  
     </el-form>
+    <el-button type="primary" @click="redirecting">Add New Client</el-button>  
     <el-button type="primary" @click="searchClients">Search Clients</el-button>
     <div>
         <el-row>
@@ -20,7 +20,7 @@
           <el-col :span="24">
             <el-tabs v-model="name" type="card">
               <el-tab-pane label="Client Profiles" name="clients">
-                <client-table :table="clients.slice"></client-table>
+                <client-link :table="clients.slice"></client-link>
               </el-tab-pane>
             </el-tabs>
           </el-col>
@@ -31,20 +31,17 @@
           </el-pagination>
         </el-row>
     </div>
-    <el-button type="primary" @click="toprojectinput(ClientPicker.value)">Continue to Project Input</el-button>
   </div>
 </template>
 
 <script>
 import api from '@/api.conf';
-import ClientTable from '@/components/ClientTable';
-import Login from '@/components/Login';
+import ClientLink from '@/components/ClientLink';
 
 export default {
   name: 'search',
   components: {
-    ClientTable,
-    Login,
+    ClientLink,
   },
   props: {
     table: Array,

@@ -42,7 +42,8 @@ import api from '@/api.conf';
 
 export default {
   name: 'siteinspection',
-  components: {},
+  components: {
+  },
   data() {
     return {
       title: 'New Client',
@@ -103,7 +104,7 @@ export default {
           ProjectNumber: this.form.ProjectNumber,
           InspectionID: this.form.InspectionNumber,
           InspectedBy: this.form.InspectedBy,
-          InspectionDateTime: this.form.InspectionDate,
+          InspectionDateTime: '1999-01-29 00:00:00',
           InspectionDetails: this.form.Details,
         }),
       });

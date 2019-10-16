@@ -5,7 +5,7 @@
         <img src="../assets/logo.png">
       </el-col>
       <el-col :span="6" :offset="12">
-        <login></login>
+        <login> </login>
       </el-col>
     </el-row>
     <el-row type="flex" align="middle" class="grid-bg" justify="space-around">
@@ -29,12 +29,12 @@
 <script>
 import router from '@/router';
 import api from '@/api.conf';
-// import Login from '@/components/Login';
+import Login from '@/components/Login';
 
 export default {
   name: 'layout-header',
   components: {
-  //  Login,
+    Login,
   },
   data() {
     return {

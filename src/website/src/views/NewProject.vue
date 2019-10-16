@@ -3,13 +3,11 @@
     <div v-if="title === 'Enter Project Details'">
       <h1>{{ title }}</h1>
       <br>
-     
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
           <el-form-item label="Fields marked in bold are required.">
           </el-form-item>
-
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>
           
@@ -147,7 +145,6 @@ import api from '@/api.conf';
 export default {
   name: 'new-project',
   components: {
-
   },
   data() {
     return {
@@ -215,6 +212,7 @@ export default {
     if (this.$route.query.res === 'true') {
       this.$router.replace('/NewProject');
     }
+    this.pullClientDetails();
     this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
@@ -253,6 +251,22 @@ export default {
           Manager: this.form.projectmanager,
           ArchiveLocation: this.form.archivelocation,
         }),
+      });
+    },
+    pullClientDetails() {
+      fetch(api.getClient, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: this.$route.params.id,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.form.clientName = data.ClientName;
+        });
       });
     },
     validate() {

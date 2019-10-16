@@ -17,7 +17,6 @@ what this page needs:
     <div v-if="title === 'Upload New Document'">
       <h1>{{ title }}</h1>
       <br>
-     
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
@@ -89,7 +88,6 @@ what this page needs:
 
 <script>
 import api from '@/api.conf';
-
 
 export default {
   name: 'document-upload',

@@ -19,7 +19,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectsSiteInspecti
 	//current hard coded values: clientID, Client Office Code
 	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
 	r := orm.Projectssiteinspections{
-		InspectionID:       "0",
+		InspectionID:       data.InspectionID,
 		ProjectNumber:      data.ProjectNumber,
 		InspectedBy:        data.InspectedBy,
 		InspectionDateTime: data.InspectionDateTime,
@@ -28,6 +28,7 @@ func (c *Context) CreateOrUpdateSiteInspections(data *types.ProjectsSiteInspecti
 
 	if err := orm.CreateOrUpdateProjectSiteInspections(&r, c.db); err != nil {
 		fmt.Println("Models/ Error in SiteInspections.go")
+		fmt.Println(err)
 		return err
 	}
 
