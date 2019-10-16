@@ -4,11 +4,11 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"hash"
 	"net/http"
 	"server/models"
 	"server/types"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/contrib/sessions"
@@ -42,9 +42,11 @@ func getMe(g *gin.Context, m *models.Context) {
 
 	status, err := auth.Authenticate(config, data.Username, data.Password)
 	//If authentication was successful then save the session
+	token := md5.New()
 	if status == true {
 		fmt.Println("controllers/adauth.go good auth, prelogin")
-		login(g, data.Username, data.Password)
+		token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
+		login(g, data.Username, token)
 	}
 	if err != nil {
 		fmt.Println("controllers/adauth.go error when authenticating")
@@ -57,39 +59,17 @@ func getMe(g *gin.Context, m *models.Context) {
 		return
 	}
 
-	token := md5.New()
-	token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
-
 	// Serve the result.
 	g.JSON(http.StatusOK, gin.H{"Token": hex.EncodeToString(token.Sum(nil))})
 }
 
-// AuthRequired is a simple middleware to check the session,
-func AuthRequired(c *gin.Context, username string) {
-	session := sessions.Default(c)
-	user := session.Get(username)
-	if user == nil {
-		// Abort the request with the appropriate error code
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	// Continue down the chain to handler etc
-	c.Next()
-}
-
 // login is a handler that parses a form and checks for specific data
-func login(c *gin.Context, username string, password string) {
+func login(c *gin.Context, username string, Token hash.Hash) {
 	session := sessions.Default(c)
 	fmt.Println("controllers/adauth.go good auth, login called")
 
-	// Validate form input
-	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
-		return
-	}
-
 	// Save the username in the session
-	session.Set(username, username) // In real world usage you'd set this to the users ID
+	session.Set(Token, username) // In real world usage you'd set this to the users ID
 	if err := session.Save(); err != nil {
 		fmt.Println("controllers/adauth.go Failed to Save session")
 		fmt.Println(err)
@@ -99,6 +79,30 @@ func login(c *gin.Context, username string, password string) {
 	fmt.Println("controllers/adauth.go good auth, succesful ")
 
 	c.JSON(http.StatusOK, gin.H{"message": "Successfully authenticated user"})
+}
+
+// AuthRequired is a simple middleware to check the session,
+func AuthRequired(c *gin.Context) {
+	var data types.GetMeJSON
+
+	// Unmarshal application/json and bind to struct.
+	if err := c.BindJSON(&data); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	username := data.Username
+	session := sessions.Default(c)
+	user := session.Get(username)
+	if user == nil {
+		// Abort the request with the appropriate error code
+		fmt.Println("controllers/AuthRequired.go user == nil")
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	// Continue down the chain to handler etc
+	fmt.Println("controllers/AuthRequired.go past user verification")
+	c.Next()
 }
 
 func logout(c *gin.Context, username string) {
