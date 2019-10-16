@@ -5,7 +5,7 @@
         <img src="../assets/logo.png">
       </el-col>
       <el-col :span="6" :offset="12">
-        <login></login>
+        <login> </login>
       </el-col>
     </el-row>
     <el-row type="flex" align="middle" class="grid-bg" justify="space-around">

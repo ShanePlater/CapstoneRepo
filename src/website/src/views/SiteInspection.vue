@@ -43,7 +43,6 @@ import api from '@/api.conf';
 export default {
   name: 'siteinspection',
   components: {
-    Login,
   },
   data() {
     return {
