@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"hash"
 	"net/http"
 	"server/models"
 	"server/types"
@@ -45,8 +44,7 @@ func getMe(g *gin.Context, m *models.Context) {
 	token := md5.New()
 	if status == true {
 		fmt.Println("controllers/adauth.go good auth, prelogin")
-		token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
-		login(g, data.Username, token)
+		login(g, data.Username)
 	}
 	if err != nil {
 		fmt.Println("controllers/adauth.go error when authenticating")
@@ -58,18 +56,19 @@ func getMe(g *gin.Context, m *models.Context) {
 		g.JSON(http.StatusUnauthorized, gin.H{"error": "Authentication failed"})
 		return
 	}
-
+	fmt.Println("controllers/adauth. before returning token")
+	token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
 	// Serve the result.
 	g.JSON(http.StatusOK, gin.H{"Token": hex.EncodeToString(token.Sum(nil))})
 }
 
 // login is a handler that parses a form and checks for specific data
-func login(c *gin.Context, username string, Token hash.Hash) {
+func login(c *gin.Context, username string) {
 	session := sessions.Default(c)
 	fmt.Println("controllers/adauth.go good auth, login called")
 
 	// Save the username in the session
-	session.Set(Token, username) // In real world usage you'd set this to the users ID
+	session.Set(username, username) // In real world usage you'd set this to the users ID
 	if err := session.Save(); err != nil {
 		fmt.Println("controllers/adauth.go Failed to Save session")
 		fmt.Println(err)
