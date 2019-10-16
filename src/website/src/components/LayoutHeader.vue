@@ -29,12 +29,12 @@
 <script>
 import router from '@/router';
 import api from '@/api.conf';
-// import Login from '@/components/Login';
+import Login from '@/components/Login';
 
 export default {
   name: 'layout-header',
   components: {
-  //  Login,
+    Login,
   },
   data() {
     return {
