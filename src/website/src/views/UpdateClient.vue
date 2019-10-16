@@ -1,16 +1,12 @@
 <template>
   <section>
     <div>
-      <h1>Test Hello</h1>
+      <h1>Update Client Information</h1>
       <br>
       <login> </login>
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
-            <el-form-item label="Client Name">
-              <el-input v-model="form.ClientName" :placeholder="this.content.ClientName"></el-input>
-            </el-form-item>
-
            <!-- CLIENT INFORMATION  --> 
           <h2 style="font-size:20px"> Client Information </h2>
 
