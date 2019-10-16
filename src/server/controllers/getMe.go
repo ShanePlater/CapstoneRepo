@@ -44,7 +44,7 @@ func getMe(g *gin.Context, m *models.Context) {
 
 	if status == true {
 		fmt.Println("controllers/adauth.go good auth, prelogin")
-		//login(g, data.Username)
+		login(g, data.Username)
 	}
 	if err != nil {
 		fmt.Println("controllers/adauth.go error when authenticating")

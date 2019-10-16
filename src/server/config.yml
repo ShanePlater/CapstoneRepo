@@ -1,4 +1,4 @@
-mssql: sqlserver://sa:gh29sV3^0zzC@lr-bne-erp-01.lar.net.au/SQLEXPRESS?database=lrintranet
+mssql: sqlserver://sa:Capstone4Blanket6@127.0.0.1/MSSQLSERVER?encrypt=disable&database=lrintranet
 #sqlserver://sa:gh29sV3^0zzC@lr-bne-erp-01.lar.net.au/SQLEXPRESS?database=lrintranet
 
 server:

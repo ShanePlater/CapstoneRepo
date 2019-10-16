@@ -87,24 +87,6 @@ export default {
     gotoupdate(ClientID) {
       this.$router.push(`/updateclient/${ClientID}`);
     },
-    authenticate(){
-        fetch(api.authRequired, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Username: 'training',
-        }),
-      }).then((response) => {
-        response.json().then((data) => {
-          if(true){
-            window.location.href = 'mailto:Helpdesk@lar.net.au';
-          }
-        });
-      });
-    },
     pullData() {
       this.pullClientDetails();
       this.searchProjects();
