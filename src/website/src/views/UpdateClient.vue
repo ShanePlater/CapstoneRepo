@@ -3,7 +3,7 @@
     <div>
       <h1>Update Client Information</h1>
       <br>
-      <login> </login>
+      
       <el-row>
         <el-col :span="12">
           <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
@@ -129,12 +129,10 @@
 <script>
 import api from '@/api.conf';
 // import Search from '@/views/Search';
-import Login from '@/components/Login';
 
 export default {
   name: 'update-client',
   components: {
-    Login,
   },
   data() {
     return {

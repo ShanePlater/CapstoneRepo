@@ -2,7 +2,6 @@
   <section>
       <h1>New Site Inspection Record</h1>
           <br>
-          <login> </login>
           <el-row>
             <el-col :span="12">
               <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
@@ -40,12 +39,10 @@
 <script>
 
 import api from '@/api.conf';
-import Login from '@/components/Login';
 
 export default {
   name: 'siteinspection',
   components: {
-    Login,
   },
   data() {
     return {
