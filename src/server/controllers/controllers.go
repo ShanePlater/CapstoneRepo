@@ -37,6 +37,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getOptionOffices", getOptions)
 	c.handler.Store("getOptionCategories", getOptions)
 	c.handler.Store("getOptionClients", getOptions)
+	c.handler.Store("getOptionUsers", getOptions)
 	c.handler.Store("searchRedbook", searchRedbook)
 	c.handler.Store("searchProjects", search)
 	c.handler.Store("searchUsers", search)

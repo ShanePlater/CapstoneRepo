@@ -1,14 +1,10 @@
 package controllers
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"fmt"
 	"net/http"
 	"server/models"
 	"server/types"
-	"strconv"
-	"time"
 
 	"github.com/gin-gonic/contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -57,10 +53,10 @@ func getMe(g *gin.Context, m *models.Context) {
 		return
 	}
 	fmt.Println("controllers/adauth. before returning token")
-	token := md5.New()
-	token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
+	//token := md5.New()
+	//token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
 	// Serve the result.
-	g.JSON(http.StatusOK, gin.H{"Token": hex.EncodeToString(token.Sum(nil))})
+	//g.JSON(http.StatusOK, gin.H{"Token": hex.EncodeToString(token.Sum(nil))})
 }
 
 // login is a handler that parses a form and checks for specific data

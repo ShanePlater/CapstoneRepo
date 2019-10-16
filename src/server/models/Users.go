@@ -71,3 +71,17 @@ func (a *copy) rangeUsersByDivisionCode(key, value interface{}) bool {
 	}
 	return true
 }
+
+func (a *copy) rangeUserOptionsByDivCode(key, value interface{}) bool {
+
+	v := reflect.ValueOf(value)
+	/// currently only allows one division to be authorizers, if you need more you will need to iterate through the div codes and append to interface
+	if v.FieldByName("DivisionCode").String() == utils.Itoa(a.reserveInt[0]) {
+		a.intf = append(a.intf, types.Option{
+			ID:  v.FieldByName("Username").String(),
+			Name: v.FieldByName("FirstName").String() + " " + v.FieldByName("LastName").String(),
+		})
+	}
+
+	return true
+}

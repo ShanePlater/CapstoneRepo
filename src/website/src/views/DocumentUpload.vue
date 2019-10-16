@@ -32,11 +32,12 @@ what this page needs:
                 action="/api/v1/post/uploadResource" 
                 ref="upload" 
                 name="file"
-                accept=".xlsx, .docx, .pptx, .pdf"
+                accept=".xlsx, .docx, .ppsx, .pdf"
                 :multiple='false'               
                 :auto-upload="false" 
                 :on-success="handleSuccess"
-                :on-error="handleError"                                                     
+                :on-error="handleError"
+                :on-change="handleChange"                                                     
                 :data="form"> <!-- change on-change to on-exceed -->
               <el-button slot="trigger" size="small" type="primary">Select file</el-button>
               </el-upload>
@@ -53,12 +54,14 @@ what this page needs:
               <el-input v-model="form.fileRevision"></el-input>
             </el-form-item>
             <el-form-item label="Authorised By:">
-              <el-input v-model="form.authorizedBy"></el-input>
+              <el-select v-model="form.authorizedBy" placeholder="Select Personnel">
+                <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item> 
             <el-form-item label="Authorised Date:">
               <div class="demonstration">Value: {{form.authorizedDate}} </div>
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.authorizedDate" type="datetime" placeholder="Pick a date" format="yyyy-MM-dd HH:mm:ss" value-format='YYYY-MM-DD HH:mm:ss'>
+              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date" format="yyyy/MM/dd" value-format='YYYY-MM-DD'>
               
               </el-date-picker> 
             </el-form-item>
@@ -93,12 +96,12 @@ export default {
   data() {
     return {                    
       errors: [],
+      uploadFile: '',
       title: 'Upload New Document',     
       options: {
         categories: [],
-      },
-      datePicker: {
-      },
+        users: [],
+      },      
       form: {
         friendlyFileName: '',
         fileRevision: '',
@@ -114,13 +117,13 @@ export default {
       this.$router.replace('/DocumentUpload');
     }
     this.getOptions(api.getOptionCategories);
+    this.getOptions(api.getOptionUsers);
   },
   watch: {
     '$route.query.res': 'updatePage',
   },
   methods: {
-    redirecting() {    
-      
+    redirecting() {
         var d = new Date(this.form.authorizedDate);
         var dateConv = d.toISOString();
         this.form.authorizedDate = dateConv;
@@ -128,7 +131,12 @@ export default {
         this.$refs.upload.submit();
     },
     validate() {
-      this.errors = [];
+      this.errors = [];     
+      if(this.uploadFile ===''){
+        this.errors.push('File not attatched');
+      }else{
+        this.fileTypeCheck();
+      }
       if (this.form.friendlyFileName === '') {
         this.errors.push('Document Name Required');
       }
@@ -145,10 +153,10 @@ export default {
         this.errors.push('Authorization Date Required');
       }
       if (this.errors.length === 0) {          
-        this.redirecting();
-        this.updatePage();
-      }
-      this.redirecting('/DocumentUpload'); // if their are errors reset the page and do nothing
+        this.redirecting(); 
+        this.updatePage();       
+      }      
+      this.updatePage();
     },
     getOptions(method) {
       fetch(method, {
@@ -163,6 +171,9 @@ export default {
             case api.getOptionCategories:
               this.options.categories = data;
               break;
+            case api.getOptionUsers:
+              this.options.users = data;
+              break;
             default:
           }
         });
@@ -172,23 +183,37 @@ export default {
       // this is called if the page refreshes upon upload
       if (this.$route.query.res === 'true') {
         this.title = 'Upload New Document';
-        return;
-      }
-      this.title = 'Upload New Document';      
-      this.form = {       
+        this.form = {       
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',        
-      };
+        };
+        return;
+      }
+      this.title = 'Upload New Document';      
+      
     },
-    handleSuccess(response, file, fileList){      
+    fileTypeCheck() {
+      var path = require('path');
+      //console.log(this.uploadFile)
+      var extCheck =  path.extname(this.uploadFile);
+      //console.log(extCheck);
+      if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
+        this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed'); 
+        this.$refs.upload.abort();          
+       
+      }
+    },
+    handleChange(file) {
+      this.uploadFile = file.name;
+    },
+    handleSuccess(response, file){            
       this.updatePage();      
     },    
-    handleError(err, file, fileList) {
-      this.errors.push(err);
-      this.redirecting();
+    handleError(err, file) {
+      this.errors.push(err);     
       this.updatePage();
     },
     doNothing() {
