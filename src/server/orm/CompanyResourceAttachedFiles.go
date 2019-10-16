@@ -20,6 +20,7 @@ func UpdateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
 
 // CreateAttachedResource creates the file record.
 func CreateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
+	
 	if !db.NewRecord(f.FileName) {
 		return errors.New("this file already exists")
 	}

@@ -119,6 +119,8 @@ func (a *copy) rangeResourcesSearch(key, value interface{}) bool {
 // CreateOrUpdateResource import resource data to DB
 func (c *Context) CreateOrUpdateResource(data *types.Resource) error {
 	fmt.Println("models/ CreatingOrUpdateResource")
+	date := new Date()
+
 	r := orm.Companydocumentresources{
 		FileName:         data.FileName,
 		FileFriendlyName: data.FileFriendlyName,
