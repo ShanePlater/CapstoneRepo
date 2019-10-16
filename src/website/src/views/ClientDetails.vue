@@ -40,6 +40,7 @@
       <p><strong>Suburb:</strong> {{ content.PostalAddressSuburb }}</p>
       <p><strong>State:</strong> {{ content.PostalAddressState }}</p>
       <p><strong>Postcode:</strong> {{ content.PostalAddressPostcode }}</p>
+      <el-button type="primary" @click="authenticate">Authenticate Check</el-button>
     </el-row>
     <br>
     <el-row>
@@ -85,6 +86,24 @@ export default {
   methods: {
     gotoupdate(ClientID) {
       this.$router.push(`/updateclient/${ClientID}`);
+    },
+    authenticate(){
+        fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: 'training',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if(true){
+            window.location.href = 'mailto:Helpdesk@lar.net.au';
+          }
+        });
+      });
     },
     pullData() {
       this.pullClientDetails();
