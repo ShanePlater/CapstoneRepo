@@ -15,6 +15,7 @@ func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 	var data types.ProjectsSiteInspections
 
 	if err := g.BindJSON(&data); err != nil {
+		fmt.Println(err)
 		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
