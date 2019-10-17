@@ -218,11 +218,31 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
+    if (this.getCookie('token') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+      };
+    }
   },
   watch: {
     '$route.query.res': 'updatePage',
   },
   methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
     redirecting() {
       fetch(api.addProject, {
         method: 'post',
@@ -327,6 +347,9 @@ export default {
         this.updatePage();
       }
       this.redirecting('/NewProject');
+    },
+    authenticate(username){
+
     },
     getOptions(method) {
       fetch(method, {

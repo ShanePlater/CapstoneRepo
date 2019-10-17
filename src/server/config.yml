@@ -1,5 +1,6 @@
-mssql: sqlserver://sa:Capstone4Blanket6@DESKTOP-5PO3I3G/MSSQLSERVER?encrypt=disable&database=lrintranet
+mssql: sqlserver://sa:gh29sV3^0zzC@lr-bne-erp-01.lar.net.au/SQLEXPRESS?database=lrintranet
 #sqlserver://sa:gh29sV3^0zzC@lr-bne-erp-01.lar.net.au/SQLEXPRESS?database=lrintranet
+#sqlserver://sa:Capstone4Blanket6@DESKTOP-5PO3I3G/MSSQLSERVER?encrypt=disable&database=lrintranet
 
 server:
   port: 8082
