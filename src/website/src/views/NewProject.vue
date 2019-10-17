@@ -285,9 +285,7 @@ export default {
         }),
       }).then((response) => {
         response.json().then((data) => {
-          if(data.username === "Success"){
-            window.location.href = 'mailto:Helpdesk@lar.net.au';
-          }
+          this.form.clientName = data.ClientName;
         });
       });
     },
