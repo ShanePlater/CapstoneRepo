@@ -125,7 +125,6 @@
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
               <el-button type="primary" @click="validate">Add New Project</el-button>
-              <el-button type="primary" @click="authenticate">Auth test</el-button>
             </el-form-item>
           </el-form>
             <p v-if="errors.length">
@@ -153,7 +152,6 @@ export default {
         name: '',
         token: '',
       },
-      authenticated: '',
       errors: [],
       title: 'Enter Project Details',
       projects: [],
@@ -224,6 +222,7 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
+    
     if (this.getCookie('name') !== '') {
       this.state = {
         name: this.getCookie('name'),
