@@ -96,9 +96,10 @@ func AuthRequired(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
 	}
+	username = "Success"
 	// Continue down the chain to handler etc
 	fmt.Println("controllers/AuthRequired.go past user verification")
-	c.Next()
+	c.JSON(http.StatusOK, username)
 }
 
 func logout(c *gin.Context, username string) {

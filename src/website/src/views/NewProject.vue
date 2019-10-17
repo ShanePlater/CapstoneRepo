@@ -285,7 +285,9 @@ export default {
         }),
       }).then((response) => {
         response.json().then((data) => {
-          this.form.clientName = data.ClientName;
+          if(data.username === "Success"){
+            window.location.href = 'mailto:Helpdesk@lar.net.au';
+          }
         });
       });
     },
@@ -348,8 +350,22 @@ export default {
       }
       this.redirecting('/NewProject');
     },
-    authenticate(username){
-
+    authenticate(){
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: '',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          
+        });
+      });
     },
     getOptions(method) {
       fetch(method, {
