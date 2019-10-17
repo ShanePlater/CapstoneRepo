@@ -51,7 +51,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getMe", getMe)
 	c.handler.Store("getProjectsSiteInspectionsByProjectNumber", getProjectsSiteInspectionsByProjectNumber)
 	c.handler.Store("createOrUpdateProjectSiteInspections", createOrUpdateProjectSiteInspections)
-	c.handler.Store("authRequired", AuthRequired)
+	c.handler.Store("authRequired", authRequired)
 
 	return c
 
