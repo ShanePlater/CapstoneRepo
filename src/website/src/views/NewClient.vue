@@ -120,11 +120,16 @@
             <el-form-item label="Postcode">
               <el-input v-model="form.ClientPostcodePostal"></el-input>
             </el-form-item>
-            
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+              </ul>
+            </p>
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Add New Client</el-button>
+              <el-button type="primary" @click="validate">Add New Client</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -148,6 +153,7 @@ export default {
   },
   data() {
     return {
+      errors: [],
       title: 'New Client',
       projects: [],
       options: {
@@ -271,6 +277,38 @@ export default {
           }
         });
       });
+    },
+    validate() {
+      this.errors = [];
+      if (this.form.ClientName === '') {
+        this.errors.push('Client Name Required');
+      }
+      if (this.form.ClientABN === '') {
+        this.errors.push('Client ABN Required');
+      }
+      if (this.form.ClientACN === '') {
+        this.errors.push('Client ACN Required');
+      }
+      if (this.form.ClientLocation === '') {
+        this.errors.push('Client Location Required');
+      }
+      if (this.form.ClientType === '') {
+        this.errors.push('Client Type Required');
+      }
+      if (this.form.ClientPhoneNumber === '') {
+        this.errors.push('Client Phone Nunmber Required');
+      }
+      if (this.form.ClientEmail === '') {
+        this.errors.push('Client Email Required');
+      }
+      if (this.form.ClientOffice === '') {
+        this.errors.push('Client Office Code Required');
+      }
+      if (this.errors.length === 0) {
+        this.redirecting();
+        this.updatePage();
+      }
+//      this.redirecting('/NewClient');
     },
     updatePage() {
       if (this.$route.query.res === 'true') {

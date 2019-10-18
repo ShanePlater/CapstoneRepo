@@ -121,18 +121,18 @@
             <el-form-item label="Archive Location:">
               <el-input v-model="form.archivelocation"></el-input>
             </el-form-item>
-
-            <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
-            <el-form-item>
-              <el-button type="primary" @click="validate">Add New Project</el-button>
-            </el-form-item>
-          </el-form>
             <p v-if="errors.length">
               <b>Please correct the following error(s):</b>
               <ul>
                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
               </ul>
             </p>
+            <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
+            <el-form-item>
+              <el-button type="primary" @click="validate">Add New Project</el-button>
+            </el-form-item>
+          </el-form>
+
         </el-col>
       </el-row>
     </div>    
@@ -348,7 +348,7 @@ export default {
         this.redirecting();
         this.updatePage();
       }
-      this.redirecting('/NewProject');
+//      this.redirecting('/NewProject');
     },
     authenticate(){
       fetch(api.authRequired, {
