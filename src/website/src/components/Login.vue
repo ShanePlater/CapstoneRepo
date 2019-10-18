@@ -71,8 +71,8 @@ export default {
             name: this.form.name,
             token: data.Token,
           };
-          this.setCookie('name', this.form.name, 365);
-          this.setCookie('token', data.Token, 365);
+          this.setCookie('name', this.form.name, 30);
+          this.setCookie('token', data.Token, 30);
           this.LoginDialogVisible = false;
           this.form.name = '';
           this.form.password = '';

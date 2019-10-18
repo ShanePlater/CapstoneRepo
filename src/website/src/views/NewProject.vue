@@ -88,7 +88,7 @@
           <br>
 
            <!-- INTERNAL INFORMATION  --> 
-          <h3 style="font-size:20px"> Internal Information </h3>
+          <h3 style="font-size:20px"> Internal Information {{state.name}} </h3>
           
           <!-- internal information -->
 
@@ -148,6 +148,10 @@ export default {
   },
   data() {
     return {
+      state: {
+        name: '',
+        token: '',
+      },
       errors: [],
       title: 'Enter Project Details',
       projects: [],
@@ -218,10 +222,12 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
-    if (this.getCookie('token') !== '') {
+    
+    if (this.getCookie('name') !== '') {
       this.state = {
         name: this.getCookie('name'),
         token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
       };
     }
   },
@@ -242,6 +248,25 @@ export default {
         }
       });
       return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }
+        });
+      });
     },
     redirecting() {
       fetch(api.addProject, {
@@ -283,12 +308,6 @@ export default {
         body: JSON.stringify({
           ID: this.$route.params.id,
         }),
-      }).then((response) => {
-        response.json().then((data) => {
-          if(data.username === "Success"){
-            window.location.href = 'mailto:Helpdesk@lar.net.au';
-          }
-        });
       });
     },
     validate() {
@@ -345,27 +364,10 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.redirecting();
+        this.authenticate();
         this.updatePage();
       }
 //      this.redirecting('/NewProject');
-    },
-    authenticate(){
-      fetch(api.authRequired, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Username: this.state.name,
-          Password: '',
-        }),
-      }).then((response) => {
-        response.json().then((data) => {
-          
-        });
-      });
     },
     getOptions(method) {
       fetch(method, {
