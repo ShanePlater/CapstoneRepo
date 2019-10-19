@@ -19,7 +19,7 @@ func createOrUpdateClients(g *gin.Context, m *models.Context) {
 		return
 	}
 	// client name, project number, pro name, address, suburb, location, type, status, start date, client rep name, telephone, mobile, email, division
-	if data.ClientOfficeCode == "" || data.ClientName == "" || data.ClientABNNumber == "" || data.ClientACNNumber == "" || data.ClientTypeCode == "" || data.FirstName == "" || data.LastName == "" || data.ClientLocationCode == "" || data.StreetAddress == "" || data.StreetSuburb == "" || data.StreetPostcode == "" || data.PhoneNumber == "" || data.FaxNumber == "" || data.EMailAddress == "" {
+	if data.ClientOfficeCode == "" || data.ClientName == "" || data.ClientABNNumber == "" || data.ClientACNNumber == "" || data.ClientTypeCode == "" || data.ClientLocationCode == "" || data.PhoneNumber == "" || data.EMailAddress == "" {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss one or multiple parameters"})
 		fmt.Println("controllers/createOrUpdateClients.go missing a parameter error")
 		fmt.Println("Client Office Code \n" + data.ClientOfficeCode + "Client Name \n" + data.ClientName)

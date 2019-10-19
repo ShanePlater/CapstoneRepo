@@ -133,7 +133,7 @@ type Project struct {
 type Project2 struct {
 	ID              string
 	Name            string
-	ClientName      string
+	ClientID        string
 	Address         string
 	Suburb          string
 	Location        string

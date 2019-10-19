@@ -13,7 +13,7 @@
           
           <!-- project information -->
             <el-form-item label="Client Name:">
-              <el-input v-model="form.clientName"></el-input>
+              <el-input v-model="form.ClientID"></el-input>
             </el-form-item>
 
             <el-form-item label="Project Number">
@@ -192,7 +192,7 @@ export default {
       form: {
         projectnumber: '',
         projectname: '',
-        clientName: '',
+        ClientID: this.$route.params.id,
         projectlocationcode: '',
         projectaddress: '',
         projectsuburb: '',
@@ -279,7 +279,7 @@ export default {
         //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
           Name: this.form.projectname,
-          ClientName: this.form.clientName,
+          ClientID: this.form.ClientID,
           Address: this.form.projectaddress,
           Suburb: this.form.projectsuburb,
           Location: this.form.projectlocationcode,
@@ -312,8 +312,8 @@ export default {
     },
     validate() {
       this.errors = [];
-      if (this.form.clientName === '') {
-        this.errors.push('Client Name Required');
+      if (this.form.ClientID === '') {
+        this.errors.push('Client ID Required');
       }
       if (this.form.projectnumber === '') {
         this.errors.push('Project Number Required');
@@ -409,7 +409,7 @@ export default {
       this.form = {
         projectnumber: '',
         projectname: '',
-        clientName: '',
+        ClientID: '',
         projectlocationcode: '',
         projectaddress: '',
         projectsuburb: '',

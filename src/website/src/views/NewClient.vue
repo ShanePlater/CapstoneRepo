@@ -350,7 +350,7 @@ export default {
         this.errors.push('Client Office Code Required');
       }
       if (this.errors.length === 0) {
-        this.validate();
+        this.authenticate();
         this.updatePage();
       }
 //      this.redirecting('/NewClient');
