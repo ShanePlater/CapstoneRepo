@@ -28,13 +28,13 @@
             </el-form-item>
 
             <el-form-item label="Location">
-              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
                 <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="Type">
-              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+              <el-select v-model="form.ClientType" placeholder="Pick a type">
                 <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
