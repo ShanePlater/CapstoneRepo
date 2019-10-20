@@ -15,7 +15,9 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	if p.ProjectNumber != "0" {
 		fmt.Println("orm/Projects.go/createOrUpdateProjects projnum != 0")
 		r := &Projects{ProjectNumber: p.ProjectNumber}
+		fmt.Println("orm/Projects.go/createOrUpdateProjects proj num of updated proj is:" + p.ProjectNumber)
 		db.First(r)
+		fmt.Println("orm/Projects.go/createOrUpdateProjects proj num of updated proj is:" + p.ProjectNumber + "DB FOUND")
 
 		if err := db.Model(r).Updates(p).Error; err != nil {
 			fmt.Println(err)
