@@ -39,6 +39,11 @@
               </el-select>
             </el-form-item>
 
+            <el-form-item label="Client Office Code">
+              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
+                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
             <br>
 
 
@@ -187,6 +192,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',
@@ -268,7 +274,7 @@ export default {
         body: JSON.stringify({
           ClientName: this.form.ClientName,
           ClientID: this.form.ClientID,
-          ClientOfficeCode: 'BNE',
+          ClientOfficeCode: this.form.ClientOffice,
           ClientABNNumber: this.form.ClientABN,
           ClientACNNumber: this.form.ClientACN,
           ClientTypeCode: this.form.projecttypecode,
@@ -303,6 +309,7 @@ export default {
           this.form.ClientACN = data.ClientACNNumber;
           this.form.ClientType = data.ClientTypeCode;
           this.form.ClientLocation = data.ClientLocationCode;
+          this.form.ClientOffice = data.ClientOfficeCode;
           this.form.ClientFirstName = data.FirstName;
           this.form.ClientLastName = data.LastName;
           this.form.ClientPhoneNumber = data.PhoneNumber;
@@ -364,6 +371,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',

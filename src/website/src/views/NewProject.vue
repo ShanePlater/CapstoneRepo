@@ -18,7 +18,7 @@
             </el-form-item>
 
             <el-form-item label="Project Number">
-              <el-input v-model="form.projectnumber"></el-input>
+              <el-input v-model="form.projectnumber" :disabled="true"></el-input>
             </el-form-item>            
 
             <el-form-item label="Project Name">
@@ -54,8 +54,8 @@
             </el-form-item>
 
 
-            <el-form-item label="Start and End Date:">
-              <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+            <el-form-item label="Start Date:">
+              <el-date-picker v-model="form.StartDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
 
@@ -192,7 +192,7 @@ export default {
         }],
       },
       form: {
-        projectnumber: '',
+        projectnumber: '0',
         projectname: '',
         ClientID: this.$route.params.id,
         projectlocationcode: '',
@@ -200,7 +200,7 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
@@ -289,7 +289,7 @@ export default {
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
           StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-01-29 00:00:00',
+          EndDate: '1999-02-29 00:00:00',
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -350,7 +350,7 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        //this.authenticate(); add this back in when we are done with testing
+        //this.authenticate();
         this.redirecting();
         this.updatePage();
       }
@@ -402,7 +402,7 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
