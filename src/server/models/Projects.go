@@ -184,7 +184,6 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
 	data.Division = utils.Itoa(c.locateDivisionCode("BNE", data.Division))
 
-	//current hard coded values: clientID: I will fix this soon - Matt
 	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
 	r := orm.Projects{
 		ProjectNumber:         data.ID,
