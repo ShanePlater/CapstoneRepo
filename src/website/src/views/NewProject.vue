@@ -297,7 +297,7 @@ export default {
           Division: this.form.division,
           Director: this.form.projectdirector,
           Manager: this.form.projectmanager,
-          ArchiveLocation: this.form.archivelocation,
+          //ArchiveLocation: this.form.archivelocation,
         }),
       });
     },
