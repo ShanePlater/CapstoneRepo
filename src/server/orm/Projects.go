@@ -35,13 +35,16 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 
 		//This is very messy as for the primary keys L&R uses a character instead of an int
 		//it means when we try and add 1 to the primary key, it breaks the system as its a char
-
+		//WXXXXX
 		//grab the last 5 chars in the string (which will always be numbers)
 		lastproj := utils.Atoi(string(p.ProjectNumber[len(p.ProjectNumber)-5:]))
+		fmt.Println("orm/Projects.go/createOrUpdateProjects lastproj is: " + utils.Itoa(lastproj))
 		//create the new primary key by adding 1 to the old number
 		newkey := lastproj + 1
+		fmt.Println("orm/Projects.go/createOrUpdateProjects newkey is: " + utils.Itoa(newkey))
 		//replace the old 4 digits with the new four digits.
 		strings.Replace(p.ProjectNumber, utils.Itoa(lastproj), utils.Itoa(newkey), -1)
+		fmt.Println("orm/Projects.go/createOrUpdateProjects new project number is is: " + p.ProjectNumber)
 		check := Projects{ProjectNumber: p.ProjectNumber}
 
 		// Break for loop if primary key is available.

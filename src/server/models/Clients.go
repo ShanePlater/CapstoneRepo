@@ -59,15 +59,15 @@ func (c *Context) CreateOrUpdateClients(data *types.Client2) error {
 	//current hard coded values: clientID, Client Office Code
 	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
 	r := orm.Clients{
-		ClientID:              "0",
-		ClientOfficeCode:      "BNE",
+		ClientID:              data.ClientID,
+		ClientOfficeCode:      data.ClientOfficeCode,
 		ClientName:            data.ClientName,
 		ClientABNNumber:       data.ClientABNNumber,
 		ClientACNNumber:       data.ClientACNNumber,
 		ClientTypeCode:        data.ClientTypeCode,
 		FirstName:             data.FirstName,
 		LastName:              data.LastName,
-		ClientLocationCode:    "1",
+		ClientLocationCode:    data.ClientLocationCode,
 		StreetAddress:         data.StreetAddress,
 		StreetSuburb:          data.StreetSuburb,
 		StreetState:           data.StreetState,
