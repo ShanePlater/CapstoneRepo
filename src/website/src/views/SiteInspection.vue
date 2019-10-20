@@ -28,7 +28,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="redirecting">Add Site Inspection</el-button>
+                  <el-button type="primary" @click="authenticate">Add Site Inspection</el-button>
                 </el-form-item>
 
               </el-form>
@@ -46,6 +46,10 @@ export default {
   },
   data() {
     return {
+      state: {
+        name: '',
+        token: '',
+      },
       title: 'New Client',
       projects: [],
       options: {
@@ -92,7 +96,49 @@ export default {
       isSearching: true,
     };
   },
+  created() {
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
+      };
+    }
+  },
   methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }
+        });
+      });
+    },
     redirecting() {
       fetch(api.addSiteInspection, {
         method: 'post',
