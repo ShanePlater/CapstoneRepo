@@ -7,9 +7,9 @@
       <h3>Project Information</h3>
       <el-button type="primary" @click="gotoupdate(content.ProjectNumber)">Update Project Information</el-button>
       <hr>
-      <p><strong>ID:</strong> {{ content.ProjectNumber }}</p>
-      <p><strong>Name:</strong> {{ content.ProjectName }}</p>
-      <p><strong>Client:</strong> <a :href="clientURL">{{ content.ClientName }}</a></p>
+      <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
+      <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
+      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}</p>
       <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
@@ -65,6 +65,7 @@ export default {
   data() {
     return {
       content: '',
+      clientcontent: '',
       clientURL: '',
       startDate: '',
       endDate: '',
@@ -108,14 +109,29 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
-          this.clientURL = `//${window.location.host}/#/client/${this.content
-            .ClientID}`;
+          this.pullClientDetails(data.ClientID);
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
           }
           if (this.content.ProjectEndDate !== '') {
             this.endDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectEndDate));
           }
+        });
+      });
+    },
+    pullClientDetails(clientID) {
+      fetch(api.getClient, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: clientID,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.clientcontent = data;
         });
       });
     },
