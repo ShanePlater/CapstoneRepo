@@ -154,6 +154,7 @@ export default {
         name: '',
         token: '',
       },
+      errors: '',
       title: 'Update Client',
       content: '',
       projects: [],
