@@ -94,7 +94,11 @@ export default {
   components: {
   },
   data() {
-    return {                    
+    return {  
+      state: {
+        name: '',
+        token: '',
+      },                  
       errors: [],
       uploadFile: '',
       title: 'Upload New Document',     
@@ -118,11 +122,51 @@ export default {
     }
     this.getOptions(api.getOptionCategories);
     this.getOptions(api.getOptionUsers);
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
+      };
+    }
   },
   watch: {
     '$route.query.res': 'updatePage',
   },
   methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }
+        });
+      });
+    },
     redirecting() {
         var d = new Date(this.form.authorizedDate);
         var dateConv = d.toISOString();

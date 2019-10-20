@@ -364,7 +364,8 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.authenticate();
+        //this.authenticate(); add this back in when we are done with testing
+        this.redirecting();
         this.updatePage();
       }
 //      this.redirecting('/NewProject');

@@ -350,7 +350,8 @@ export default {
         this.errors.push('Client Office Code Required');
       }
       if (this.errors.length === 0) {
-        this.authenticate();
+        //this.authenticate(); add this back in when we are done with testing
+        this.redirecting();
         this.updatePage();
       }
 //      this.redirecting('/NewClient');
