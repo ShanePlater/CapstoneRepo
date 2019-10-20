@@ -126,7 +126,7 @@
 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
-              <el-button type="primary" @click="validate">Add New Project</el-button>
+              <el-button type="primary" @click="validate">Update Project</el-button>
             </el-form-item>
           </el-form>
             <p v-if="errors.length">

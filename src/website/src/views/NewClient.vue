@@ -283,6 +283,7 @@ export default {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          ClientID: '0',
           ClientName: this.form.ClientName,
           ClientOfficeCode: this.form.ClientOffice,
           ClientABNNumber: this.form.ClientABN,
