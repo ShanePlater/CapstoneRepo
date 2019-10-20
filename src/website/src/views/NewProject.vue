@@ -280,6 +280,7 @@ export default {
         //  the start and end dates here are they hardcoded or
         //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
+          ID: this.form.projectnumber,
           Name: this.form.projectname,
           ClientID: this.form.ClientID,
           Address: this.form.projectaddress,
@@ -349,7 +350,8 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.authenticate();
+        //this.authenticate(); add this back in when we are done with testing
+        this.redirecting();
         this.updatePage();
       }
 //      this.redirecting('/NewProject');
