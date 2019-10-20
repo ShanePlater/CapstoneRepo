@@ -37,6 +37,12 @@
               </el-select>
             </el-form-item>
 
+            <el-form-item label="Client Office Code">
+              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
+                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+
             <br>
 
 
@@ -68,11 +74,6 @@
               <el-input v-model="form.ClientEmail"></el-input>
             </el-form-item>
 
-            <el-form-item label="Client Office Code">
-              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
-                <el-option v-for="option in options.offices" :key="option.Name" :label="option.Name" :value="option.Name"></el-option>
-              </el-select>
-            </el-form-item>
 
           <br>
 
@@ -200,6 +201,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',
@@ -368,6 +370,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',
