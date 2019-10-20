@@ -20,7 +20,7 @@ func createOrUpdateProjects(g *gin.Context, m *models.Context) {
 		return
 	}
 	// client name, project number, pro name, address, suburb, location, type, status, start date, client rep name, telephone, mobile, email, division
-	if data.Name == "" || data.ClientID == "" || data.Address == "" || data.Suburb == "" || data.Location == "" || data.Type == "" || data.Status == "" || data.StartDate == "" || data.EndDate == "" || data.CRName == "" || data.CRPhone == "" || data.CRMobile == "" || data.CREmail == "" || data.Division == "" {
+	if data.Name == "" || data.ClientID == "" || data.Location == "" || data.Type == "" || data.Status == "" || data.Division == "" {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss one or multiple parameters"})
 		fmt.Println("controllers/createOrUpdateProjects.go missing a parameter error")
 		fmt.Println("\n name" + data.Name + "\n client" + data.ClientID + "\n address" + data.Address + "\n suburb" + data.Suburb + "\n location" + data.Location + "\n type" + data.Type + "\n status" + data.Status + "\n startdate" + data.StartDate + "\n enddate" + data.EndDate + "\n CRName" + data.CRName + "\n CRPhone" + data.CRPhone + "\n CRmobile" + data.CRMobile + "\n CREemail" + data.CREmail + "\n division" + data.Division)
