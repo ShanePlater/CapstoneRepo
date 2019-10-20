@@ -10,6 +10,9 @@
            <!-- CLIENT INFORMATION  --> 
           <h2 style="font-size:20px"> Client Information </h2>
 
+            <el-form-item label="Client ID ">
+              <el-input v-model="form.ClientID" :disabled="true"></el-input>
+            </el-form-item>
 
             <el-form-item label="Client Name">
               <el-input v-model="form.ClientName"></el-input>
@@ -174,6 +177,7 @@ export default {
         }],
       },
       form: {
+        ClientID: '',
         ClientName: '',
         ClientABN: '',
         ClientACN: '',
@@ -218,6 +222,7 @@ export default {
         },
         body: JSON.stringify({
           ClientName: this.form.ClientName,
+          ClientID: this.form.ClientID,
           ClientOfficeCode: 'BNE',
           ClientABNNumber: this.form.ClientABN,
           ClientACNNumber: this.form.ClientACN,
@@ -247,6 +252,7 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
+          this.form.ClientID = data.ClientID;
           this.form.ClientName = data.ClientName;
           this.form.ClientABN = data.ClientABNNumber;
           this.form.ClientACN = data.ClientACNNumber;

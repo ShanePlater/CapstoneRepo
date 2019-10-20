@@ -10,10 +10,11 @@
           </el-form-item>
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>
-          
+
+          <p><strong>Client Name:</strong> {{ content.ClientName }}</p>
           <!-- project information -->
-            <el-form-item label="Client Name:">
-              <el-input v-model="form.ClientID"></el-input>
+            <el-form-item label="Client ID:">
+              <el-input v-model="form.ClientID" :disabled="true"></el-input>
             </el-form-item>
 
             <el-form-item label="Project Number">
@@ -152,6 +153,7 @@ export default {
         name: '',
         token: '',
       },
+      content: '',
       errors: [],
       title: 'Enter Project Details',
       projects: [],
@@ -308,6 +310,10 @@ export default {
         body: JSON.stringify({
           ID: this.$route.params.id,
         }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.content = data;
+        });
       });
     },
     validate() {
@@ -321,12 +327,6 @@ export default {
       if (this.form.projectname === '') {
         this.errors.push('Project Name Required');
       }
-      if (this.form.projectaddress === '') {
-        this.errors.push('Project Address Required');
-      }
-      if (this.form.projectsuburb === '') {
-        this.errors.push('Project Suburb Required');
-      }
       if (this.form.projectlocationcode === '') {
         this.errors.push('Project Location Required');
       }
@@ -336,18 +336,6 @@ export default {
       if (this.form.projectstatuscode === '') {
         this.errors.push('Project Status Required');
       }
-      if (this.form.clientrepname === '') {
-        this.errors.push('Client Representative Name Required');
-      }
-      if (this.form.clientrepworknum === '') {
-        this.errors.push('Client Representative Telephone Number Required');
-      }
-      if (this.form.clientrepmobnum === '') {
-        this.errors.push('Client Representative Mobile Number Required');
-      }
-      if (this.form.clientrepemail === '') {
-        this.errors.push('Client Representative Email Required');
-      }
       if (this.form.division === '') {
         this.errors.push('Internal Division Required');
       }
@@ -356,9 +344,6 @@ export default {
       }
       if (this.form.projectmanager === '') {
         this.errors.push('Internal Project Manager Required');
-      }
-      if (this.form.projectvalue === '') {
-        this.errors.push('Project Value Required');
       }
       if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');

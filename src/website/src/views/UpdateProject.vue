@@ -11,14 +11,15 @@
 
            <!-- PROJECT INFORMATION  --> 
           <h2 style="font-size:20px"> Project Information </h2>
-          
+
+            <p><strong>Client Name:</strong> {{ content.ClientName }}</p>
           <!-- project information -->
-            <el-form-item label="Client Name:">
-              <el-input v-model="form.clientName"></el-input>
+            <el-form-item label="Client ID:">
+              <el-input v-model="form.ClientID" :disabled="true"></el-input>
             </el-form-item>
 
             <el-form-item label="Project Number">
-              <el-input v-model="form.projectnumber"></el-input>
+              <el-input v-model="form.projectnumber" :disabled="true"></el-input>
             </el-form-item>            
 
             <el-form-item label="Project Name">
@@ -190,7 +191,7 @@ export default {
       form: {
         projectnumber: '',
         projectname: '',
-        clientName: '',
+        ClientID: '',
         projectlocationcode: '',
         projectaddress: '',
         projectsuburb: '',
@@ -236,10 +237,10 @@ export default {
         }),
       }).then((response) => {
         response.json().then((data) => {
-          this.content = data;
+          this.pullClientDetails(data.ClientID);
           this.form.projectnumber = data.ProjectNumber;
           this.form.projectname = data.ProjectName;
-          this.form.clientName = data.clientName;
+          this.form.ClientID = data.ClientID;
           this.form.projectlocationcode = data.ProjectLocationCode;
           this.form.projectaddress = data.ProjectAddress;
           this.form.projectsuburb = data.ProjectSuburb;
@@ -264,6 +265,22 @@ export default {
         });
       });
     },
+    pullClientDetails(clientID) {
+      fetch(api.getClient, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: clientID,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.content = data;
+        });
+      });
+    },
     redirecting() {
       fetch(api.addProject, {
         method: 'post',
@@ -275,7 +292,7 @@ export default {
         //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
           Name: this.form.projectname,
-          ClientName: this.form.clientName,
+          ClientID: this.form.ClientID,
           Address: this.form.projectaddress,
           Suburb: this.form.projectsuburb,
           Location: this.form.projectlocationcode,
@@ -296,20 +313,14 @@ export default {
     },
     validate() {
       this.errors = [];
-      if (this.form.clientName === '') {
-        this.errors.push('Client Name Required');
+      if (this.form.ClientID === '') {
+        this.errors.push('Client ID Required');
       }
       if (this.form.projectnumber === '') {
         this.errors.push('Project Number Required');
       }
       if (this.form.projectname === '') {
         this.errors.push('Project Name Required');
-      }
-      if (this.form.projectaddress === '') {
-        this.errors.push('Project Address Required');
-      }
-      if (this.form.projectsuburb === '') {
-        this.errors.push('Project Suburb Required');
       }
       if (this.form.projectlocationcode === '') {
         this.errors.push('Project Location Required');
@@ -320,18 +331,6 @@ export default {
       if (this.form.projectstatuscode === '') {
         this.errors.push('Project Status Required');
       }
-      if (this.form.clientrepname === '') {
-        this.errors.push('Client Representative Name Required');
-      }
-      if (this.form.clientrepworknum === '') {
-        this.errors.push('Client Representative Telephone Number Required');
-      }
-      if (this.form.clientrepmobnum === '') {
-        this.errors.push('Client Representative Mobile Number Required');
-      }
-      if (this.form.clientrepemail === '') {
-        this.errors.push('Client Representative Email Required');
-      }
       if (this.form.division === '') {
         this.errors.push('Internal Division Required');
       }
@@ -341,17 +340,14 @@ export default {
       if (this.form.projectmanager === '') {
         this.errors.push('Internal Project Manager Required');
       }
-      if (this.form.projectvalue === '') {
-        this.errors.push('Project Value Required');
-      }
       if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.redirecting();
+        this.authenticate();
         this.updatePage();
       }
-      this.redirecting('/NewProject');
+//      this.redirecting('/NewProject');
     },
     getOptions(method) {
       fetch(method, {
@@ -393,7 +389,6 @@ export default {
       this.form = {
         projectnumber: '',
         projectname: '',
-        clientName: '',
         projectlocationcode: '',
         projectaddress: '',
         projectsuburb: '',
