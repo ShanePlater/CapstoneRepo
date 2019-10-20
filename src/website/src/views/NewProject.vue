@@ -288,8 +288,8 @@ export default {
           Location: this.form.projectlocationcode,
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
-          StartDate: this.form.StartDate,
-          EndDate: '1999-01-29 00:00:00',
+          StartDate: '1999-01-29 00:00:00',
+          EndDate: '1999-02-29 00:00:00',
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -350,7 +350,7 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        //this.authenticate(); add this back in when we are done with testing
+        //this.authenticate();
         this.redirecting();
         this.updatePage();
       }
