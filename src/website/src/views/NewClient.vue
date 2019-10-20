@@ -239,7 +239,7 @@ export default {
     }
   },
   watch: {
-    '$route.query.res': 'updatePage',
+ //   '$route.query.res': 'updatePage',
   },
   methods: {
     getCookie(cname) {

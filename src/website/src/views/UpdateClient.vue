@@ -131,7 +131,7 @@
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Update Client</el-button>
+              <el-button type="primary" @click="validate">Update Client</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -317,10 +317,10 @@ export default {
           ClientOfficeCode: this.form.ClientOffice,
           ClientABNNumber: this.form.ClientABN,
           ClientACNNumber: this.form.ClientACN,
-          ClientTypeCode: this.form.projecttypecode,
+          ClientTypeCode: this.form.ClientType,
           FirstName: this.form.ClientFirstName,
           LastName: this.form.ClientLastName,
-          ClientLocationCode: this.form.projectlocationcode,
+          ClientLocationCode: this.form.ClientLocation,
           StreetAddress: this.form.ClientAddress,
           StreetSuburb: this.form.ClientSuburb,
           StreetPostcode: this.form.ClientPostcode,
