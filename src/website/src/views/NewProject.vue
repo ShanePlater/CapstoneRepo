@@ -289,7 +289,7 @@ export default {
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
           StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-02-29 00:00:00',
+          EndDate: '1999-01-29 00:00:00',
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,

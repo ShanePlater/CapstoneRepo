@@ -205,7 +205,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 		ProjectLocationCode:   data.Location,
 		ProjectDescription:    data.Description,
 		ProjectValue:          data.Value,
-		ArchiveLocation:       data.ArchiveLocation,
+		//ArchiveLocation:       data.ArchiveLocation,
 	}
 
 	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
@@ -220,25 +220,25 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 
 	// Update data. try removing this and see if it e
 	*data = types.Project2{
-		ID:              r.ProjectNumber,
-		Name:            r.ProjectName,
-		Address:         r.ProjectAddress,
-		Suburb:          r.ProjectSuburb,
-		Location:        r.ProjectLocationCode,
-		Type:            r.ProjectTypeCode,
-		Status:          r.ProjectStatusCode,
-		StartDate:       r.ProjectStartDate,
-		EndDate:         r.ProjectEndDate,
-		CRName:          r.ClientRepName,
-		CRPhone:         r.ClientRepTelephone,
-		CRMobile:        r.ClientRepMobile,
-		CREmail:         r.ClientRepEmailAddress,
-		Division:        r.Division,
-		Director:        r.ProjectDirector,
-		Manager:         r.ProjectManager,
-		Value:           r.ProjectValue,
-		Description:     r.ProjectDescription,
-		ArchiveLocation: r.ArchiveLocation,
+		ID:          r.ProjectNumber,
+		Name:        r.ProjectName,
+		Address:     r.ProjectAddress,
+		Suburb:      r.ProjectSuburb,
+		Location:    r.ProjectLocationCode,
+		Type:        r.ProjectTypeCode,
+		Status:      r.ProjectStatusCode,
+		StartDate:   r.ProjectStartDate,
+		EndDate:     r.ProjectEndDate,
+		CRName:      r.ClientRepName,
+		CRPhone:     r.ClientRepTelephone,
+		CRMobile:    r.ClientRepMobile,
+		CREmail:     r.ClientRepEmailAddress,
+		Division:    r.Division,
+		Director:    r.ProjectDirector,
+		Manager:     r.ProjectManager,
+		Value:       r.ProjectValue,
+		Description: r.ProjectDescription,
+		//ArchiveLocation: r.ArchiveLocation,
 	}
 
 	return nil
