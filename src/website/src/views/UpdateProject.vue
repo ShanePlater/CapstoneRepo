@@ -353,6 +353,8 @@ export default {
           Division: this.form.division,
           Director: this.form.projectdirector,
           Manager: this.form.projectmanager,
+          Value: this.form.projectvalue,
+          Description: this.form.projectdescription,
           ArchiveLocation: this.form.archivelocation,
         }),
       });
