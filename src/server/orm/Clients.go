@@ -3,7 +3,6 @@ package orm
 import (
 	"errors"
 	"fmt"
-	"server/utils"
 
 	"github.com/jinzhu/gorm"
 )
@@ -12,45 +11,47 @@ import (
 func CreateOrUpdateClients(p *Clients, db *gorm.DB) error {
 	fmt.Println("orm/Clients.go/createOrUpdateClientss to create Client in orm")
 	// Update record.
-	if p.ClientID != "0" {
-		r := &Clients{ClientID: p.ClientID}
-		db.First(r)
-		fmt.Println("clientID not 0")
-		if err := db.Model(r).Updates(p).Error; err != nil {
-			fmt.Println("err")
-			return err
+	/*
+		if p.ClientID != "0" {
+			r := &Clients{ClientID: p.ClientID}
+			db.First(r)
+			fmt.Println("clientID not 0")
+			if err := db.Model(r).Updates(p).Error; err != nil {
+				fmt.Println("err")
+				return err
+			}
+
+			return nil
 		}
-
-		return nil
-	}
-
+	*/
 	fmt.Println("survived 1st if")
 
 	// Create record.
-	last := &Clients{}
+	//last := &Clients{}
 	fmt.Println("record created")
 	// Generate new primary key.
-	for {
-		db.Last(&last)
-		p.ClientID = utils.Itoa(utils.Atoi(last.ClientID) + 1)
+	/*
+		for {
+			db.Last(&last)
+			p.ClientID = utils.Itoa(utils.Atoi(last.ClientID) + 1)
 
-		/*
-			check := Clients{ClientID: p.ClientID}
-				primkeyloopcount++
-				if primkeyloopcount < 5 {
-					fmt.Println(last.ClientID + "check vs" + p.ClientID)
-					fmt.Println(db.NewRecord(check))
-				}
 
-				// Break for loop if primary key is available.
-				if db.NewRecord(check) {
-					fmt.Println("primary key made")
-					break
-				}
-		*/
-		break
-	}
+				check := Clients{ClientID: p.ClientID}
+					primkeyloopcount++
+					if primkeyloopcount < 5 {
+						fmt.Println(last.ClientID + "check vs" + p.ClientID)
+						fmt.Println(db.NewRecord(check))
+					}
 
+					// Break for loop if primary key is available.
+					if db.NewRecord(check) {
+						fmt.Println("primary key made")
+						break
+					}
+
+			break
+		}
+	*/
 	fmt.Println("primary key generated")
 
 	if err := db.Create(p).Error; err != nil {

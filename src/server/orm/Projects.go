@@ -46,6 +46,7 @@ func CreateOrUpdateProjects(p *Projects, db *gorm.DB) error {
 	fmt.Println("orm/Projects.go/createOrUpdateProjects newdigit is: " + utils.Itoa(newdigit))
 	newkey := "W" + utils.Itoa(newdigit)
 	p.ProjectNumber = newkey
+	p.ProjectNumber = "9000"
 	fmt.Println("orm/Projects.go/createOrUpdateProjects new project number is is: " + p.ProjectNumber)
 
 	if err := db.Create(p).Error; err != nil {
