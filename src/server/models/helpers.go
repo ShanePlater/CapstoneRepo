@@ -230,5 +230,11 @@ func (c *Context) SwapProjLocCode(data *types.NameForCodes) *types.NameForCodes 
 		}
 	*/
 
+	/*
+		The things we want to be returning
+		names.ProjectLocationCode = corrosponding code name
+		names.ProjectStatusCode = corro names
+		names.ProjectTypeCode = corro name
+	*/
 	return names
 }
