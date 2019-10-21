@@ -82,7 +82,7 @@ func (c *Context) CreateOrUpdateClients(data *types.Client2) error {
 		EMailAddress:          data.EMailAddress,
 	}
 
-	if err := orm.CreateOrUpdateClients(&r, c.db); err != nil {
+	if err := orm.CreateOrUpdateClients(&r, c.db, data.ClientID); err != nil {
 		fmt.Println("Models/ Error in Clients.go")
 		return err
 	}
