@@ -18,7 +18,7 @@
             </el-form-item>
 
             <el-form-item label="Project Number">
-              <el-input v-model="form.projectnumber"></el-input>
+              <el-input v-model="form.projectnumber" :disabled="true"></el-input>
             </el-form-item>            
 
             <el-form-item label="Project Name">
@@ -54,8 +54,8 @@
             </el-form-item>
 
 
-            <el-form-item label="Start and End Date:">
-              <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+            <el-form-item label="Start Date:">
+              <el-date-picker v-model="form.StartDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
 
@@ -192,7 +192,7 @@ export default {
         }],
       },
       form: {
-        projectnumber: '',
+        projectnumber: '0',
         projectname: '',
         ClientID: this.$route.params.id,
         projectlocationcode: '',
@@ -200,7 +200,7 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
@@ -280,6 +280,7 @@ export default {
         //  the start and end dates here are they hardcoded or
         //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
+          ID: this.form.projectnumber,
           Name: this.form.projectname,
           ClientID: this.form.ClientID,
           Address: this.form.projectaddress,
@@ -296,6 +297,8 @@ export default {
           Division: this.form.division,
           Director: this.form.projectdirector,
           Manager: this.form.projectmanager,
+          Value: this.form.projectvalue,
+          Description: this.form.projectdescription,
           ArchiveLocation: this.form.archivelocation,
         }),
       });
@@ -349,7 +352,8 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.authenticate();
+        //this.authenticate();
+        this.redirecting();
         this.updatePage();
       }
       this.updatePage();
@@ -401,7 +405,7 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',

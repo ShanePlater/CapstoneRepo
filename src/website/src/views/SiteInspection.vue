@@ -19,7 +19,7 @@
                 </el-form-item>       
 
                 <el-form-item label="Inspection Date:">
-                  <el-date-picker v-model="form.InspectionDate" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+                  <el-date-picker v-model="form.InspectionDate" type="date" placeholder="Pick a range">
                   </el-date-picker>
                 </el-form-item>
 

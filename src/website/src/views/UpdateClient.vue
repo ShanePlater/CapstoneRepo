@@ -28,17 +28,22 @@
             </el-form-item>
 
             <el-form-item label="Location">
-              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
                 <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="Type">
-              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+              <el-select v-model="form.ClientType" placeholder="Pick a type">
                 <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
 
+            <el-form-item label="Client Office Code">
+              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
+                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
             <br>
 
 
@@ -116,11 +121,17 @@
             <el-form-item label="Postcode">
               <el-input v-model="form.ClientPostcodePostal"></el-input>
             </el-form-item>
-            
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+              </ul>
+            </p>
+   
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Add New Client</el-button>
+              <el-button type="primary" @click="validate">Update Client</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -139,12 +150,53 @@ export default {
   },
   data() {
     return {
+      state: {
+        name: '',
+        token: '',
+      },
+      errors: '',
       title: 'Update Client',
       content: '',
       projects: [],
       options: {
-        locations: [],
-        types: [],
+        locations: [
+        {"ID": "1", "Name":	"Brisbane, QLD"},
+        {"ID": "4", "Name":	"North Coast, QLD"},
+        {"ID": "5", "Name":	"South Coast, QLD"},
+        {"ID": "6", "Name":	"International"},
+        {"ID": "7", "Name":	"Other"},
+        {"ID": "8", "Name":	"Melbourne CBD"},
+        {"ID": "9", "Name":	"Melbourne Metro"},
+        {"ID": "10", "Name":	"Country North, VIC"},
+        {"ID": "11", "Name":	"Country East, VIC"},
+        {"ID": "12", "Name":	"Country West, VIC"},
+        {"ID": "13", "Name":	"East Coast, VIC"},
+        {"ID": "14", "Name":	"West Coast, VIC"},
+        {"ID": "15", "Name":	"Wide Bay, QLD"},
+        {"ID": "16", "Name":	"North QLD"},
+        {"ID": "17", "Name":	"NSW"},
+        {"ID": "18", "Name":	"NT"},
+        {"ID": "19", "Name":	"TAS"},
+        {"ID": "20", "Name":	"SA"},
+        {"ID": "21", "Name":	"WA"},
+        {"ID": "22", "Name":	"NZ"},
+        {"ID": "23", "Name":	"ACT"},
+        {"ID": "24", "Name":	"Sydney Metro"},
+        {"ID": "25", "Name":	"Central Queensland"}
+        ],
+        types: [
+        {"ID": "AC", "Name": "Airport Corportation"},
+        {"ID": "C", "Name": "Contracter"},
+        {"ID": "CG", "Name": "Commonwealth Government"},
+        {"ID": "CT", "Name": "Consultant"},
+        {"ID": "D", "Name": "Developer"},
+        {"ID": "GOC", "Name": "Government Corporation"},
+        {"ID": "I", "Name": "Institution"},
+        {"ID": "LG", "Name": "Local Government"},
+        {"ID": "P", "Name": "Private"},
+        {"ID": "PM", "Name": "Project Manager"},
+        {"ID": "SG", "Name": "State Government"}
+        ],
         statuss: [],
         divisions: [],
         offices: [],
@@ -183,6 +235,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',
@@ -205,14 +258,88 @@ export default {
       this.$router.replace('/updateclient/:id');
     }
     this.pullClientDetails();
-    this.getOptions(api.getOptionLocations);
-    this.getOptions(api.getOptionTypes);
+    //this.getOptions(api.getClientLocations);
+    //this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
+
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
+      };
+    }
   },
 
   methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }
+        });
+      });
+    },
+    validate() {
+      this.errors = [];
+      if (this.form.ClientName === '') {
+        this.errors.push('Client Name Required');
+      }
+      if (this.form.ClientABN === '') {
+        this.errors.push('Client ABN Required');
+      }
+      if (this.form.ClientACN === '') {
+        this.errors.push('Client ACN Required');
+      }
+      if (this.form.ClientLocation === '') {
+        this.errors.push('Client Location Required');
+      }
+      if (this.form.ClientType === '') {
+        this.errors.push('Client Type Required');
+      }
+      if (this.form.ClientPhoneNumber === '') {
+        this.errors.push('Client Phone Nunmber Required');
+      }
+      if (this.form.ClientEmail === '') {
+        this.errors.push('Client Email Required');
+      }
+      if (this.form.ClientOffice === '') {
+        this.errors.push('Client Office Code Required');
+      }
+      if (this.errors.length === 0) {
+        //this.authenticate(); add this back in when we are done with testing
+        this.redirecting();
+        this.updatePage();
+      }
+//      this.redirecting('/NewClient');
+    },
     redirecting() {
       fetch(api.addClient, {
         method: 'post',
@@ -223,13 +350,13 @@ export default {
         body: JSON.stringify({
           ClientName: this.form.ClientName,
           ClientID: this.form.ClientID,
-          ClientOfficeCode: 'BNE',
+          ClientOfficeCode: this.form.ClientOffice,
           ClientABNNumber: this.form.ClientABN,
           ClientACNNumber: this.form.ClientACN,
-          ClientTypeCode: this.form.projecttypecode,
+          ClientTypeCode: this.form.ClientType,
           FirstName: this.form.ClientFirstName,
           LastName: this.form.ClientLastName,
-          ClientLocationCode: this.form.projectlocationcode,
+          ClientLocationCode: this.form.ClientLocation,
           StreetAddress: this.form.ClientAddress,
           StreetSuburb: this.form.ClientSuburb,
           StreetPostcode: this.form.ClientPostcode,
@@ -258,6 +385,7 @@ export default {
           this.form.ClientACN = data.ClientACNNumber;
           this.form.ClientType = data.ClientTypeCode;
           this.form.ClientLocation = data.ClientLocationCode;
+          this.form.ClientOffice = data.ClientOfficeCode;
           this.form.ClientFirstName = data.FirstName;
           this.form.ClientLastName = data.LastName;
           this.form.ClientPhoneNumber = data.PhoneNumber;
@@ -286,7 +414,7 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           switch (method) {
-            case api.getOptionLocations:
+            case api.getClientLocations:
               this.options.locations = data;
               break;
             case api.getOptionTypes:
@@ -319,6 +447,7 @@ export default {
         ClientACN: '',
         ClientType: '',
         ClientLocation: '',
+        ClientOffice: '',
         ClientFirstName: '',
         ClientLastName: '',
         ClientPhoneNumber: '',

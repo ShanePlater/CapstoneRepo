@@ -126,7 +126,7 @@
 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
-              <el-button type="primary" @click="validate">Add New Project</el-button>
+              <el-button type="primary" @click="validate">Update Project</el-button>
             </el-form-item>
           </el-form>
             <p v-if="errors.length">
@@ -150,6 +150,10 @@ export default {
   },
   data() {
     return {
+      state: {
+        name: '',
+        token: '',
+      },
       errors: [],
       title: 'Update Project',
       content: '',
@@ -222,9 +226,50 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
+        
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
+      };
+    }
   },
 
   methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }
+        });
+      });
+    },
     pullProjectDetails() {
       fetch(api.getProject, {
         method: 'post',
@@ -291,6 +336,7 @@ export default {
         //  the start and end dates here are they hardcoded or
         //  are they just placeholders where the data gets taken from the datetime picker
         body: JSON.stringify({
+          ID: this.form.projectnumber,
           Name: this.form.projectname,
           ClientID: this.form.ClientID,
           Address: this.form.projectaddress,
@@ -307,6 +353,8 @@ export default {
           Division: this.form.division,
           Director: this.form.projectdirector,
           Manager: this.form.projectmanager,
+          Value: this.form.projectvalue,
+          Description: this.form.projectdescription,
           ArchiveLocation: this.form.archivelocation,
         }),
       });
@@ -344,7 +392,8 @@ export default {
         this.errors.push('Project Description Required');
       }
       if (this.errors.length === 0) {
-        this.authenticate();
+        //this.authenticate();
+        this.redirecting();
         this.updatePage();
       }
 //      this.redirecting('/NewProject');
