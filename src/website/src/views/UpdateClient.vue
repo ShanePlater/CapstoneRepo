@@ -222,7 +222,7 @@ export default {
       this.$router.replace('/updateclient/:id');
     }
     this.pullClientDetails();
-    this.getOptions(api.getOptionLocations);
+    this.getOptions(api.getClientLocations);
     this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
@@ -378,7 +378,7 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           switch (method) {
-            case api.getOptionLocations:
+            case api.getClientLocations:
               this.options.locations = data;
               break;
             case api.getOptionTypes:

@@ -21,6 +21,7 @@ export default {
   getOptionStatuss: `${baseURL}/get/getOptionStatuss`,
   getOptionDivisions: `${baseURL}/get/getOptionDivisions`,
   getOptionOffices: `${baseURL}/get/getOptionOffices`,
+  getClientLocations: `${baseURL}/get/getClientLocations`,
   getOptionCategories: `${baseURL}/get/getOptionCategories`,
   getOptionClients: `${baseURL}/get/getOptionClients`,
   getOptionUsers: `${baseURL}/get/getOptionUsers`,

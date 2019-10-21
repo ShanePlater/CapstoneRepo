@@ -162,8 +162,44 @@ export default {
       title: 'New Client',
       projects: [],
       options: {
-        locations: [],
-        types: [],
+        locations: [
+        {"ID": "1", "Name":	"Brisbane, QLD"},
+        {"ID": "4", "Name":	"North Coast, QLD"},
+        {"ID": "5", "Name":	"South Coast, QLD"},
+        {"ID": "6", "Name":	"International"},
+        {"ID": "7", "Name":	"Other"},
+        {"ID": "8", "Name":	"Melbourne CBD"},
+        {"ID": "9", "Name":	"Melbourne Metro"},
+        {"ID": "10", "Name":	"Country North, VIC"},
+        {"ID": "11", "Name":	"Country East, VIC"},
+        {"ID": "12", "Name":	"Country West, VIC"},
+        {"ID": "13", "Name":	"East Coast, VIC"},
+        {"ID": "14", "Name":	"West Coast, VIC"},
+        {"ID": "15", "Name":	"Wide Bay, QLD"},
+        {"ID": "16", "Name":	"North QLD"},
+        {"ID": "17", "Name":	"NSW"},
+        {"ID": "18", "Name":	"NT"},
+        {"ID": "19", "Name":	"TAS"},
+        {"ID": "20", "Name":	"SA"},
+        {"ID": "21", "Name":	"WA"},
+        {"ID": "22", "Name":	"NZ"},
+        {"ID": "23", "Name":	"ACT"},
+        {"ID": "24", "Name":	"Sydney Metro"},
+        {"ID": "25", "Name":	"Central Queensland"}
+        ],
+        types: [
+        {"ID": "AC", "Name": "Airport Corportation"},
+        {"ID": "C", "Name": "Contracter"},
+        {"ID": "CG", "Name": "Commonwealth Government"},
+        {"ID": "CT", "Name": "Consultant"},
+        {"ID": "D", "Name": "Developer"},
+        {"ID": "GOC", "Name": "Government Corporation"},
+        {"ID": "I", "Name": "Institution"},
+        {"ID": "LG", "Name": "Local Government"},
+        {"ID": "P", "Name": "Private"},
+        {"ID": "PM", "Name": "Project Manager"},
+        {"ID": "SG", "Name": "State Government"}
+        ],
         statuss: [],
         divisions: [],
         offices: [],
@@ -224,8 +260,10 @@ export default {
     if (this.$route.query.res === 'true') {
       this.$router.replace('/NewClient');
     }
-    this.getOptions(api.getOptionLocations);
-    this.getOptions(api.getOptionTypes);
+    //Get Client Locations is broke because of the CCP, Hard code values instead
+    //this.getOptions(api.getClientLocations);
+    //Get Option Types is the Project Types, Client Types doesnt work because of CCP again
+    //this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
@@ -312,7 +350,7 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           switch (method) {
-            case api.getOptionLocations:
+            case api.getClientLocations:
               this.options.locations = data;
               break;
             case api.getOptionTypes:
