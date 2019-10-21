@@ -9,12 +9,12 @@
       <hr>
       <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
       <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
-      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}</p>
-      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}    <el-button type="primary" @click="gotoclient(clientcontent.ClientID)">View Client</el-button></p>
+      <p><strong>Location:</strong> {{ locationame }}</p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
-      <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
-      <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
+      <p><strong>Type:</strong> {{ typename }}</p>
+      <p><strong>Status:</strong> {{ statusname }}</p>
       <p><strong>Start date:</strong> {{ startDate }}</p>
       <p><strong>End date:</strong> {{ endDate }}</p>
     </el-row>
@@ -69,6 +69,16 @@ export default {
       clientURL: '',
       startDate: '',
       endDate: '',
+      locationame: '',
+      typename: '',
+      statusname: '',
+      options: {
+        locations: [],
+        types: [],
+        statuss: [],
+        divisions: [],
+        offices: [],
+      },
       inspections: {
         data: [],
         slice: [],
@@ -80,6 +90,14 @@ export default {
   },
   created() {
     this.pullData();
+    this.getOptions(api.getOptionLocations);
+    this.getOptions(api.getOptionTypes);
+    this.getOptions(api.getOptionStatuss);
+    this.getOptions(api.getOptionDivisions);
+    this.getOptions(api.getOptionOffices);
+    this.setlocation();
+    this.settype();
+    this.setstatus();
   },
   watch: {
     '$route.params.id': 'pullData',
@@ -89,12 +107,81 @@ export default {
     gotoupdate(ProjectNumber) {
       this.$router.push(`/updateproject/${ProjectNumber}`);
     },
+    setlocation() {
+      this.options.locations.forEach((option) => {
+        console.log(option);
+        console.log("Test");
+        if (this.conent.ProjectLocationCode === "NA") {
+          this.locationame = "N/A";
+        }
+        if (this.conent.ProjectLocationCode === "") {
+          this.locationame = "N/A";
+        }
+        if(this.content.ProjectLocationCode === option.ID) {
+          this.locationame = option.Name;
+        }
+      });
+      this.locationame = "Test";
+    },
+    settype() {
+      console.log('were here and were queer');
+      for(option in this.options.types) {
+        console.log(option.ID);
+        console.log('fuck')
+        if(this.content.ProjectTypeCode === option.ID) {
+          this.typename = option.Name;
+        } else {
+          this.typename = 'broke but not totally fucked';
+        }
+      }
+    },
+    setstatus() {
+      var option;
+      for(option in this.options.statuss) {
+        if(this.content.ProjectStatusCode === option.ID) {
+          this.statusname = option.Name;
+        }
+      }
+    },
+    getOptions(method) {
+      fetch(method, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          switch (method) {
+            case api.getOptionLocations:
+              this.options.locations = data;
+              break;
+            case api.getOptionTypes:
+              this.options.types = data;
+              break;
+            case api.getOptionStatuss:
+              this.options.statuss = data;
+              break;
+            case api.getOptionDivisions:
+              this.options.divisions = data;
+              break;
+            case api.getOptionOffices:
+              this.options.offices = data;
+              break;
+            default:
+          }
+        });
+      });
+    },
     pullData() {
       this.pullProjectDetails();
       this.searchInspections();
     },
     gotonewinspection(projectnumberid) {
       this.$router.push(`/siteinspection/${projectnumberid}`);
+    },
+    gotoclient(clientid) {
+      this.$router.push(`/client/${clientid}`);
     },
     pullProjectDetails() {
       fetch(api.getProject, {
