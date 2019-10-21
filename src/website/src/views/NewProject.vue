@@ -356,6 +356,7 @@ export default {
         this.redirecting();
         this.updatePage();
       }
+      this.updatePage();
 //      this.redirecting('/NewProject');
     },
     getOptions(method) {
