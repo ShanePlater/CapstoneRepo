@@ -58,8 +58,7 @@ what this page needs:
                 <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item> 
-            <el-form-item label="Authorised Date:">
-              <div class="demonstration">Value: {{form.authorizedDate}} </div>
+            <el-form-item label="Authorised Date:">            
                 <!-- single date pick dont need range-->
               <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date" format="yyyy/MM/dd" value-format='YYYY-MM-DD'>
               
@@ -71,7 +70,7 @@ what this page needs:
               <el-button type="primary" @click="validate">Create</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="doNothing">Cancel</el-button>
+              <el-button type="primary" @click="cancel">Cancel</el-button>
             </el-form-item>
           </el-form>
             <p v-if="errors.length">
@@ -202,8 +201,7 @@ export default {
       //console.log(extCheck);
       if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
         this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed'); 
-        this.$refs.upload.abort();          
-       
+        this.$refs.upload.abort();                
       }
     },
     handleChange(file) {
@@ -216,7 +214,7 @@ export default {
       this.errors.push(err);     
       this.updatePage();
     },
-    doNothing() {
+    cancel() {
 
     },
   },

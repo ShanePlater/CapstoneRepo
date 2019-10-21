@@ -352,6 +352,7 @@ export default {
         this.authenticate();
         this.updatePage();
       }
+      this.updatePage();
 //      this.redirecting('/NewProject');
     },
     getOptions(method) {
