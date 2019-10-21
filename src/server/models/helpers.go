@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"server/config"
 	"server/orm"
+	"server/types"
 	"sync"
 )
 
@@ -214,4 +215,20 @@ func (c *Context) ReloadCache() *sync.Map {
 
 	fmt.Println("controllers/getProjectSiteInspections.go  Past Table Reloading")
 	return m
+}
+
+//SwapProjLocCode returns the location code for the location name
+func (c *Context) SwapProjLocCode(data *types.NameForCodes) *types.NameForCodes {
+	var names *types.NameForCodes
+	// Get each of the tables required
+	// then get the code-name pair and return the NAMES in the data structure
+	// this will then be pushed back up to controllers and returned to the front end
+	/*
+		projloccodes, err := c.GetProjectLocationsTable().Load(data.ProjectLocationCode)
+		if err != true {
+			fmt.Println(err)
+		}
+	*/
+
+	return names
 }

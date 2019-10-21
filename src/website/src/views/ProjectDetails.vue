@@ -111,10 +111,10 @@ export default {
       this.options.locations.forEach((option) => {
         console.log(option);
         console.log("Test");
-        if (this.conent.ProjectLocationCode === "NA") {
+        if (this.content.ProjectLocationCode === "NA") {
           this.locationame = "N/A";
         }
-        if (this.conent.ProjectLocationCode === "") {
+        if (this.content.ProjectLocationCode === "") {
           this.locationame = "N/A";
         }
         if(this.content.ProjectLocationCode === option.ID) {
@@ -203,6 +203,27 @@ export default {
           if (this.content.ProjectEndDate !== '') {
             this.endDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectEndDate));
           }
+          swapCodesForNames(this.content.ProjectLocationCode, this.content.ProjectTypeCode, this.content.ProjectStatusCode);
+        });
+      });
+    },
+    swapCodesForNames(ProjLocationCode, ProjTypeCode, ProjStatusCode){
+      fetch(api.swapCodes, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ProjectLocationCode: ProjLocationCode,
+          ProjectTypeCode: ProjTypeCode,
+          ProjectStatusCode: ProjStatusCode,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.locationame = data.ProjectLocationCode;
+          this.typename = data.ProjectTypeCode;
+          this.statusname = data.statusname;
         });
       });
     },
