@@ -11,19 +11,19 @@ import (
 func CreateOrUpdateClients(p *Clients, db *gorm.DB) error {
 	fmt.Println("orm/Clients.go/createOrUpdateClientss to create Client in orm")
 	// Update record.
-	/*
-		if p.ClientID != "0" {
-			r := &Clients{ClientID: p.ClientID}
-			db.First(r)
-			fmt.Println("clientID not 0")
-			if err := db.Model(r).Updates(p).Error; err != nil {
-				fmt.Println("err")
-				return err
-			}
 
-			return nil
+	if p.ClientID != "0" {
+		r := &Clients{ClientID: p.ClientID}
+		db.First(r)
+		fmt.Println("clientID not 0")
+		if err := db.Model(r).Updates(p).Error; err != nil {
+			fmt.Println("err")
+			return err
 		}
-	*/
+
+		return nil
+	}
+
 	fmt.Println("survived 1st if")
 
 	// Create record.

@@ -120,7 +120,7 @@ type Projects struct {
 
 // Clients is Clients table.
 type Clients struct {
-	//ClientID              string `gorm:"primary_key;type:int;column:ClientID"`
+	ClientID              string `gorm:"primary_key;type:int;column:ClientID"`
 	ClientOfficeCode      string `gorm:"type:nvarchar(MAX);column:ClientOfficeCode"`
 	ClientName            string `gorm:"type:nvarchar(MAX);column:ClientName"`
 	ClientABNNumber       string `gorm:"type:nvarchar(MAX);column:ClientABNNumber"`
