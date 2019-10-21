@@ -28,13 +28,13 @@
             </el-form-item>
 
             <el-form-item label="Location">
-              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
                 <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="Type">
-              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+              <el-select v-model="form.ClientType" placeholder="Pick a type">
                 <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item>
@@ -121,11 +121,17 @@
             <el-form-item label="Postcode">
               <el-input v-model="form.ClientPostcodePostal"></el-input>
             </el-form-item>
-            
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+              </ul>
+            </p>
+   
 
             <!-- shane fix this -->
             <el-form-item>
-              <el-button type="primary" @click="redirecting">Add New Client</el-button>
+              <el-button type="primary" @click="redirecting">Update Client</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -148,6 +154,7 @@ export default {
         name: '',
         token: '',
       },
+      errors: '',
       title: 'Update Client',
       content: '',
       projects: [],
@@ -263,6 +270,39 @@ export default {
           }
         });
       });
+    },
+    validate() {
+      this.errors = [];
+      if (this.form.ClientName === '') {
+        this.errors.push('Client Name Required');
+      }
+      if (this.form.ClientABN === '') {
+        this.errors.push('Client ABN Required');
+      }
+      if (this.form.ClientACN === '') {
+        this.errors.push('Client ACN Required');
+      }
+      if (this.form.ClientLocation === '') {
+        this.errors.push('Client Location Required');
+      }
+      if (this.form.ClientType === '') {
+        this.errors.push('Client Type Required');
+      }
+      if (this.form.ClientPhoneNumber === '') {
+        this.errors.push('Client Phone Nunmber Required');
+      }
+      if (this.form.ClientEmail === '') {
+        this.errors.push('Client Email Required');
+      }
+      if (this.form.ClientOffice === '') {
+        this.errors.push('Client Office Code Required');
+      }
+      if (this.errors.length === 0) {
+        //this.authenticate(); add this back in when we are done with testing
+        this.redirecting();
+        this.updatePage();
+      }
+//      this.redirecting('/NewClient');
     },
     redirecting() {
       fetch(api.addClient, {
