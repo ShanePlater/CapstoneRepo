@@ -10,11 +10,29 @@
       <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
       <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
       <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}    <el-button type="primary" @click="gotoclient(clientcontent.ClientID)">View Client</el-button></p>
-      <p><strong>Location:</strong> {{ locationame }}</p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
-      <p><strong>Type:</strong> {{ typename }}</p>
-      <p><strong>Status:</strong> {{ statusname }}</p>
+      <el-form ref="form" :model="form" label-width="10px" label-position="left">
+      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+      <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+      <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
+                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+      </el-form>
+
       <p><strong>Start date:</strong> {{ startDate }}</p>
       <p><strong>End date:</strong> {{ endDate }}</p>
     </el-row>
@@ -72,6 +90,11 @@ export default {
       locationame: '',
       typename: '',
       statusname: '',
+      form: {
+        projectlocationcode: '',
+        projecttypecode: '',
+        projectstatuscode: '',
+      },
       options: {
         locations: [],
         types: [],
@@ -95,9 +118,6 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
-    this.setlocation();
-    this.settype();
-    this.setstatus();
   },
   watch: {
     '$route.params.id': 'pullData',
@@ -106,42 +126,6 @@ export default {
   methods: {
     gotoupdate(ProjectNumber) {
       this.$router.push(`/updateproject/${ProjectNumber}`);
-    },
-    setlocation() {
-      this.options.locations.forEach((option) => {
-        console.log(option);
-        console.log("Test");
-        if (this.content.ProjectLocationCode === "NA") {
-          this.locationame = "N/A";
-        }
-        if (this.content.ProjectLocationCode === "") {
-          this.locationame = "N/A";
-        }
-        if(this.content.ProjectLocationCode === option.ID) {
-          this.locationame = option.Name;
-        }
-      });
-      this.locationame = "Test";
-    },
-    settype() {
-      console.log('were here and were queer');
-      for(option in this.options.types) {
-        console.log(option.ID);
-        console.log('fuck')
-        if(this.content.ProjectTypeCode === option.ID) {
-          this.typename = option.Name;
-        } else {
-          this.typename = 'broke but not totally fucked';
-        }
-      }
-    },
-    setstatus() {
-      var option;
-      for(option in this.options.statuss) {
-        if(this.content.ProjectStatusCode === option.ID) {
-          this.statusname = option.Name;
-        }
-      }
     },
     getOptions(method) {
       fetch(method, {
@@ -196,6 +180,9 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
+          this.form.projectlocationcode = data.ProjectLocationCode;
+          this.form.projecttypecode = data.ProjectTypeCode;
+          this.form.projectstatuscode = data.ProjectStatusCode;
           this.pullClientDetails(data.ClientID);
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
@@ -203,27 +190,6 @@ export default {
           if (this.content.ProjectEndDate !== '') {
             this.endDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectEndDate));
           }
-          swapCodesForNames(this.content.ProjectLocationCode, this.content.ProjectTypeCode, this.content.ProjectStatusCode);
-        });
-      });
-    },
-    swapCodesForNames(ProjLocationCode, ProjTypeCode, ProjStatusCode){
-      fetch(api.swapCodes, {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ProjectLocationCode: ProjLocationCode,
-          ProjectTypeCode: ProjTypeCode,
-          ProjectStatusCode: ProjStatusCode,
-        }),
-      }).then((response) => {
-        response.json().then((data) => {
-          this.locationame = data.ProjectLocationCode;
-          this.typename = data.ProjectTypeCode;
-          this.statusname = data.statusname;
         });
       });
     },
