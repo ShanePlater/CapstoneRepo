@@ -9,12 +9,30 @@
       <hr>
       <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
       <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
-      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}</p>
-      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}    <el-button type="primary" @click="gotoclient(clientcontent.ClientID)">View Client</el-button></p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
+      <el-form ref="form" :model="form" label-width="10px" label-position="left">
+      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
       <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
       <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
+                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+      </el-form>
+
       <p><strong>Start date:</strong> {{ startDate }}</p>
       <p><strong>End date:</strong> {{ endDate }}</p>
     </el-row>
@@ -69,6 +87,21 @@ export default {
       clientURL: '',
       startDate: '',
       endDate: '',
+      locationame: '',
+      typename: '',
+      statusname: '',
+      form: {
+        projectlocationcode: '',
+        projecttypecode: '',
+        projectstatuscode: '',
+      },
+      options: {
+        locations: [],
+        types: [],
+        statuss: [],
+        divisions: [],
+        offices: [],
+      },
       inspections: {
         data: [],
         slice: [],
@@ -80,6 +113,11 @@ export default {
   },
   created() {
     this.pullData();
+    this.getOptions(api.getOptionLocations);
+    this.getOptions(api.getOptionTypes);
+    this.getOptions(api.getOptionStatuss);
+    this.getOptions(api.getOptionDivisions);
+    this.getOptions(api.getOptionOffices);
   },
   watch: {
     '$route.params.id': 'pullData',
@@ -89,12 +127,45 @@ export default {
     gotoupdate(ProjectNumber) {
       this.$router.push(`/updateproject/${ProjectNumber}`);
     },
+    getOptions(method) {
+      fetch(method, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          switch (method) {
+            case api.getOptionLocations:
+              this.options.locations = data;
+              break;
+            case api.getOptionTypes:
+              this.options.types = data;
+              break;
+            case api.getOptionStatuss:
+              this.options.statuss = data;
+              break;
+            case api.getOptionDivisions:
+              this.options.divisions = data;
+              break;
+            case api.getOptionOffices:
+              this.options.offices = data;
+              break;
+            default:
+          }
+        });
+      });
+    },
     pullData() {
       this.pullProjectDetails();
       this.searchInspections();
     },
     gotonewinspection(projectnumberid) {
       this.$router.push(`/siteinspection/${projectnumberid}`);
+    },
+    gotoclient(clientid) {
+      this.$router.push(`/client/${clientid}`);
     },
     pullProjectDetails() {
       fetch(api.getProject, {
@@ -109,6 +180,9 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
+          this.form.projectlocationcode = data.ProjectLocationCode;
+          this.form.projecttypecode = data.ProjectTypeCode;
+          this.form.projectstatuscode = data.ProjectStatusCode;
           this.pullClientDetails(data.ClientID);
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
@@ -159,9 +233,9 @@ export default {
           this.inspections.page = 1;
           data.forEach((item) => {
             this.inspections.data.push({
-              ID: item.ID,
+              ID: item.InspectionID,
               InspectedBy: item.InspectedBy,
-              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.Date)),
+              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.InspectionDateTime)),
               InspectionDetails: item.InspectionDetails,
             });
           });

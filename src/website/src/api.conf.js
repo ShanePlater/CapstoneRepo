@@ -38,4 +38,5 @@ export default {
   addSiteInspection: `${baseURL}/post/createOrUpdateProjectSiteInspections`,
   uploadResource: `${baseURL}/post/uploadResource`,
   authRequired: `${baseURL}/post/authRequired`,
+  swapCodes: `${baseURL}/post/swapCodes`,
 };

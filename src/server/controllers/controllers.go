@@ -53,6 +53,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getProjectsSiteInspectionsByProjectNumber", getProjectsSiteInspectionsByProjectNumber)
 	c.handler.Store("createOrUpdateProjectSiteInspections", createOrUpdateProjectSiteInspections)
 	c.handler.Store("authRequired", authRequired)
+	c.handler.Store("swapCodes", swapCodes)
 
 	return c
 

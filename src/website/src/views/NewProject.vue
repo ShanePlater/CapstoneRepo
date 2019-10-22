@@ -18,7 +18,7 @@
             </el-form-item>
 
             <el-form-item label="Project Number">
-              <el-input v-model="form.projectnumber" :disabled="true"></el-input>
+              <el-input v-model="form.projectnumber"></el-input>
             </el-form-item>            
 
             <el-form-item label="Project Name">
@@ -58,6 +58,10 @@
               <el-date-picker v-model="form.StartDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
+            <el-form-item label="End Date:">
+              <el-date-picker v-model="form.EndDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
+              </el-date-picker>
+            </el-form-item>            
 
             <br>
 
@@ -111,6 +115,7 @@
 
           <h4 style="font-size:20px"> Details </h4>
           <!-- Project Details -->
+            <p><strong>Please Ensure that Project Value contains only numbers</strong></p>
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
             </el-form-item>
@@ -201,6 +206,7 @@ export default {
         projecttypecode: '',
         projectstatuscode: '',
         StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
@@ -288,8 +294,8 @@ export default {
           Location: this.form.projectlocationcode,
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
-          StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-01-29 00:00:00',
+          StartDate: this.form.StartDate,
+          EndDate: this.form.EndDate,
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -302,6 +308,7 @@ export default {
           ArchiveLocation: this.form.archivelocation,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     pullClientDetails() {
       fetch(api.getClient, {
@@ -350,6 +357,9 @@ export default {
       }
       if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');
+      }
+      if (this.form.StartDate === '') {
+        this.errors.push('Start Date Required');
       }
       if (this.errors.length === 0) {
         //this.authenticate();
@@ -406,6 +416,7 @@ export default {
         projecttypecode: '',
         projectstatuscode: '',
         StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',

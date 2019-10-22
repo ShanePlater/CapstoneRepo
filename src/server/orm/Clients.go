@@ -3,7 +3,6 @@ package orm
 import (
 	"errors"
 	"fmt"
-	"server/utils"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mssql"
@@ -33,7 +32,7 @@ func CreateOrUpdateClients(p *Clients, db *gorm.DB, ClientID string) error {
 
 	for {
 		db.Last(&last)
-		p.ClientID = utils.Itoa(utils.Atoi(last.ClientID) + 1)
+		//p.ClientID = utils.Itoa(utils.Atoi(last.ClientID) + 1)
 
 		//check := Clients{ClientID: p.ClientID}
 

@@ -253,3 +253,10 @@ type Authenticator struct {
 	Username string
 	Password string
 }
+
+//NameForCodes is used to exchange codes from a given project into user-friendly strings
+type NameForCodes struct {
+	ProjectLocationCode string
+	ProjectTypeCode     string
+	ProjectStatusCode   string
+}

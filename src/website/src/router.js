@@ -19,6 +19,7 @@ import DocumentUpload from '@/views/DocumentUpload';
 import ExistingClientCheck from '@/views/ExistingClientCheck';
 import UpdateClient from '@/views/UpdateClient';
 import UpdateProject from '@/views/UpdateProject';
+import UploadComplete from '@/views/UploadComplete';
 
 Vue.use(Router);
 
@@ -113,6 +114,11 @@ export default new Router({
       path: '/updateclient/:id',
       name: 'Update Client',
       component: UpdateClient,
+    },
+    {
+      path: '/uploadcomplete/:id',
+      name: 'Upload Complete',
+      component: UploadComplete,
     },
     {
       path: '/updateproject/:id',

@@ -339,6 +339,7 @@ export default {
           ClientOffice: this.form.ClientOffice,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     getOptions(method) {
       fetch(method, {

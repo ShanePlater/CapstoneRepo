@@ -55,10 +55,16 @@
             </el-form-item>
 
 
-            <el-form-item label="Start and End Date:">
-              <el-date-picker v-model="form.datePeriod" type="daterange" placeholder="Pick a range" :picker-options="datePicker">
+            <el-form-item label="Start Date:">
+              <el-date-picker v-model="form.StartDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
+
+            <el-form-item label="End Date:">
+              <el-date-picker v-model="form.EndDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
+              </el-date-picker>
+            </el-form-item>            
+
 
             <br>
 
@@ -112,6 +118,7 @@
 
           <h4 style="font-size:20px"> Details </h4>
           <!-- Project Details -->
+          <p><strong>Please Ensure that Project Value contains only numbers</strong></p>
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
             </el-form-item>
@@ -201,7 +208,8 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
@@ -291,7 +299,8 @@ export default {
           this.form.projectsuburb = data.ProjectSuburb;
           this.form.projecttypecode = data.ProjectTypeCode;
           this.form.projectstatuscode = data.ProjectStatusCode;
-          this.form.datePeriod = data.ProjectStartDate;
+          this.form.StartDate = data.startDate;
+          this.form.EndDate = data.endDate;
           this.form.clientrepname = data.ClientRepName;
           this.form.clientrepworknum = data.ClientRepTelephone;
           this.form.clientrepmobnum = data.ClientRepMobile;
@@ -344,8 +353,8 @@ export default {
           Location: this.form.projectlocationcode,
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
-          StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-01-29 00:00:00',
+          StartDate: this.form.StartDate,
+          EndDate: this.form.EndDate,
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -358,6 +367,7 @@ export default {
           ArchiveLocation: this.form.archivelocation,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     validate() {
       this.errors = [];
@@ -390,6 +400,9 @@ export default {
       }
       if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');
+      }
+      if (this.form.StartDate === '') {
+        this.errors.push('Start Date Required');
       }
       if (this.errors.length === 0) {
         //this.authenticate();
@@ -443,7 +456,8 @@ export default {
         projectsuburb: '',
         projecttypecode: '',
         projectstatuscode: '',
-        datePeriod: '',
+        StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
