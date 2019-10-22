@@ -365,6 +365,7 @@ export default {
           EMailAddress: this.form.ClientEmail,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     pullClientDetails() {
       fetch(api.getClient, {

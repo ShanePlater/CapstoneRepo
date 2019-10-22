@@ -118,6 +118,7 @@
 
           <h4 style="font-size:20px"> Details </h4>
           <!-- Project Details -->
+          <p><strong>Please Ensure that Project Value contains only numbers</strong></p>
             <el-form-item label="Project Value: ($)">
               <el-input v-model="form.projectvalue"></el-input>
             </el-form-item>
@@ -366,6 +367,7 @@ export default {
           ArchiveLocation: this.form.archivelocation,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     validate() {
       this.errors = [];

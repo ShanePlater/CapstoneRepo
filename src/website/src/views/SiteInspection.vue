@@ -154,6 +154,7 @@ export default {
           InspectionDetails: this.form.Details,
         }),
       });
+      this.$router.push(`/uploadcomplete/1`);
     },
     validate() {
       this.errors = [];
