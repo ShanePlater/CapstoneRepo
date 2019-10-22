@@ -28,7 +28,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="redirecting">Add Site Inspection</el-button>
+                  <el-button type="primary" @click="validate">Add Site Inspection</el-button>
                 </el-form-item>
 
               </el-form>
@@ -154,6 +154,27 @@ export default {
           InspectionDetails: this.form.Details,
         }),
       });
+    },
+    validate() {
+      this.errors = [];
+      if (this.form.InspectionID === '') {
+        this.errors.push('Inspection ID Required');
+      }
+      if (this.form.projectnumber === '') {
+        this.errors.push('Inspected By Required');
+      }
+      if (this.form.projectname === '') {
+        this.errors.push('Inspection Date Required');
+      }
+      if (this.form.projectlocationcode === '') {
+        this.errors.push('Inspection Details Required');
+      }
+      if (this.errors.length === 0) {
+        //this.authenticate();
+        this.redirecting();
+        //this.updatePage();
+      }
+//      this.redirecting('/NewProject');
     },
   },
 };
