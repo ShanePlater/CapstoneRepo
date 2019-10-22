@@ -267,9 +267,9 @@ export default {
           this.inspections.page = 1;
           data.forEach((item) => {
             this.inspections.data.push({
-              ID: item.ID,
+              ID: item.InspectionID,
               InspectedBy: item.InspectedBy,
-              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.Date)),
+              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.InspectionDateTime)),
               InspectionDetails: item.InspectionDetails,
             });
           });
