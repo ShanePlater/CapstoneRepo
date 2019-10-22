@@ -27,21 +27,25 @@ what this page needs:
           <h2 style="font-size:20px"> Document Information </h2>
          
           <!-- document information -->
-            <el-form-item label="Select File:">              
+            <el-form-item label="Select File:"> {{this.fileChangeNotice}}             
               <el-upload
                 action="/api/v1/post/uploadResource" 
-                ref="upload" 
-                name="file"
-                accept=".xlsx, .docx, .ppsx, .pdf"
-                :multiple='false'               
-                :auto-upload="false" 
-                :on-success="handleSuccess"
-                :on-error="handleError"
-                :on-change="handleChange"                                                     
-                :data="form"> <!-- change on-change to on-exceed -->
-              <el-button slot="trigger" size="small" type="primary">Select file</el-button>
-              </el-upload>
-            </el-form-item>            
+                ref="upload"
+                name="file" 
+                accept=".xlsx, .docx, .ppsx, .pdf"    
+                :multiple="false"                                                                       
+                :on-success="handleSuccess" 
+                :on-error="handleError" 
+                :on-change="handleChange" 
+                :before-remove="handleRemoveCheck"
+                :on-remove="handleRemove"                                                                                                                                                 
+                :data="form"
+                :auto-upload="false"> 
+              <el-button slot="trigger" size="small" type="primary" :disabled="disabledToggle" >Select file</el-button>  
+              <el-button size="small"   type="primary" @click="clearFileList" :disabled="!disabledToggle">Remove File</el-button>                          
+            </el-form-item>  
+            
+                      
             <el-form-item label="Category:">
               <el-select v-model="form.categoryID" placeholder="Select A Category">
                 <el-option v-for="option in options.categories" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
@@ -54,24 +58,23 @@ what this page needs:
               <el-input v-model="form.fileRevision"></el-input>
             </el-form-item>
             <el-form-item label="Authorised By:">
+              <!-- the division code for the user list is set indide server/models/utils.go within the getOptions method -->
               <el-select v-model="form.authorizedBy" placeholder="Select Personnel">
                 <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
               </el-select>
             </el-form-item> 
             <el-form-item label="Authorised Date:">            
                 <!-- single date pick dont need range-->
-              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date" format="yyyy/MM/dd" value-format='YYYY-MM-DD'>
+              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date" format="yyyy/MM/dd" value-format='yyyy-MM-dd'>
               
               </el-date-picker> 
             </el-form-item>
             <br> 
             <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
             <el-form-item>
-              <el-button type="primary" @click="validate">Create</el-button>
-            </el-form-item>
-            <el-form-item>
+              <el-button type="primary" @click="validate">Submit</el-button>
               <el-button type="primary" @click="cancel">Cancel</el-button>
-            </el-form-item>
+            </el-form-item>           
           </el-form>
             <p v-if="errors.length">
               <b>Please correct the following error(s):</b>
@@ -94,12 +97,14 @@ export default {
   },
   data() {
     return {  
+      disabledToggle: false,
       state: {
         name: '',
         token: '',
       },                  
       errors: [],
-      uploadFile: '',
+      fileChangeNotice: '',
+      uploadFile: '',             
       title: 'Upload New Document',     
       options: {
         categories: [],
@@ -162,20 +167,23 @@ export default {
         response.json().then((data) => {
           if (data.Username === 'Success') {
             this.redirecting();
+          }else if(data.Error === 'Unauthorized'){
+            this.errors.push("you are not autherized up perform this action, please login to continue");           
           }
         });
       });
     },
     redirecting() {
+        console.log(this.$refs.upload.files);
         var d = new Date(this.form.authorizedDate);
         var dateConv = d.toISOString();
         this.form.authorizedDate = dateConv;
-       
+        console.log("submitting file");
         this.$refs.upload.submit();
     },
-    validate() {
-      this.errors = [];     
-      if(this.uploadFile ===''){
+    validate() {   
+      this.errors = [];        
+      if(this.uploadFile === ''){
         this.errors.push('File not attatched');
       }else{
         this.fileTypeCheck();
@@ -196,10 +204,13 @@ export default {
         this.errors.push('Authorization Date Required');
       }
       if (this.errors.length === 0) {          
-        this.redirecting(); 
-        this.updatePage();       
+        this.authenticate();          
+        console.log("no errors");              
+      }else{   
+        // this.$refs.upload.abort();          
+        console.log("errors");
       }      
-      this.updatePage();
+        this.updatePage();
     },
     getOptions(method) {
       fetch(method, {
@@ -224,42 +235,92 @@ export default {
     },
     updatePage() {
       // this is called if the page refreshes upon upload
+      
       if (this.$route.query.res === 'true') {
-        this.title = 'Upload New Document';
-        this.form = {       
+        this.title = 'Upload New Document';        
+        return;
+      }
+      this.title = 'Upload New Document';                
+    },
+    fileTypeCheck() {
+      var path = require('path');
+      console.log(this.uploadFile);
+      var extCheck =  path.extname(this.uploadFile);
+      console.log(extCheck);
+      if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
+        this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed');                     
+      }
+    },
+    handleChange(file) {
+      console.log('change triggered');
+      if (this.uploadFile === '') { // file upload
+        this.fileChangeNotice = 'To change files, first remove the existing file from the form';
+        this.uploadFile = file.name; 
+        this.disabledToggle = true;         
+      } else if (this.uploadFile === "-1") {
+        this.clearData();
+      } else if (this.uploadFile === "-2"){
+        this.clearFileList();
+        this.fileChangeNotice = '';
+      }                
+    },
+    handleSuccess(response, file){   
+      this.uploadFile = '-1';      
+      console.log('success triggered');        
+      this.$message({
+          type: 'info',
+          message: 'file uploaded successfully',         
+        });     
+      this.updatePage();      
+    },    
+    handleError(err, file) {   
+      this.uploadFile = '-2';   
+      this.errors.push('there was an error while attempting to submit your request');
+      // based on error message either ask user if they want to edit the existing entry
+      // or display other error message ( could be file saving issues i was unable to force any other errors)
+      this.errors.push(err.message); 
+      console.log('error triggered');          
+      this.updatePage();      
+    }, 
+    handleRemove(){
+      this.clearData();
+    }, 
+    clearFileList() {
+        this.uploadFile = '';
+        this.$refs.upload.clearFiles();
+        this.disabledToggle = false;
+    },  
+    clearData() {
+      this.$refs.upload.clearFiles(); 
+      this.uploadFile='';  
+      this.disabledToggle = false;
+      this.fileChangeNotice = '';    
+      this.form = {       
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
         authorizedDate: '',
         categoryID: '',        
-        };
-        return;
-      }
-      this.title = 'Upload New Document';      
-      
-    },
-    fileTypeCheck() {
-      var path = require('path');
-      //console.log(this.uploadFile)
-      var extCheck =  path.extname(this.uploadFile);
-      //console.log(extCheck);
-      if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
-        this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed'); 
-        this.$refs.upload.abort();                
-      }
-    },
-    handleChange(file) {
-      this.uploadFile = file.name;
-    },
-    handleSuccess(response, file){            
-      this.updatePage();      
-    },    
-    handleError(err, file) {
-      this.errors.push(err);     
-      this.updatePage();
+      };
     },
     cancel() {
-
+      this.$confirm('You have unsaved changes, do you wish to proceed?', 'Confirm', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',        
+      }).then(() => {
+        this.$message({
+          type: 'info',
+          message: 'Returning home',         
+        });
+        this.$router.push('/');
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'action canceled',
+        });
+      });
+      
     },
   },
 };

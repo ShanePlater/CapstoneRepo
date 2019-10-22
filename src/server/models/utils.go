@@ -50,7 +50,7 @@ func inTimePeriod(start, end, check string) bool {
 func (c *Context) GetOptions(name string) interface{} {
 	// Set given time period.
 	res := &copy{reserveInt: []int{45}}
-
+	// the reserve int here is set to 45 for the division of users returned for the document upload page
 	// Obtain records.
 	switch name {
 	case "getOptionLocations":
