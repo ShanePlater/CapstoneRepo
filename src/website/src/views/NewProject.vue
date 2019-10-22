@@ -18,7 +18,7 @@
             </el-form-item>
 
             <el-form-item label="Project Number">
-              <el-input v-model="form.projectnumber" :disabled="true"></el-input>
+              <el-input v-model="form.projectnumber"></el-input>
             </el-form-item>            
 
             <el-form-item label="Project Name">

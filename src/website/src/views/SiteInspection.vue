@@ -160,13 +160,13 @@ export default {
       if (this.form.InspectionID === '') {
         this.errors.push('Inspection ID Required');
       }
-      if (this.form.projectnumber === '') {
+      if (this.form.InspectedBy === '') {
         this.errors.push('Inspected By Required');
       }
-      if (this.form.projectname === '') {
+      if (this.form.InspectionDate === '') {
         this.errors.push('Inspection Date Required');
       }
-      if (this.form.projectlocationcode === '') {
+      if (this.form.InspectionDetails === '') {
         this.errors.push('Inspection Details Required');
       }
       if (this.errors.length === 0) {
