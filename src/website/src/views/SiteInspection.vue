@@ -18,17 +18,17 @@
                   <el-input v-model="form.InspectedBy"></el-input>
                 </el-form-item>       
 
-                <el-form-item label="Inspection Date:">
-                  <el-date-picker v-model="form.InspectionDate" type="date" placeholder="Pick a range">
-                  </el-date-picker>
-                </el-form-item>
+            <el-form-item label="End Date:">
+              <el-date-picker v-model="form.InspectionDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
+              </el-date-picker>
+            </el-form-item>          
 
                 <el-form-item label="Details:">
                   <el-input v-model="form.Details" type="textarea"></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="authenticate">Add Site Inspection</el-button>
+                  <el-button type="primary" @click="redirecting">Add Site Inspection</el-button>
                 </el-form-item>
 
               </el-form>
@@ -150,7 +150,7 @@ export default {
           ProjectNumber: this.form.ProjectNumber,
           InspectionID: this.form.InspectionNumber,
           InspectedBy: this.form.InspectedBy,
-          InspectionDateTime: '1999-01-29 00:00:00',
+          InspectionDateTime: this.form.InspectionDate,
           InspectionDetails: this.form.Details,
         }),
       });

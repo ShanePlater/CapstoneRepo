@@ -57,12 +57,12 @@ func swapCodes(g *gin.Context, m *models.Context) {
 		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss CategoryID"})
 		return
 	}
-	//if getting the data was good
-	if res, ok := m.SwapProjLocCode(&data); ok {
-		// Serve the result.
-		g.JSON(http.StatusOK, res)
-		return
-	}
+	/* 	//if getting the data was good
+	   	if res, ok := m.SwapProjLocCode(&data); ok {
+	   		// Serve the result.
+	   		g.JSON(http.StatusOK, res)
+	   		return
+	   	} */
 
 	// Serve the result.
 	// -1 is meant to ignore number of document records (get as more as possible).

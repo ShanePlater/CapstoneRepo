@@ -58,6 +58,10 @@
               <el-date-picker v-model="form.StartDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
+            <el-form-item label="End Date:">
+              <el-date-picker v-model="form.EndDate" type="date" placeholder="Pick a range" format="yyyy/MM/dd" value-format="yyyy-MM-dd">
+              </el-date-picker>
+            </el-form-item>            
 
             <br>
 
@@ -201,6 +205,7 @@ export default {
         projecttypecode: '',
         projectstatuscode: '',
         StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
@@ -288,8 +293,8 @@ export default {
           Location: this.form.projectlocationcode,
           Type: this.form.projecttypecode,
           Status: this.form.projectstatuscode,
-          StartDate: '1999-01-29 00:00:00',
-          EndDate: '1999-01-29 00:00:00',
+          StartDate: this.form.StartDate,
+          EndDate: this.form.EndDate,
           CRName: this.form.clientrepname,
           CRPhone: this.form.clientrepworknum,
           CRMobile: this.form.clientrepmobnum,
@@ -351,6 +356,9 @@ export default {
       if (this.form.projectdescription === '') {
         this.errors.push('Project Description Required');
       }
+      if (this.form.StartDate === '') {
+        this.errors.push('Start Date Required');
+      }
       if (this.errors.length === 0) {
         //this.authenticate();
         this.redirecting();
@@ -406,6 +414,7 @@ export default {
         projecttypecode: '',
         projectstatuscode: '',
         StartDate: '',
+        EndDate: '',
         clientrepname: '',
         clientrepworknum: '',
         clientrepmobnum: '',
