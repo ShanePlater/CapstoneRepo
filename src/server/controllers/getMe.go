@@ -53,7 +53,6 @@ func getMe(g *gin.Context, m *models.Context) {
 		return
 	}
 	fmt.Println("controllers/adauth. before returning token")
-	//token := md5.New()
 	//token.Write([]byte(data.Username + strconv.FormatInt(time.Now().Unix(), 10) + data.Password))
 	// Serve the result.
 	//g.JSON(http.StatusOK, gin.H{"Token": hex.EncodeToString(token.Sum(nil))})
