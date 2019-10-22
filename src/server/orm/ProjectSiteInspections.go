@@ -1,7 +1,6 @@
 package orm
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
@@ -29,16 +28,12 @@ func CreateOrUpdateProjectSiteInspections(p *Projectssiteinspections, db *gorm.D
 	fmt.Println("record created")
 	// Generate new primary key.
 
-	if err := db.Create(p).Error; err != nil {
+	if err := db.Save(p).Error; err != nil {
 		fmt.Println("orm/Clients.go/createOrUpdateSiteInspection theres an error where it calles the Create() function")
 		fmt.Println(err)
 		return err
 	}
 
-	// Check if News is created successfully.
-	if db.NewRecord(p) {
-		return errors.New("This always returns false, we don't know why")
-	}
-
+	fmt.Println("orm/Clients.go/createOrUpdateSiteInspection all one big jebait")
 	return nil
 }
