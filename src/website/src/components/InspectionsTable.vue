@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import api from '@/api.conf';
+
 export default {
   name: 'inspections-table',
   props: {
@@ -31,7 +33,16 @@ export default {
   },
   methods: {
     handleClick(row) {
-      //Call Delete Method Here
+      fetch(api.deleteSiteInspection, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: row,
+        }),
+      });
     },
     getCookie(cname) {
       const name = `${cname}=`;
