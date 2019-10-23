@@ -20,6 +20,7 @@ export default {
   getOptionTypes: `${baseURL}/get/getOptionTypes`,
   getOptionStatuss: `${baseURL}/get/getOptionStatuss`,
   getOptionDivisions: `${baseURL}/get/getOptionDivisions`,
+  getOptionFriendlyDivisions: `${baseURL}/get/getOptionFriendlyDivisions`,
   getOptionOffices: `${baseURL}/get/getOptionOffices`,
   getClientLocations: `${baseURL}/get/getClientLocations`,
   getOptionCategories: `${baseURL}/get/getOptionCategories`,

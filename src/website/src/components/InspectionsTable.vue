@@ -8,6 +8,11 @@
     </el-table-column>
     <el-table-column prop="InspectionDetails" label="Details" :show-overflow-tooltip="true">
     </el-table-column>
+    <el-table-column>
+      <template scope="scope">
+        <el-button class="btn" size="small" type="text" icon="el-icon-document-add" @click="handleClick(scope.row)">Delete</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -16,6 +21,11 @@ export default {
   name: 'inspections-table',
   props: {
     table: Array,
+  },
+  methods: {
+    handleClick(row) {
+      //Call Delete Method Here
+    },
   },
 };
 </script>

@@ -130,7 +130,7 @@ func (c *Context) CreateOrUpdateResource(data *types.Resource) error {
 		DownloadCount:    "0",
 		CategoryID:       utils.Itoa(data.CategoryID),
 	}
-	if err := orm.CreateAttachedResource(&r, c.db); err != nil {
+	if err := orm.CreateOrUpdateAttachedResource(&r, c.db); err != nil {
 		fmt.Println("Models/ Error in CompanyDocumentResources.go")
 		return err
 	}

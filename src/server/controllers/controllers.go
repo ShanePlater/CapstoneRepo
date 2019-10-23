@@ -34,6 +34,7 @@ func New(m *models.Context) *Context {
 	c.handler.Store("getOptionTypes", getOptions)
 	c.handler.Store("getOptionStatuss", getOptions)
 	c.handler.Store("getOptionDivisions", getOptions)
+	c.handler.Store("getOptionFriendlyDivisions", getOptions)
 	c.handler.Store("getOptionOffices", getOptions)
 	c.handler.Store("getClientLocations", getOptions)
 	c.handler.Store("getOptionCategories", getOptions)

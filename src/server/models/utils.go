@@ -49,7 +49,7 @@ func inTimePeriod(start, end, check string) bool {
 // Divisions table, and Offices table.
 func (c *Context) GetOptions(name string) interface{} {
 	// Set given time period.
-	res := &copy{reserveInt: []int{45}}
+	res := &copy{reserveInt: []int{45, 10, 5}}
 	// the reserve int here is set to 45 for the division of users returned for the document upload page
 	// Obtain records.
 	switch name {
@@ -84,6 +84,9 @@ func (c *Context) GetOptions(name string) interface{} {
 		res.reserveString = append(res.reserveString, "Username", "UserName")
 
 		c.GetUsersTable().Range(res.rangeUserOptionsByDivCode)
+	case "getOptionFriendlyDivisions":
+		res.reserveString = append(res.reserveString, "DivisionCode", "DivisionCode")
+		c.GetDivisionsTable().Range(res.rangeDivOptions)
 	default:
 	}
 
@@ -118,6 +121,20 @@ func (a *copy) rangeOptions(key, value interface{}) bool {
 
 	a.reserveString = append(a.reserveString, name)
 	// Return true for keep looping through map. Otherwise, loop exit.
+	return true
+}
+func (a *copy) rangeDivOptions(key, value interface{}) bool {
+
+	v := reflect.ValueOf(value)
+	/// currently only allows one division to be authorizers, if you need more you will need to iterate through the div codes and append to interface
+
+	//if v.FieldByName("DivisionCode").String() == utils.Itoa(a.reserveInt[0]) {
+	a.intf = append(a.intf, types.Option{
+		ID:   v.FieldByName("DivisionCode").String(),
+		Name: v.FieldByName("OfficeCode").String() + " " + v.FieldByName("DivisionName").String(),
+	})
+	//}
+
 	return true
 }
 

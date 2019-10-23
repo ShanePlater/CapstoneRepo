@@ -115,7 +115,7 @@ type Projects struct {
 	ProjectLocationCode   string `gorm:"type:nvarchar(MAX);column:ProjectLocationCode"`
 	ProjectDescription    string `gorm:"type:nvarchar(MAX);column:ProjectDescription"`
 	ProjectValue          string `gorm:"type:decimal(18,0);column:ProjectValue"`
-	//ArchiveLocation       string `gorm:"type:nvarchar(MAX);column:ArchiveLocation"`
+	ProjectArchiveLocation	string `gorm:"type:nvarchar(50);column:ArchiveLocation"`
 }
 
 // Clients is Clients table.

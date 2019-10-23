@@ -18,17 +18,20 @@ func UpdateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
 	return nil
 }
 
-// CreateAttachedResource creates the file record.
-func CreateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
-	
-	if !db.NewRecord(f.FileName) {
-		return errors.New("this file already exists")
-	}
+// CreateOrUpdateAttachedResource creates the file record.
+func CreateOrUpdateAttachedResource(f *Companydocumentresources, db *gorm.DB) error {
 
-	if err := db.Create(f).Error; err != nil {
-		return err
+	if f.FileRevision != "A" && f.FileRevision != "a" {
+		r := &Companydocumentresources{FileName: f.FileName}
+		db.First(r)
+		if err := db.Model(r).Updates(f).Error; err != nil {
+			return err
+		}
+	} else {
+		if err := db.Create(f).Error; err != nil {
+			return err
+		}
 	}
-
 	// Check if new record is stored successfully.
 	if db.NewRecord(f) {
 		return errors.New("fail to create new file entity")

@@ -104,11 +104,15 @@
             </el-form-item>
 
             <el-form-item label="Project Director:">
-              <el-input v-model="form.projectdirector"></el-input>
+              <el-select v-model="form.projectdirector" placeholder="Select Personnel">
+                <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>         
 
              <el-form-item label="Project Manager">
-              <el-input v-model="form.projectmanager"></el-input>
+              <el-select v-model="form.projectmanager" placeholder="Select Personnel">
+                <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
             </el-form-item>
             <br>
 
@@ -168,6 +172,7 @@ export default {
         statuss: [],
         divisions: [],
         offices: [],
+        users: [],
       },
       datePicker: {
         shortcuts: [{
@@ -230,6 +235,7 @@ export default {
     this.getOptions(api.getOptionStatuss);
     this.getOptions(api.getOptionDivisions);
     this.getOptions(api.getOptionOffices);
+    this.getOptions(api.getOptionUsers);
     
     if (this.getCookie('name') !== '') {
       this.state = {
@@ -393,6 +399,9 @@ export default {
               break;
             case api.getOptionOffices:
               this.options.offices = data;
+              break;
+            case api.getOptionUsers:
+              this.options.users = data;
               break;
             default:
           }

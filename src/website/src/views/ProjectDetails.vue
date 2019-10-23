@@ -16,19 +16,25 @@
       <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
             <el-form-item>
               <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
-                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
               </el-select>
             </el-form-item>
       <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
             <el-form-item>
               <el-select v-model="form.projecttypecode" placeholder="Pick a type">
-                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
               </el-select>
             </el-form-item>
       <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
             <el-form-item>
               <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
-                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+             <p><strong>Division:</strong> {{ content.Division }}</p>
+             <el-form-item>
+              <el-select v-model="form.division" placeholder="Pick a division">
+                <el-option v-for="option in options.divisions" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
               </el-select>
             </el-form-item>
       </el-form>
@@ -46,8 +52,7 @@
     </el-row>
     <el-row>
       <h3>Internal Information</h3>
-      <hr>
-      <p><strong>Division:</strong> {{ content.Division }}</p>
+      <hr>   
       <p><strong>Project Director:</strong> {{ content.ProjectDirector }}</p>
       <p><strong>Project Manager:</strong> {{ content.ProjectManager }}</p>
       <p><strong>Project Value $:</strong> {{ content.ProjectValue }}</p>
@@ -94,6 +99,7 @@ export default {
         projectlocationcode: '',
         projecttypecode: '',
         projectstatuscode: '',
+        division: '',
       },
       options: {
         locations: [],
@@ -116,7 +122,7 @@ export default {
     this.getOptions(api.getOptionLocations);
     this.getOptions(api.getOptionTypes);
     this.getOptions(api.getOptionStatuss);
-    this.getOptions(api.getOptionDivisions);
+    this.getOptions(api.getOptionFriendlyDivisions);
     this.getOptions(api.getOptionOffices);
   },
   watch: {
@@ -146,7 +152,7 @@ export default {
             case api.getOptionStatuss:
               this.options.statuss = data;
               break;
-            case api.getOptionDivisions:
+            case api.getOptionFriendlyDivisions:
               this.options.divisions = data;
               break;
             case api.getOptionOffices:
@@ -183,6 +189,7 @@ export default {
           this.form.projectlocationcode = data.ProjectLocationCode;
           this.form.projecttypecode = data.ProjectTypeCode;
           this.form.projectstatuscode = data.ProjectStatusCode;
+          this.form.division = data.Division;
           this.pullClientDetails(data.ClientID);
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
