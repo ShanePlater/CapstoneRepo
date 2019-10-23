@@ -28,7 +28,7 @@ export default {
         name: this.getCookie('name'),
       };
     }
-  }
+  },
   methods: {
     handleClick(row) {
       //Call Delete Method Here

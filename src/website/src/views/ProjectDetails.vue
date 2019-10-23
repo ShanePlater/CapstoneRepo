@@ -129,18 +129,18 @@ export default {
     '$route.params.id': 'pullData',
     page: 'updateSlice',
   },
+
   methods: {
     setType() {
-      console.log("fuckshit")
-      console.log(this.content.ProjectTypeCode);
-      console.log('yote');
-      console.log(this.content.ProjectTypeCode.toString());
       var array = [];
       array = this.options.types;
-      console.log(array.toString());
+      current = this.content.ProjectTypeCode;
+      console.log(this.content.ProjectTypeCode);
       array.forEach(function(element) {
-        console.log("fuckme");
-        console.log(element.ID.toString());
+        if (current === element.ID) {
+          this.content.ProjectTypeCode = element.ID;
+          console.Log(this.content.ProjectTypeCode)
+        }
       });
     },
 
