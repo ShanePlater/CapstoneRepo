@@ -22,10 +22,50 @@ export default {
   props: {
     table: Array,
   },
+  created(){
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+      };
+    }
+  }
   methods: {
     handleClick(row) {
       //Call Delete Method Here
     },
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+  },
+  authenticate() {
+    fetch(api.authRequired, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Username: this.state.name,
+        Password: 'yeet',
+      }),
+    }).then((response) => {
+      response.json().then((data) => {
+        if (data.Username === 'Success') {
+          this.handleClick();
+        }
+      });
+    });
   },
 };
 </script>
