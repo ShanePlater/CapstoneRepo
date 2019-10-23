@@ -83,7 +83,8 @@ func (a *copy) rangeProjectsSiteInspectionsByProjectNumber(key, value interface{
 	return true
 }
 
-func (c *Context) deleteSiteInspection(data *types.ProjectsSiteInspections) {
+//DeleteSiteInspection deletes a given site inspection ID from the database
+func (c *Context) DeleteSiteInspection(data *types.ProjectsSiteInspections) {
 	r := orm.Projectssiteinspections{
 		InspectionID:       data.InspectionID,
 		ProjectNumber:      data.ProjectNumber,
