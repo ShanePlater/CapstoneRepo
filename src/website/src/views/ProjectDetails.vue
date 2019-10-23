@@ -133,15 +133,17 @@ export default {
   methods: {
     setType() {
       var array = [];
+      var current = '';
+      var next = '';
       array = this.options.types;
       current = this.content.ProjectTypeCode;
       console.log(this.content.ProjectTypeCode);
       array.forEach(function(element) {
         if (current === element.ID) {
-          this.content.ProjectTypeCode = element.ID;
-          console.Log(this.content.ProjectTypeCode)
+          next = element.Name;
         }
       });
+      this.content.ProjectTypeCode = next;
     },
 
     gotoupdate(ProjectNumber) {
