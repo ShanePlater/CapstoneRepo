@@ -82,3 +82,18 @@ func (a *copy) rangeProjectsSiteInspectionsByProjectNumber(key, value interface{
 
 	return true
 }
+
+func (c *Context) deleteSiteInspection(data *types.ProjectsSiteInspections) {
+	r := orm.Projectssiteinspections{
+		InspectionID:       data.InspectionID,
+		ProjectNumber:      data.ProjectNumber,
+		InspectedBy:        data.InspectedBy,
+		InspectionDateTime: data.InspectionDateTime,
+		InspectionDetails:  data.InspectionDetails,
+	}
+
+	if err := orm.DeleteProjectSiteInspections(&r, c.db); err != nil {
+		fmt.Println("Models/ Error when deleting DB")
+		fmt.Println(err)
+	}
+}

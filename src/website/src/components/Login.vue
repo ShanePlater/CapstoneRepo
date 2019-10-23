@@ -46,10 +46,9 @@ export default {
     };
   },
   created() {
-    if (this.getCookie('token') !== '') {
+    if (this.getCookie('name') !== '') {
       this.state = {
         name: this.getCookie('name'),
-        token: this.getCookie('token'),
       };
     }
   },

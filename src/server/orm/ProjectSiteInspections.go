@@ -37,3 +37,18 @@ func CreateOrUpdateProjectSiteInspections(p *Projectssiteinspections, db *gorm.D
 	fmt.Println("orm/Clients.go/createOrUpdateSiteInspection all one big jebait")
 	return nil
 }
+
+//DeleteProjectSiteInspections facilitating deletion of old SiteInspections
+func DeleteProjectSiteInspections(p *Projectssiteinspections, db *gorm.DB) error {
+	fmt.Println("orm/projectsiteinspections.go/ to delete site inspection in orm")
+	// Update record.
+
+	if err := db.Delete(p).Error; err != nil {
+		fmt.Println("orm/Clients.go/createOrUpdateSiteInspection theres an error where it calls the delete() function")
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Println("orm/Clients.go/createOrUpdateSiteInspection Record Deleted")
+	return nil
+}

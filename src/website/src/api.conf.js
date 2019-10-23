@@ -40,4 +40,5 @@ export default {
   uploadResource: `${baseURL}/post/uploadResource`,
   authRequired: `${baseURL}/post/authRequired`,
   swapCodes: `${baseURL}/post/swapCodes`,
+  deleteSiteInspection: `${baseURL}/post/deleteSiteInspection`,
 };

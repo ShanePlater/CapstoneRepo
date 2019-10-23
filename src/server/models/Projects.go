@@ -238,7 +238,7 @@ func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
 		Manager:     r.ProjectManager,
 		Value:       r.ProjectValue,
 		Description: r.ProjectDescription,
-		ProjectArchiveLocation: r.ArchiveLocation,
+		//ProjectArchiveLocation: r.ArchiveLocation,
 	}
 
 	return nil
