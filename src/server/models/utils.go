@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"regexp"
 	"server/types"
+	"server/utils"
 	"sort"
 	"strings"
 	"sync"
@@ -134,6 +135,48 @@ func (a *copy) rangeDivOptions(key, value interface{}) bool {
 		Name: v.FieldByName("OfficeCode").String() + " " + v.FieldByName("DivisionName").String(),
 	})
 	//}
+
+	return true
+}
+
+// GetProjectsByClientID return all projects connected to specific company
+func (c *Context) GetProjectsByClientID(data *types.GetByIDJSON) interface{} {
+
+	if utils.Atoi(data.ID) > 0 {
+		res := &copy{context: c,
+			reserveInt: []int{utils.Atoi(data.ID)}}
+		c.GetProjectsTable().Range(res.rangeProjectsByClientID)
+		sort.Sort(byID(res.intf))
+		return res.intf
+	}
+	return nil
+}
+
+func (a *copy) rangeProjectsByClientID(key, value interface{}) bool {
+
+	v := reflect.ValueOf(value)
+	/// currently only allows one division to be authorizers, if you need more you will need to iterate through the div codes and append to interface
+
+	if v.FieldByName("ClientID").String() == utils.Itoa(a.reserveInt[0]) {
+		p := types.Project{
+			ID:         reflect.ValueOf(value).FieldByName("ProjectNumber").String(),
+			Name:       reflect.ValueOf(value).FieldByName("ProjectName").String(),
+			ClientName: reflect.ValueOf(value).FieldByName("ClientRepName").String(),
+			Address:    reflect.ValueOf(value).FieldByName("ProjectAddress").String(),
+		}
+		// Load client entity based on ClientID.
+		if c, ok := a.context.GetClientsTable().Load(reflect.ValueOf(value).FieldByName("ClientID").String()); ok {
+			p.Company = reflect.ValueOf(c).FieldByName("ClientName").String()
+		}
+
+		// Load division entity based on Division.
+		if d, ok := a.context.GetDivisionsTable().Load(reflect.ValueOf(value).FieldByName("Division").String()); ok {
+			p.Division = reflect.ValueOf(d).FieldByName("DivisionName").String()
+		}
+
+		// Pass value to interface in copy.
+		a.intf = append(a.intf, p)
+	}
 
 	return true
 }

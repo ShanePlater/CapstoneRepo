@@ -160,12 +160,14 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           switch (method) {
+            /*
             case api.getClientLocations:
               this.options.locations = data;
               break;
             case api.getOptionTypes:
               this.options.types = data;
               break;
+              */
             case api.getOptionStatuss:
               this.options.statuss = data;
               break;

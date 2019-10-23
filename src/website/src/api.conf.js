@@ -41,4 +41,5 @@ export default {
   authRequired: `${baseURL}/post/authRequired`,
   swapCodes: `${baseURL}/post/swapCodes`,
   deleteSiteInspection: `${baseURL}/post/deleteSiteInspection`,
+  getProjectsByClientID: `${baseURL}/post/getProjectsByClientID`,
 };

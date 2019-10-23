@@ -50,13 +50,13 @@ func deleteSiteInspections(g *gin.Context, m *models.Context) {
 		return
 	}
 
-	//
-	if err := m.deleteSiteInspections(&data); err != nil {
-		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-		fmt.Println("controllers/createOrUpdateProjectSiteInspection.go  there was an error updating or creating the ProjectSiteInspection")
-		return
-	}
-
+	/*
+		if err := m.deleteSiteInspections(&data); err != nil {
+			g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+			fmt.Println("controllers/createOrUpdateProjectSiteInspection.go  there was an error updating or creating the ProjectSiteInspection")
+			return
+		}
+	*/
 	m.ReloadCache()
 	g.JSON(http.StatusOK, data)
 

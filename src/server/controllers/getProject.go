@@ -33,3 +33,22 @@ func getProject(g *gin.Context, m *models.Context) {
 	}
 	g.JSON(http.StatusBadRequest, nil)
 }
+
+func getProjectsByClientID(g *gin.Context, m *models.Context) {
+	var data types.GetByIDJSON
+
+	// Unmarshal application/json and bind to struct.
+	if err := g.BindJSON(&data); err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		return
+	}
+
+	// Return nil if ID is whitespace only or empty.
+	if strings.Replace(data.ID, " ", "", -1) == "" {
+		fmt.Println("controllers/getProject.go  whitespace ID")
+		g.JSON(http.StatusBadRequest, nil)
+		return
+	}
+	res := m.GetProjectsByClientID(&data)
+	g.JSON(http.StatusOK, res)
+}
