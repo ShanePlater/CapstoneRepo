@@ -41,7 +41,7 @@ func createOrUpdateProjectSiteInspections(g *gin.Context, m *models.Context) {
 }
 
 //Deletes a given Site Inspection from the database
-func deleteSiteInspections(g *gin.Context, m *models.Context) {
+func deleteSiteInspection(g *gin.Context, m *models.Context) {
 	var data types.ProjectsSiteInspections
 
 	if err := g.BindJSON(&data); err != nil {
@@ -51,7 +51,7 @@ func deleteSiteInspections(g *gin.Context, m *models.Context) {
 	}
 
 	//
-	if err := m.deleteSiteInspections(&data); err != nil {
+	if err := m.deleteSiteInspection(&data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		fmt.Println("controllers/createOrUpdateProjectSiteInspection.go  there was an error updating or creating the ProjectSiteInspection")
 		return
