@@ -9,7 +9,7 @@
       <hr>
       <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
       <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
-      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}    <el-button type="primary" @click="gotoclient(clientcontent.ClientID)">View Client</el-button></p>
+      <p><strong>Client Name:</strong> <el-button type="text" @click="gotoclient(clientcontent.ClientID)">{{ clientcontent.ClientName }}</el-button></p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
       <el-form ref="form" :model="form" label-width="10px" label-position="left">
@@ -130,6 +130,20 @@ export default {
     page: 'updateSlice',
   },
   methods: {
+    setType() {
+      console.log("fuckshit")
+      console.log(this.content.ProjectTypeCode);
+      console.log('yote');
+      console.log(this.content.ProjectTypeCode.toString());
+      var array = [];
+      array = this.options.types;
+      console.log(array.toString());
+      array.forEach(function(element) {
+        console.log("fuckme");
+        console.log(element.ID.toString());
+      });
+    },
+
     gotoupdate(ProjectNumber) {
       this.$router.push(`/updateproject/${ProjectNumber}`);
     },
@@ -148,6 +162,7 @@ export default {
               break;
             case api.getOptionTypes:
               this.options.types = data;
+              this.setType();
               break;
             case api.getOptionStatuss:
               this.options.statuss = data;
