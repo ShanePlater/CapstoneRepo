@@ -11,27 +11,9 @@
       <p><strong>Name:</strong> {{ content.ClientName }}</p>
       <p><strong>ABN:</strong> {{ content.ClientABNNumber }}</p>
       <p><strong>ACN:</strong> {{ content.ClientACNNumber }}</p>
-
-          <el-form ref="form" :model="form" label-width="20px" label-position="left">
-            <p><strong>Client Location:</strong> {{ content.ClientLocationCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
-                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
-            <p><strong>Client Type:</strong> {{ content.ClientTypeCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.ClientType" placeholder="Pick a type">
-                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
-            <p><strong>Office code:</strong> {{ content.ClientOfficeCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
-                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
+      <p><strong>Client Location:</strong> {{ content.ClientLocationCode }}</p>
+      <p><strong>Client Type:</strong> {{ content.ClientTypeCode }}</p>
+      <p><strong>Office code:</strong> {{ content.ClientOfficeCode }}</p>
     </el-row>
     <el-row>
       <h3>Contact Information</h3>
@@ -150,6 +132,46 @@ export default {
     page: 'updateSlice',
   },
   methods: {
+    setClientLocation() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.locations;
+      current = this.content.ClientLocationCode;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      this.content.ClientLocationCode = next;
+    },
+    setClientType() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.types;
+      current = this.content.ClientTypeCode;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      this.content.ClientTypeCode = next;
+    },
+    setClientOffice() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.offices;
+      current = this.content.ClientOfficeCode;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      this.content.ClientOfficeCode = next;
+    },
+  
     getOptions(method) {
       fetch(method, {
         method: 'get',
@@ -174,6 +196,9 @@ export default {
               break;
             case api.getOptionOffices:
               this.options.offices = data;
+              this.setClientOffice();
+              this.setClientType();
+              this.setClientLocation();
               break;
             default:
           }

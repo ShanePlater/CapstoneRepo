@@ -12,32 +12,9 @@
       <p><strong>Client Name:</strong> <el-button type="text" @click="gotoclient(clientcontent.ClientID)">{{ clientcontent.ClientName }}</el-button></p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
-      <el-form ref="form" :model="form" label-width="10px" label-position="left">
       <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
-                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
       <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
-                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
       <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
-            <el-form-item>
-              <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
-                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
-             <p><strong>Division:</strong> {{ content.Division }}</p>
-             <el-form-item>
-              <el-select v-model="form.division" placeholder="Pick a division">
-                <el-option v-for="option in options.divisions" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
-              </el-select>
-            </el-form-item>
-      </el-form>
 
       <p><strong>Start date:</strong> {{ startDate }}</p>
       <p><strong>End date:</strong> {{ endDate }}</p>
@@ -53,6 +30,7 @@
     <el-row>
       <h3>Internal Information</h3>
       <hr>   
+      <p><strong>Division:</strong> {{ content.Division }}</p>
       <p><strong>Project Director:</strong> {{ content.ProjectDirector }}</p>
       <p><strong>Project Manager:</strong> {{ content.ProjectManager }}</p>
       <p><strong>Project Value $:</strong> {{ content.ProjectValue }}</p>
@@ -145,7 +123,48 @@ export default {
       });
       this.content.ProjectTypeCode = next;
     },
-
+    setLocation() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.locations;
+      current = this.content.ProjectLocationCode;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      if (current === "NA") {
+        next = "N/A";
+      }
+      this.content.ProjectLocationCode = next;
+    },
+    setStatus() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.statuss;
+      current = this.content.ProjectStatusCode;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      this.content.ProjectStatusCode = next;
+    },
+    setDivision() {
+      var array = [];
+      var current = '';
+      var next = '';
+      array = this.options.divisions;
+      current = this.content.Division;
+      array.forEach(function(element) {
+        if (current === element.ID) {
+          next = element.Name;
+        }
+      });
+      this.content.Division = next;
+    },
     gotoupdate(ProjectNumber) {
       this.$router.push(`/updateproject/${ProjectNumber}`);
     },
@@ -161,6 +180,7 @@ export default {
           switch (method) {
             case api.getOptionLocations:
               this.options.locations = data;
+              this.setLocation();
               break;
             case api.getOptionTypes:
               this.options.types = data;
@@ -168,6 +188,7 @@ export default {
               break;
             case api.getOptionStatuss:
               this.options.statuss = data;
+              this.setStatus();
               break;
             case api.getOptionFriendlyDivisions:
               this.options.divisions = data;
