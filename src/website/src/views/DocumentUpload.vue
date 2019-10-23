@@ -111,6 +111,7 @@ export default {
         users: [],
       },      
       form: {
+       // fileNameNoExt: '', // if saving file with filename appended to include version
         friendlyFileName: '',
         fileRevision: '',
         authorizedBy: '',
@@ -173,11 +174,11 @@ export default {
         });
       });
     },
-    redirecting() {
-        console.log(this.$refs.upload.files);
+    redirecting() {       
         var d = new Date(this.form.authorizedDate);
         var dateConv = d.toISOString();
         this.form.authorizedDate = dateConv;
+
         console.log("submitting file");
         this.$refs.upload.submit();
     },
@@ -206,8 +207,7 @@ export default {
       if (this.errors.length === 0) {          
         this.authenticate();          
         console.log("no errors");              
-      }else{   
-        // this.$refs.upload.abort();          
+      }else{                    
         console.log("errors");
       }      
         this.updatePage();
@@ -245,11 +245,12 @@ export default {
     fileTypeCheck() {
       var path = require('path');
       console.log(this.uploadFile);
-      var extCheck =  path.extname(this.uploadFile);
-      console.log(extCheck);
+      var extCheck =  path.extname(this.uploadFile);      
       if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
         this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed');                     
       }
+     // this.form.fileNameNoExt = path.basename(this.uploadFile, extCheck) + this.form.fileRevision + extCheck;     if saving file with name appended to include version 
+      console.log(this.form.fileNameNoExt);
     },
     handleChange(file) {
       console.log('change triggered');

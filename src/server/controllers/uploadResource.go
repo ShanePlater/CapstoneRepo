@@ -26,6 +26,7 @@ func uploadResource(g *gin.Context, m *models.Context) {
 	data.URL = g.Request.FormValue("url")
 
 	fmt.Println(data)
+	//var saveFileName = g.Request.FormValue("fileNameNoExt") // if saving file with filename appended to include version
 
 	table, ok := m.GetCompanyDocumentResourceCategoriesTable().Load(utils.Itoa(data.CategoryID))
 	if !ok {
@@ -36,10 +37,6 @@ func uploadResource(g *gin.Context, m *models.Context) {
 	path := m.GetConf().Get("server.website") + "/static/" + reflect.ValueOf(table).FieldByName("CategoryFolderPath").String() + "/"
 
 	// Check if folder exists.
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		fmt.Println("Making New DIr")
-		os.MkdirAll(path, os.ModeDir)
-	}
 
 	_, err := g.MultipartForm()
 	if err != nil {
@@ -56,11 +53,6 @@ func uploadResource(g *gin.Context, m *models.Context) {
 		return
 	}
 
-	if err := g.SaveUploadedFile(header, path+header.Filename); err != nil {
-		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-		return
-	}
-
 	fmt.Println("Saving Entry  to DB")
 	if err := m.CreateOrUpdateResource(data); err != nil {
 		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
@@ -68,6 +60,17 @@ func uploadResource(g *gin.Context, m *models.Context) {
 		return
 	}
 
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		fmt.Println("Making New DIr")
+		os.MkdirAll(path, os.ModeDir)
+	}
+
+	//if err := g.SaveUploadedFile(header, path+saveFileName); err != nil { // if saving file with filename appended to include version
+	if err := g.SaveUploadedFile(header, path+header.Filename); err != nil {
+		g.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+		return
+	}
+	m.ReloadCache()
 	fmt.Println("Reached the end")
 	g.JSON(http.StatusOK, data)
 }
