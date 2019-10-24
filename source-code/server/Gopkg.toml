@@ -1,0 +1,38 @@
+[[constraint]]
+  name = "github.com/gin-gonic/gin"
+  branch = "master"
+  source = "github.com/gin-gonic/gin"
+
+[[constraint]]
+  name = "github.com/jinzhu/gorm"
+  branch = "master"
+  source = "github.com/jinzhu/gorm"
+
+[[constraint]]
+  name = "github.com/spf13/viper"
+  branch = "master"
+  source = "github.com/spf13/viper"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/gin-contrib/gzip"
+
+[[constraint]]
+  name = "gopkg.in/ldap.v2"
+  version = "2.5.0"
+
+[[constraint]]
+  name = "gopkg.in/ldap.v3"
+  version = "3.0.3"
+
+[[constraint]]
+  name = "gopkg.in/korylprince/go-ad-auth.v2"
+  version = "2.2.0"
+
+[[constraint]]
+  name = "github.com/jtblin/go-ldap-client"
+  version = "0.0.3"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/gin-gonic/contrib"
