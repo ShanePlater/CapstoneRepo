@@ -54,15 +54,6 @@ type Context struct {
 
 	// Users table.
 	users *sync.Map
-
-	//clientlocationcode table
-	clientLocations *sync.Map
-
-	//clienttypecode table
-	clientTypes *sync.Map
-
-	//ProjectSiteInspections table.
-	projectsSiteInspections *sync.Map
 }
 
 // copy is utilized to pass data from interface to another interface.

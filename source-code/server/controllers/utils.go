@@ -1,13 +1,7 @@
 package controllers
 
 import (
-	"fmt"
-	"net/http"
-	"server/models"
-	"server/types"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 // parseTime parse and complete start time and end time.
@@ -42,29 +36,59 @@ func parseTime(start, end *string) error {
 	return nil
 }
 
-func swapCodes(g *gin.Context, m *models.Context) {
-	var data types.NameForCodes
+func authCheck(username, password string) error {
+	/* 	bindusername := "readonly"
+	   	bindpassword := "password"
 
-	// Unmarshal application/json and bind to struct.
-	if err := g.BindJSON(&data); err != nil {
-		g.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-		return
-	}
+	   	l, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", "ldap.example.com", 389))
+	   	if err != nil {
+	   		return err
+	   	}
+	   	defer l.Close()
 
-	// Situation that CategoryID is not set.
-	if data.ProjectLocationCode == "" {
-		fmt.Println("controllers/getProject.go  missing Proj Loc code")
-		g.JSON(http.StatusBadRequest, gin.H{"Error": "Miss CategoryID"})
-		return
-	}
-	/* 	//if getting the data was good
-	   	if res, ok := m.SwapProjLocCode(&data); ok {
-	   		// Serve the result.
-	   		g.JSON(http.StatusOK, res)
-	   		return
+	   	// Reconnect with TLS
+	   	err = l.StartTLS(&tls.Config{InsecureSkipVerify: true})
+	   	if err != nil {
+	   		return err
+	   	}
+
+	   	// First bind with a read only user
+	   	err = l.Bind(bindusername, bindpassword)
+	   	if err != nil {
+	   		return err
+	   	}
+
+	   	// Search for the given username
+	   	searchRequest := ldap.NewSearchRequest(
+	   		"dc=example,dc=com",
+	   		ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
+	   		fmt.Sprintf("(&(objectClass=organizationalPerson)&(uid=%s))", username),
+	   		[]string{"dn"},
+	   		nil,
+	   	)
+
+	   	sr, err := l.Search(searchRequest)
+	   	if err != nil {
+	   		return err
+	   	}
+
+	   	if len(sr.Entries) != 1 {
+	   		return errors.New("User does not exist or too many entries returned")
+	   	}
+
+	   	userdn := sr.Entries[0].DN
+
+	   	// Bind as the user to verify their password
+	   	err = l.Bind(userdn, password)
+	   	if err != nil {
+	   		return err
+	   	}
+
+	   	// Rebind as the read only user for any futher queries
+	   	err = l.Bind(bindusername, bindpassword)
+	   	if err != nil {
+	   		return err
 	   	} */
 
-	// Serve the result.
-	// -1 is meant to ignore number of document records (get as more as possible).
-	g.JSON(http.StatusOK, data)
+	return nil
 }

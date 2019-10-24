@@ -39,9 +39,3 @@ make
 make production
 ```
 > It will utilze UPX to compress and pack executable file. If UPX is not installed in system, it will simply copy the build result.
-
-#to build in current development environment
-#right click while in the server directory in explorer and select open bash terminal
-#enter in bash terminal:
-
-#    go build -o larserver.exe -ldflags "-s -w -X main.mode=debug"

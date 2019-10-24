@@ -1,12 +1,10 @@
 package models
 
 import (
-	"fmt"
 	"reflect"
-	"server/orm"
 	"server/types"
-	"server/utils"
 	"sort"
+	"strings"
 )
 
 // SearchRedbook return projects which achieve the given requirements.
@@ -66,20 +64,17 @@ func (a *copy) rangeRedbook(key, value interface{}) bool {
 	}
 
 	// Check if client name or company name matches.
-	if a.reserveString[0] != "" && !CaseInsensitiveContains(p.ClientName, a.reserveString[0]) && !CaseInsensitiveContains(p.Company, a.reserveString[0]) {
-		// old strings.Contains(p.ClientName, a.reserveString[0]) && !strings.Contains(p.Company, a.reserveString[0])
+	if a.reserveString[0] != "" && !strings.Contains(p.ClientName, a.reserveString[0]) && !strings.Contains(p.Company, a.reserveString[0]) {
 		return true
 	}
 
 	// Check if address matches.
-	if a.reserveString[1] != "" && !CaseInsensitiveContains(p.Address, a.reserveString[1]) {
-		// old !strings.Contains(p.Address, a.reserveString[1])
+	if a.reserveString[1] != "" && !strings.Contains(p.Address, a.reserveString[1]) {
 		return true
 	}
 
 	// Check if suburb matches.
-	if a.reserveString[2] != "" && !CaseInsensitiveContains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2]) {
-		//  strings.Contains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2])
+	if a.reserveString[2] != "" && !strings.Contains(reflect.ValueOf(value).FieldByName("ProjectSuburb").String(), a.reserveString[2]) {
 		return true
 	}
 
@@ -149,8 +144,7 @@ func (c *Context) SearchProjects(keyword string) interface{} {
 // rangeProjectsSearch pass records which achieve requirements.
 func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 	for i := 0; i < reflect.ValueOf(value).NumField(); i++ {
-		if CaseInsensitiveContains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
-			//if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
+		if strings.Contains(reflect.ValueOf(value).Field(i).String(), a.reserveString[0]) {
 			p := types.Project{
 				ID:         reflect.ValueOf(value).FieldByName("ProjectNumber").String(),
 				Name:       reflect.ValueOf(value).FieldByName("ProjectName").String(),
@@ -175,71 +169,4 @@ func (a *copy) rangeProjectsSearch(key, value interface{}) bool {
 		}
 	}
 	return true
-}
-
-//CreateOrUpdateProjects comment
-func (c *Context) CreateOrUpdateProjects(data *types.Project2) error {
-	fmt.Println("models/ CreatingOrUpdateProjects")
-
-	//Get division code, used Brisbane as the default office as we dont have proper AD sync to take it from user yet
-	data.Division = utils.Itoa(c.locateDivisionCode("BNE", data.Division))
-
-	//Project Director & Manager --> The DB has 0 for many of these, after that it is the domain login, implemented in a later sprint.
-	r := orm.Projects{
-		ProjectNumber:         data.ID,
-		ProjectName:           data.Name,
-		ClientID:              data.ClientID,
-		Division:              data.Division,
-		ClientRepName:         data.CRName,
-		ClientRepTelephone:    data.CRPhone,
-		ClientRepMobile:       data.CRMobile,
-		ClientRepEmailAddress: data.CREmail,
-		ProjectDirector:       data.Director,
-		ProjectManager:        data.Manager,
-		ProjectStatusCode:     data.Status,
-		ProjectStartDate:      data.StartDate,
-		ProjectEndDate:        data.EndDate,
-		ProjectTypeCode:       data.Type,
-		ProjectAddress:        data.Address,
-		ProjectSuburb:         data.Suburb,
-		ProjectLocationCode:   data.Location,
-		ProjectDescription:    data.Description,
-		ProjectValue:          data.Value,
-		//ArchiveLocation:       data.ArchiveLocation,
-	}
-
-	if err := orm.CreateOrUpdateProjects(&r, c.db); err != nil {
-		fmt.Println("Models/ Error in Projects.go")
-		return err
-	}
-
-	// Check if cache is enabled.
-	if c.config.IsCache() {
-		c.projects.Store(r.ProjectNumber, r)
-	}
-
-	// Update data. try removing this and see if it e
-	*data = types.Project2{
-		ID:          r.ProjectNumber,
-		Name:        r.ProjectName,
-		Address:     r.ProjectAddress,
-		Suburb:      r.ProjectSuburb,
-		Location:    r.ProjectLocationCode,
-		Type:        r.ProjectTypeCode,
-		Status:      r.ProjectStatusCode,
-		StartDate:   r.ProjectStartDate,
-		EndDate:     r.ProjectEndDate,
-		CRName:      r.ClientRepName,
-		CRPhone:     r.ClientRepTelephone,
-		CRMobile:    r.ClientRepMobile,
-		CREmail:     r.ClientRepEmailAddress,
-		Division:    r.Division,
-		Director:    r.ProjectDirector,
-		Manager:     r.ProjectManager,
-		Value:       r.ProjectValue,
-		Description: r.ProjectDescription,
-		//ProjectArchiveLocation: r.ArchiveLocation,
-	}
-
-	return nil
 }

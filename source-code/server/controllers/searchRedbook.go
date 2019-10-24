@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"server/models"
 	"server/types"
@@ -10,7 +9,6 @@ import (
 )
 
 func searchRedbook(g *gin.Context, m *models.Context) {
-	fmt.Println("Attempting Redbook Search")
 	var data types.SearchRedbookJSON
 
 	// Unmarshal application/json and bind to struct.

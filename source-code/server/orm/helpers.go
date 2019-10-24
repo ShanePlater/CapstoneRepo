@@ -172,6 +172,7 @@ func LoadProjects(db *gorm.DB) *sync.Map {
 
 	// Get all records and check error.
 	checkErr(db.Find(&r).Error)
+
 	// Store records in sync.Map.
 	m := &sync.Map{}
 	for _, v := range r {
@@ -197,63 +198,18 @@ func LoadClients(db *gorm.DB) *sync.Map {
 	return m
 }
 
-//LoadClientLocationCode return all records in ClientLocationCodes
-func LoadClientLocationCode(db *gorm.DB) *sync.Map {
-	var r []Clientlocations
-
-	// Get all records and check error.
-	checkErr(db.Find(&r).Error)
-
-	// Store records in sync.Map.
-	m := &sync.Map{}
-	for _, v := range r {
-		m.Store(v.ClientLocationCode, v)
-	}
-
-	return m
-}
-
-//LoadClientTypeCode return all records in ClientTypeCode
-func LoadClientTypeCode(db *gorm.DB) *sync.Map {
-	var r []Clienttypes
-
-	// Get all records and check error.
-	checkErr(db.Find(&r).Error)
-
-	// Store records in sync.Map.
-	m := &sync.Map{}
-	for _, v := range r {
-		m.Store(v.ClientTypeCode, v)
-	}
-
-	return m
-}
-
 // LoadUsers return all records in Users table.
 func LoadUsers(db *gorm.DB) *sync.Map {
 	var r []Users
 
 	// Get all records and check error.
 	checkErr(db.Find(&r).Error)
+
 	// Store records in sync.Map.
 	m := &sync.Map{}
 	for _, v := range r {
 		m.Store(v.Username, v)
 	}
 
-	return m
-}
-
-// LoadSiteInspections return all records in ProjectSiteInspections table.
-func LoadSiteInspections(db *gorm.DB) *sync.Map {
-	var r []Projectssiteinspections
-
-	// Get all records and check error.
-	checkErr(db.Find(&r).Error)
-	// Store records in sync.Map.
-	m := &sync.Map{}
-	for _, v := range r {
-		m.Store(v.InspectionID, v)
-	}
 	return m
 }

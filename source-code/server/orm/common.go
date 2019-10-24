@@ -115,7 +115,6 @@ type Projects struct {
 	ProjectLocationCode   string `gorm:"type:nvarchar(MAX);column:ProjectLocationCode"`
 	ProjectDescription    string `gorm:"type:nvarchar(MAX);column:ProjectDescription"`
 	ProjectValue          string `gorm:"type:decimal(18,0);column:ProjectValue"`
-	ProjectArchiveLocation	string `gorm:"type:nvarchar(50);column:ArchiveLocation"`
 }
 
 // Clients is Clients table.
@@ -155,25 +154,4 @@ type Users struct {
 	EmailAddress   string `gorm:"type:nvarchar(MAX);column:EmailAddress"`
 	PhotoURL       string `gorm:"type:nvarchar(MAX);column:PhotoUrl"`
 	Enabled        string `gorm:"type:smallint;column:Enabled"`
-}
-
-//Clienttypes is the ClientTypes Table
-type Clienttypes struct {
-	ClientTypeCode  string `gorm:"type:nvarchar(MAX);column:ClientTypeCode"`
-	CodeDescription string `gorm:"type:nvarchar(50);column:CodeDescription"`
-}
-
-//Clientlocations is the ClientLocations Table
-type Clientlocations struct {
-	ClientLocationCode string `gorm:"type:int;column:ClientLocationCode"`
-	ClientLocation     string `gorm:"type:nvarchar(50);column:ClientLocation"`
-}
-
-//Projectssiteinspections ... is the ProjectSiteInspections Table
-type Projectssiteinspections struct {
-	InspectionID       string `gorm:"type:int;column:InspectionId"`
-	ProjectNumber      string `gorm:"type:nvarchar(7);column:ProjectNumber"`
-	InspectedBy        string `gorm:"type:nvarchar(50);column:InspectedBy"`
-	InspectionDateTime string `gorm:"type:datetime;column:InspectionDateTime"`
-	InspectionDetails  string `gorm:"type:nvarchar(max);column:InspectionDetails"`
 }

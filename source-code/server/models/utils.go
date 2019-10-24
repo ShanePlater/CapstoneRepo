@@ -2,7 +2,6 @@ package models
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"net/smtp"
 	"reflect"
@@ -49,8 +48,8 @@ func inTimePeriod(start, end, check string) bool {
 // Divisions table, and Offices table.
 func (c *Context) GetOptions(name string) interface{} {
 	// Set given time period.
-	res := &copy{reserveInt: []int{45, 10, 5}}
-	// the reserve int here is set to 45 for the division of users returned for the document upload page
+	res := &copy{}
+
 	// Obtain records.
 	switch name {
 	case "getOptionLocations":
@@ -68,25 +67,6 @@ func (c *Context) GetOptions(name string) interface{} {
 	case "getOptionOffices":
 		res.reserveString = append(res.reserveString, "OfficeCode", "Name")
 		c.GetOfficesTable().Range(res.rangeOptions)
-	case "getClientTypes":
-		res.reserveString = append(res.reserveString, "ClientTypeCode", "CodeDescription")
-		c.GetClientTypesTable().Range(res.rangeOptions)
-	case "getClientLocations":
-		res.reserveString = append(res.reserveString, "ClientLocationCode", "ClientLocation")
-		c.GetClientLocationsTable().Range(res.rangeOptions)
-	case "getOptionCategories":
-		res.reserveString = append(res.reserveString, "CategoryID", "CategoryName")
-		c.GetCompanyDocumentResourceCategoriesTable().Range(res.rangeOptions)
-	case "getOptionClients":
-		res.reserveString = append(res.reserveString, "ClientID", "ClientName")
-		c.GetClientsTable().Range(res.rangeOptions)
-	case "getOptionUsers":
-		res.reserveString = append(res.reserveString, "Username", "UserName")
-
-		c.GetUsersTable().Range(res.rangeUserOptionsByDivCode)
-	case "getOptionFriendlyDivisions":
-		res.reserveString = append(res.reserveString, "DivisionCode", "DivisionCode")
-		c.GetDivisionsTable().Range(res.rangeDivOptions)
 	default:
 	}
 
@@ -121,20 +101,6 @@ func (a *copy) rangeOptions(key, value interface{}) bool {
 
 	a.reserveString = append(a.reserveString, name)
 	// Return true for keep looping through map. Otherwise, loop exit.
-	return true
-}
-func (a *copy) rangeDivOptions(key, value interface{}) bool {
-
-	v := reflect.ValueOf(value)
-	/// currently only allows one division to be authorizers, if you need more you will need to iterate through the div codes and append to interface
-
-	//if v.FieldByName("DivisionCode").String() == utils.Itoa(a.reserveInt[0]) {
-	a.intf = append(a.intf, types.Option{
-		ID:   v.FieldByName("DivisionCode").String(),
-		Name: v.FieldByName("OfficeCode").String() + " " + v.FieldByName("DivisionName").String(),
-	})
-	//}
-
 	return true
 }
 
@@ -301,23 +267,14 @@ func iSValueShouldBeSearched(name string) bool {
 	return false
 }
 
-//GetProject get list of projects
 func (c *Context) GetProject(data *types.GetByIDJSON) (interface{}, bool) {
 	return c.GetProjectsTable().Load(data.ID)
 }
 
-//GetClient get list of clients and return in table format
 func (c *Context) GetClient(data *types.GetByIDJSON) (interface{}, bool) {
 	return c.GetClientsTable().Load(data.ID)
 }
 
-//GetProjectSiteInspections get list of Site inspections and return in table format
-func (c *Context) GetProjectSiteInspections(data *types.GetByIDJSON) (interface{}, bool) {
-	fmt.Println("controllers/getProjectSiteInspections.go  Before Table Load")
-	return c.GetProjectSiteInspectionsTable().Load(data.ID)
-}
-
-//GetSuggestionItemURL legacy code unsure of use
 func (c *Context) GetSuggestionItemURL(data *types.SearchJSON) string {
 	var wg sync.WaitGroup
 
@@ -419,10 +376,4 @@ func (a *copy) rangeDocumentForURL(key, value interface{}) bool {
 func trimUnexpectedCharactors(text string) string {
 	re := regexp.MustCompile("[0-9A-Za-z\\s]")
 	return strings.Join(re.FindAllString(text, -1), "")
-}
-
-// CaseInsensitiveContains for search comparison to remove case sensitivity to search
-func CaseInsensitiveContains(s, substr string) bool {
-	s, substr = strings.ToUpper(s), strings.ToUpper(substr)
-	return strings.Contains(s, substr)
 }

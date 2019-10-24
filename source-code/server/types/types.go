@@ -44,13 +44,13 @@ type GetNewsJSON struct {
 
 // Resource represents a document resource entity.
 type Resource struct {
-	FileName         string
-	FileFriendlyName string
-	FileRevision     string
-	AuthorizedBy     string
-	AuthorizedDate   string
-	CategoryID       int
-	URL              string
+	FileID         string
+	FileName       string
+	FileRevision   string
+	AuthorizedBy   string
+	AuthorizedDate string
+	CategoryID     int
+	URL            string
 }
 
 // RecentJSON is the body of recent API request.
@@ -129,55 +129,6 @@ type Project struct {
 	Division   string
 }
 
-// Project2
-type Project2 struct {
-	ID              string
-	Name            string
-	ClientID        string
-	Address         string
-	Suburb          string
-	Location        string
-	Type            string
-	Status          string
-	StartDate       string
-	EndDate         string
-	CRName          string
-	CRPhone         string
-	CRMobile        string
-	CREmail         string
-	Division        string
-	Director        string
-	Manager         string
-	Value           string
-	Description     string
-	ArchiveLocation string
-}
-
-//Data type for Client Input Page
-type Client2 struct {
-	ClientID              string
-	ClientOfficeCode      string
-	ClientName            string
-	ClientABNNumber       string
-	ClientACNNumber       string
-	ClientTypeCode        string
-	FirstName             string
-	LastName              string
-	ClientLocationCode    string
-	StreetAddress         string
-	StreetSuburb          string
-	StreetState           string
-	StreetPostcode        string
-	PostalAddress         string
-	PostalAddressSuburb   string
-	PostalAddressState    string
-	PostalAddressPostcode string
-	PhoneNumber           string
-	FaxNumber             string
-	MobileNumber          string
-	EMailAddress          string
-}
-
 // SearchJSON is the body of searchProjects, searchUsers,
 // searchClients, and searchResources API request.
 type SearchJSON struct {
@@ -225,38 +176,4 @@ type Division struct {
 type GetMeJSON struct {
 	Username string
 	Password string
-}
-
-// Represents a clientlocationcode for creating new clients
-type ClientLocationCode struct {
-	ClientLocationCode string
-	ClientLocation     string
-}
-
-//ClientTypeCode represents a clienttypecode for creating new clients
-type ClientTypeCode struct {
-	ClientTypeCode  string
-	CodeDescription string
-}
-
-//ProjectsSiteInspections represents a site inspection for creating Site Inspections
-type ProjectsSiteInspections struct {
-	InspectionID       string
-	ProjectNumber      string
-	InspectedBy        string
-	InspectionDateTime string
-	InspectionDetails  string
-}
-
-//Authenticator holds username and pw for AD auth
-type Authenticator struct {
-	Username string
-	Password string
-}
-
-//NameForCodes is used to exchange codes from a given project into user-friendly strings
-type NameForCodes struct {
-	ProjectLocationCode string
-	ProjectTypeCode     string
-	ProjectStatusCode   string
 }
