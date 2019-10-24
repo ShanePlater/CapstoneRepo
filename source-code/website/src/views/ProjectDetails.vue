@@ -5,15 +5,40 @@
     </el-row>
     <el-row>
       <h3>Project Information</h3>
+      <el-button type="primary" @click="gotoupdate(content.ProjectNumber)">Update Project Information</el-button>
       <hr>
-      <p><strong>ID:</strong> {{ content.ProjectNumber }}</p>
-      <p><strong>Name:</strong> {{ content.ProjectName }}</p>
-      <p><strong>Client:</strong> <a :href="clientURL">{{ content.ClientName }}</a></p>
-      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+      <p><strong>Project ID:</strong> {{ content.ProjectNumber }}</p>
+      <p><strong>Project Name:</strong> {{ content.ProjectName }}</p>
+      <p><strong>Client Name:</strong> {{ clientcontent.ClientName }}    <el-button type="primary" @click="gotoclient(clientcontent.ClientID)">View Client</el-button></p>
       <p><strong>Address:</strong> {{ content.ProjectAddress }}</p>
       <p><strong>Suburb:</strong> {{ content.ProjectSuburb }}</p>
+      <el-form ref="form" :model="form" label-width="10px" label-position="left">
+      <p><strong>Location:</strong> {{ content.ProjectLocationCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectlocationcode" placeholder="Pick a location">
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
       <p><strong>Type:</strong> {{ content.ProjectTypeCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projecttypecode" placeholder="Pick a type">
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
       <p><strong>Status:</strong> {{ content.ProjectStatusCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.projectstatuscode" placeholder="Pick a status">
+                <el-option v-for="option in options.statuss" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+             <p><strong>Division:</strong> {{ content.Division }}</p>
+             <el-form-item>
+              <el-select v-model="form.division" placeholder="Pick a division">
+                <el-option v-for="option in options.divisions" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+      </el-form>
+
       <p><strong>Start date:</strong> {{ startDate }}</p>
       <p><strong>End date:</strong> {{ endDate }}</p>
     </el-row>
@@ -27,8 +52,7 @@
     </el-row>
     <el-row>
       <h3>Internal Information</h3>
-      <hr>
-      <p><strong>Division:</strong> {{ content.Division }}</p>
+      <hr>   
       <p><strong>Project Director:</strong> {{ content.ProjectDirector }}</p>
       <p><strong>Project Manager:</strong> {{ content.ProjectManager }}</p>
       <p><strong>Project Value $:</strong> {{ content.ProjectValue }}</p>
@@ -44,12 +68,17 @@
       <el-pagination layout="prev, pager, next" :total="totalPage" @current-change="updatePage">
       </el-pagination>
     </el-row>
+    <br>
+    <el-row>
+      <el-button type="primary" @click="gotonewinspection(content.ProjectNumber)">Add New Site Inspection</el-button>
+    </el-row>
   </section>
 </template>
 
 <script>
 import api from '@/api.conf';
 import InspectionsTable from '@/components/InspectionsTable';
+import router from '@/router';
 
 export default {
   name: 'project-details',
@@ -59,9 +88,26 @@ export default {
   data() {
     return {
       content: '',
+      clientcontent: '',
       clientURL: '',
       startDate: '',
       endDate: '',
+      locationame: '',
+      typename: '',
+      statusname: '',
+      form: {
+        projectlocationcode: '',
+        projecttypecode: '',
+        projectstatuscode: '',
+        division: '',
+      },
+      options: {
+        locations: [],
+        types: [],
+        statuss: [],
+        divisions: [],
+        offices: [],
+      },
       inspections: {
         data: [],
         slice: [],
@@ -73,15 +119,59 @@ export default {
   },
   created() {
     this.pullData();
+    this.getOptions(api.getOptionLocations);
+    this.getOptions(api.getOptionTypes);
+    this.getOptions(api.getOptionStatuss);
+    this.getOptions(api.getOptionFriendlyDivisions);
+    this.getOptions(api.getOptionOffices);
   },
   watch: {
     '$route.params.id': 'pullData',
     page: 'updateSlice',
   },
   methods: {
+    gotoupdate(ProjectNumber) {
+      this.$router.push(`/updateproject/${ProjectNumber}`);
+    },
+    getOptions(method) {
+      fetch(method, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          switch (method) {
+            case api.getOptionLocations:
+              this.options.locations = data;
+              break;
+            case api.getOptionTypes:
+              this.options.types = data;
+              break;
+            case api.getOptionStatuss:
+              this.options.statuss = data;
+              break;
+            case api.getOptionFriendlyDivisions:
+              this.options.divisions = data;
+              break;
+            case api.getOptionOffices:
+              this.options.offices = data;
+              break;
+            default:
+          }
+        });
+      });
+    },
     pullData() {
       this.pullProjectDetails();
       this.searchInspections();
+    },
+    gotonewinspection(projectnumberid) {
+      this.$router.push(`/siteinspection/${projectnumberid}`);
+    },
+    gotoclient(clientid) {
+      this.$router.push(`/client/${clientid}`);
     },
     pullProjectDetails() {
       fetch(api.getProject, {
@@ -96,14 +186,33 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
-          this.clientURL = `//${window.location.host}/#/client/${this.content
-            .ClientID}`;
+          this.form.projectlocationcode = data.ProjectLocationCode;
+          this.form.projecttypecode = data.ProjectTypeCode;
+          this.form.projectstatuscode = data.ProjectStatusCode;
+          this.form.division = data.Division;
+          this.pullClientDetails(data.ClientID);
           if (this.content.ProjectStartDate !== '') {
             this.startDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectStartDate));
           }
           if (this.content.ProjectEndDate !== '') {
             this.endDate = Intl.DateTimeFormat('en-AU').format(new Date(this.content.ProjectEndDate));
           }
+        });
+      });
+    },
+    pullClientDetails(clientID) {
+      fetch(api.getClient, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ID: clientID,
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          this.clientcontent = data;
         });
       });
     },
@@ -131,9 +240,9 @@ export default {
           this.inspections.page = 1;
           data.forEach((item) => {
             this.inspections.data.push({
-              ID: item.ID,
+              ID: item.InspectionID,
               InspectedBy: item.InspectedBy,
-              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.Date)),
+              InspectionDateTime: Intl.DateTimeFormat('en-AU').format(new Date(item.InspectionDateTime)),
               InspectionDetails: item.InspectionDetails,
             });
           });

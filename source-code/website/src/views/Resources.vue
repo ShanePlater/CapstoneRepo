@@ -75,8 +75,8 @@ export default {
               AuthorizedBy: item.AuthorizedBy,
               AuthorizedDate: Intl.DateTimeFormat('en-AU').format(new Date(item.AuthorizedDate)),
               CategoryID: item.CategoryID,
-              FileID: item.FileID,
               FileName: item.FileName,
+              FileFriendlyName: item.FileFriendlyName,
               FileRevision: item.FileRevision.trim(),
               URL: item.URL,
             });

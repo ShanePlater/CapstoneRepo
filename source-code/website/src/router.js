@@ -8,10 +8,18 @@ import Divisions from '@/views/Divisions';
 import Quality from '@/views/Quality';
 import HelpDesk from '@/views/HelpDesk';
 import Search from '@/views/Search';
+import NewProject from '@/views/NewProject';
+import NewClient from '@/views/NewClient';
 import RedbookSearch from '@/views/RedbookSearch';
 import ProjectDetails from '@/views/ProjectDetails';
 import ClientDetails from '@/views/ClientDetails';
 import ProjectsSiteInspections from '@/views/ProjectsSiteInspections';
+import SiteInspection from '@/views/SiteInspection';
+import DocumentUpload from '@/views/DocumentUpload';
+import ExistingClientCheck from '@/views/ExistingClientCheck';
+import UpdateClient from '@/views/UpdateClient';
+import UpdateProject from '@/views/UpdateProject';
+import UploadComplete from '@/views/UploadComplete';
 
 Vue.use(Router);
 
@@ -58,6 +66,16 @@ export default new Router({
       component: RedbookSearch,
     },
     {
+      path: '/new-project/:id',
+      name: 'Add New Project',
+      component: NewProject,
+    },
+    {
+      path: '/new-client',
+      name: 'Add New Client',
+      component: NewClient,
+    },
+    {
       path: '/search/:keyword',
       name: 'Search Result',
       component: Search,
@@ -73,8 +91,38 @@ export default new Router({
       component: ClientDetails,
     },
     {
+      path: '/siteinspection/:id',
+      name: 'Site Inspection',
+      component: SiteInspection,
+    },
+    {
       path: '/siteinspections/:id',
       name: 'Project Site Inspections',
       component: ProjectsSiteInspections,
+    },
+    {
+      path: '/document-upload',
+      name: 'Upload New Document',
+      component: DocumentUpload,
+    },
+    {
+      path: '/existingclientcheck',
+      name: 'New Project',
+      component: ExistingClientCheck,
+    },
+    {
+      path: '/updateclient/:id',
+      name: 'Update Client',
+      component: UpdateClient,
+    },
+    {
+      path: '/uploadcomplete/:id',
+      name: 'Upload Complete',
+      component: UploadComplete,
+    },
+    {
+      path: '/updateproject/:id',
+      name: 'Update Project',
+      component: UpdateProject,
     }],
 });

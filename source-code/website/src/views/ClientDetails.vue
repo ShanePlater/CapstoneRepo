@@ -5,14 +5,33 @@
     </el-row>
     <el-row>
       <h3>Client Information</h3>
+      <el-button type="primary" @click="gotoupdate(content.ClientID)">Edit Client</el-button>
       <hr>
       <p><strong>ID:</strong> {{ content.ClientID }}</p>
       <p><strong>Name:</strong> {{ content.ClientName }}</p>
       <p><strong>ABN:</strong> {{ content.ClientABNNumber }}</p>
       <p><strong>ACN:</strong> {{ content.ClientACNNumber }}</p>
-      <p><strong>Client Type:</strong> {{ content.ClientTypeCode }}</p>
-      <p><strong>Client Location:</strong> {{ content.ClientLocationCode }}</p>
-      <p><strong>Office code:</strong> {{ content.ClientOfficeCode }}</p>
+
+          <el-form ref="form" :model="form" label-width="20px" label-position="left">
+            <p><strong>Client Location:</strong> {{ content.ClientLocationCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.ClientLocation" placeholder="Pick a location">
+                <el-option v-for="option in options.locations" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+            <p><strong>Client Type:</strong> {{ content.ClientTypeCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.ClientType" placeholder="Pick a type">
+                <el-option v-for="option in options.types" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+            <p><strong>Office code:</strong> {{ content.ClientOfficeCode }}</p>
+            <el-form-item>
+              <el-select v-model="form.ClientOffice" placeholder="Pick an Office">
+                <el-option v-for="option in options.offices" :key="option.ID" :label="option.Name" :value="option.ID" :disabled="true"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
     </el-row>
     <el-row>
       <h3>Contact Information</h3>
@@ -70,22 +89,105 @@ export default {
         slice: [],
         page: 1,
       },
+      options: {
+        locations: [
+        {"ID": "1", "Name":	"Brisbane, QLD"},
+        {"ID": "4", "Name":	"North Coast, QLD"},
+        {"ID": "5", "Name":	"South Coast, QLD"},
+        {"ID": "6", "Name":	"International"},
+        {"ID": "7", "Name":	"Other"},
+        {"ID": "8", "Name":	"Melbourne CBD"},
+        {"ID": "9", "Name":	"Melbourne Metro"},
+        {"ID": "10", "Name":	"Country North, VIC"},
+        {"ID": "11", "Name":	"Country East, VIC"},
+        {"ID": "12", "Name":	"Country West, VIC"},
+        {"ID": "13", "Name":	"East Coast, VIC"},
+        {"ID": "14", "Name":	"West Coast, VIC"},
+        {"ID": "15", "Name":	"Wide Bay, QLD"},
+        {"ID": "16", "Name":	"North QLD"},
+        {"ID": "17", "Name":	"NSW"},
+        {"ID": "18", "Name":	"NT"},
+        {"ID": "19", "Name":	"TAS"},
+        {"ID": "20", "Name":	"SA"},
+        {"ID": "21", "Name":	"WA"},
+        {"ID": "22", "Name":	"NZ"},
+        {"ID": "23", "Name":	"ACT"},
+        {"ID": "24", "Name":	"Sydney Metro"},
+        {"ID": "25", "Name":	"Central Queensland"}
+        ],
+        types: [
+        {"ID": "AC", "Name": "Airport Corportation"},
+        {"ID": "C", "Name": "Contracter"},
+        {"ID": "CG", "Name": "Commonwealth Government"},
+        {"ID": "CT", "Name": "Consultant"},
+        {"ID": "D", "Name": "Developer"},
+        {"ID": "GOC", "Name": "Government Corporation"},
+        {"ID": "I", "Name": "Institution"},
+        {"ID": "LG", "Name": "Local Government"},
+        {"ID": "P", "Name": "Private"},
+        {"ID": "PM", "Name": "Project Manager"},
+        {"ID": "SG", "Name": "State Government"}
+        ],
+        statuss: [],
+        divisions: [],
+        offices: [],
+      },
+      form: {
+        ClientType: '',
+        ClientLocation: '',
+        ClientOffice: '',
+      },
       page: 0,
       totalPage: 0,
     };
   },
   created() {
     this.pullData();
+    this.getOptions(api.getOptionOffices);
   },
   watch: {
     '$route.params.id': 'pullData',
     page: 'updateSlice',
   },
   methods: {
+    getOptions(method) {
+      fetch(method, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          switch (method) {
+            case api.getClientLocations:
+              this.options.locations = data;
+              break;
+            case api.getOptionTypes:
+              this.options.types = data;
+              break;
+            case api.getOptionStatuss:
+              this.options.statuss = data;
+              break;
+            case api.getOptionDivisions:
+              this.options.divisions = data;
+              break;
+            case api.getOptionOffices:
+              this.options.offices = data;
+              break;
+            default:
+          }
+        });
+      });
+    },
+    gotoupdate(ClientID) {
+      this.$router.push(`/updateclient/${ClientID}`);
+    },
     pullData() {
       this.pullClientDetails();
       this.searchProjects();
     },
+
     pullClientDetails() {
       fetch(api.getClient, {
         method: 'post',
@@ -99,6 +201,9 @@ export default {
       }).then((response) => {
         response.json().then((data) => {
           this.content = data;
+          this.form.ClientType = data.ClientTypeCode;
+          this.form.ClientLocation = data.ClientLocationCode;
+          this.form.ClientOffice = data.ClientOfficeCode;
         });
       });
     },

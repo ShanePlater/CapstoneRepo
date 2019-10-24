@@ -1,6 +1,6 @@
 <template>
   <el-table :data="table" stripe style="width: 100%">
-    <el-table-column prop="FileName" label="Document name" width="420" :show-overflow-tooltip="true">
+    <el-table-column prop="FileFriendlyName" label="Document name" width="420" :show-overflow-tooltip="true">
     </el-table-column>
     <el-table-column prop="AuthorizedDate" label="Authorized Date" align="center">
     </el-table-column>
@@ -27,7 +27,7 @@ export default {
     downFile(row) {
       const dl = document.createElement('a');
       dl.setAttribute('href', row.URL);
-      dl.setAttribute('download', row.FileID);
+      dl.setAttribute('download', row.FileName);
       dl.click();
     },
     prevFile(row) {

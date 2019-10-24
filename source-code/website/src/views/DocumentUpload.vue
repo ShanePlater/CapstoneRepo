@@ -1,0 +1,329 @@
+<!--
+what this page needs:
+  current file upload functionality is only for the helpdesk tickets 
+  need to look at how i can either modify that to facilitate these files
+  or replicate it for what is trying to be done
+
+  need to find out how i can save the category path value if it cant be assigned when its selected
+
+  this process might be split up into two seperate process
+  1. upload file and get the file id
+  2. upload 
+  test everything
+  https://laracasts.com/discuss/channels/vue/element-ui-data-attribute-not-getting-updated-on-submission
+  -->
+<template>
+  <section>
+    <div v-if="title === 'Upload New Document'">
+      <h1>{{ title }}</h1>
+      <br>
+      <el-row>
+        <el-col :span="12">
+          <el-form ref="form" :model="form" label-width="12.5em" label-position="left">
+          <el-form-item label="Fields marked in bold are required.">
+          </el-form-item>
+
+           <!-- DOCUMENT INFORMATION  --> 
+          <h2 style="font-size:20px"> Document Information </h2>
+         
+          <!-- document information -->
+            <el-form-item label="Select File:"> {{this.fileChangeNotice}}             
+              <el-upload
+                action="/api/v1/post/uploadResource" 
+                ref="upload"
+                name="file" 
+                accept=".xlsx, .docx, .ppsx, .pdf"    
+                :multiple="false"                                                                       
+                :on-success="handleSuccess" 
+                :on-error="handleError" 
+                :on-change="handleChange" 
+                :before-remove="handleRemoveCheck"
+                :on-remove="handleRemove"                                                                                                                                                 
+                :data="form"
+                :auto-upload="false"> 
+              <el-button slot="trigger" size="small" type="primary" :disabled="disabledToggle" >Select file</el-button>  
+              <el-button size="small"   type="primary" @click="clearFileList" :disabled="!disabledToggle">Remove File</el-button>                          
+            </el-form-item>  
+            
+                      
+            <el-form-item label="Category:">
+              <el-select v-model="form.categoryID" placeholder="Select A Category">
+                <el-option v-for="option in options.categories" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Document Name:">
+              <el-input v-model="form.friendlyFileName"></el-input>
+            </el-form-item>
+            <el-form-item label="File Revision:">
+              <el-input v-model="form.fileRevision"></el-input>
+            </el-form-item>
+            <el-form-item label="Authorised By:">
+              <!-- the division code for the user list is set indide server/models/utils.go within the getOptions method -->
+              <el-select v-model="form.authorizedBy" placeholder="Select Personnel">
+                <el-option v-for="option in options.users" :key="option.ID" :label="option.Name" :value="option.ID"></el-option>
+              </el-select>
+            </el-form-item> 
+            <el-form-item label="Authorised Date:">            
+                <!-- single date pick dont need range-->
+              <el-date-picker v-model="form.authorizedDate" type="date" placeholder="Pick a date" format="yyyy/MM/dd" value-format='yyyy-MM-dd'>
+              
+              </el-date-picker> 
+            </el-form-item>
+            <br> 
+            <!-- This calls the redirecting method, which collects form data and sends it via an API call -->
+            <el-form-item>
+              <el-button type="primary" @click="validate">Submit</el-button>
+              <el-button type="primary" @click="cancel">Cancel</el-button>
+            </el-form-item>           
+          </el-form>
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+               <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+              </ul>
+            </p>
+        </el-col>
+      </el-row>
+    </div>    
+  </section>
+</template>
+
+<script>
+import api from '@/api.conf';
+
+export default {
+  name: 'document-upload',
+  components: {
+  },
+  data() {
+    return {  
+      disabledToggle: false,
+      state: {
+        name: '',
+        token: '',
+      },                  
+      errors: [],
+      fileChangeNotice: '',
+      uploadFile: '',             
+      title: 'Upload New Document',     
+      options: {
+        categories: [],
+        users: [],
+      },      
+      form: {
+        friendlyFileName: '',
+        fileRevision: '',
+        authorizedBy: '',
+        authorizedDate: '',
+        categoryID: '',
+        url: '',
+      },
+    };
+  },
+  created() { 
+    if (this.$route.query.res === 'true') {
+      this.$router.replace('/DocumentUpload');
+    }
+    this.getOptions(api.getOptionCategories);
+    this.getOptions(api.getOptionUsers);
+    if (this.getCookie('name') !== '') {
+      this.state = {
+        name: this.getCookie('name'),
+        token: this.getCookie('token'),
+        session: this.getCookie('mysession'),
+      };
+    }
+  },
+  watch: {
+    '$route.query.res': 'updatePage',
+  },
+  methods: {
+    getCookie(cname) {
+      const name = `${cname}=`;
+      let res = '';
+      decodeURIComponent(document.cookie).split(';').forEach((ca) => {
+        let a = ca;
+        while (a.charAt(0) === ' ') {
+          a = a.substring(1);
+        }
+        if (a.indexOf(name) === 0) {
+          res = a.substring(name.length, a.length);
+        }
+      });
+      return res;
+    },
+    authenticate() {
+      fetch(api.authRequired, {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Username: this.state.name,
+          Password: 'yeet',
+        }),
+      }).then((response) => {
+        response.json().then((data) => {
+          if (data.Username === 'Success') {
+            this.redirecting();
+          }else if(data.Error === 'Unauthorized'){
+            this.errors.push("you are not autherized up perform this action, please login to continue");           
+          }
+        });
+      });
+    },
+    redirecting() {
+        console.log(this.$refs.upload.files);
+        var d = new Date(this.form.authorizedDate);
+        var dateConv = d.toISOString();
+        this.form.authorizedDate = dateConv;
+        console.log("submitting file");
+        this.$refs.upload.submit();
+    },
+    validate() {   
+      this.errors = [];        
+      if(this.uploadFile === ''){
+        this.errors.push('File not attatched');
+      }else{
+        this.fileTypeCheck();
+      }
+      if (this.form.friendlyFileName === '') {
+        this.errors.push('Document Name Required');
+      }
+      if (this.form.categoryID === '') {
+        this.errors.push('Category not Selected');
+      }
+      if (this.form.fileRevision === '') {
+        this.errors.push('File Revision Value Required');
+      }
+      if (this.form.authorizedBy === '') {
+        this.errors.push('Autherized Personnel Selection Required');
+      }
+      if (this.form.authorizedDate === '') {
+        this.errors.push('Authorization Date Required');
+      }
+      if (this.errors.length === 0) {          
+        this.authenticate();          
+        console.log("no errors");              
+      }else{   
+        // this.$refs.upload.abort();          
+        console.log("errors");
+      }      
+        this.updatePage();
+    },
+    getOptions(method) {
+      fetch(method, {
+        method: 'get',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          switch (method) {
+            case api.getOptionCategories:
+              this.options.categories = data;
+              break;
+            case api.getOptionUsers:
+              this.options.users = data;
+              break;
+            default:
+          }
+        });
+      });
+    },
+    updatePage() {
+      // this is called if the page refreshes upon upload
+      
+      if (this.$route.query.res === 'true') {
+        this.title = 'Upload New Document';        
+        return;
+      }
+      this.title = 'Upload New Document';                
+    },
+    fileTypeCheck() {
+      var path = require('path');
+      console.log(this.uploadFile);
+      var extCheck =  path.extname(this.uploadFile);
+      console.log(extCheck);
+      if(extCheck != '.xlsx' && extCheck != '.docx' && extCheck != '.ppsx' && extCheck != '.pdf'){
+        this.errors.push('only .xlsx, .docx, .ppsx and .pdf files allowed');                     
+      }
+    },
+    handleChange(file) {
+      console.log('change triggered');
+      if (this.uploadFile === '') { // file upload
+        this.fileChangeNotice = 'To change files, first remove the existing file from the form';
+        this.uploadFile = file.name; 
+        this.disabledToggle = true;         
+      } else if (this.uploadFile === "-1") {
+        this.clearData();
+      } else if (this.uploadFile === "-2"){
+        this.clearFileList();
+        this.fileChangeNotice = '';
+      }                
+    },
+    handleSuccess(response, file){   
+      this.uploadFile = '-1';      
+      console.log('success triggered');        
+      this.$message({
+          type: 'info',
+          message: 'file uploaded successfully',         
+        });     
+      this.updatePage();      
+    },    
+    handleError(err, file) {   
+      this.uploadFile = '-2';   
+      this.errors.push('there was an error while attempting to submit your request');
+      // based on error message either ask user if they want to edit the existing entry
+      // or display other error message ( could be file saving issues i was unable to force any other errors)
+      this.errors.push(err.message); 
+      console.log('error triggered');          
+      this.updatePage();      
+    }, 
+    handleRemove(){
+      this.clearData();
+    }, 
+    clearFileList() {
+        this.uploadFile = '';
+        this.$refs.upload.clearFiles();
+        this.disabledToggle = false;
+    },  
+    clearData() {
+      this.$refs.upload.clearFiles(); 
+      this.uploadFile='';  
+      this.disabledToggle = false;
+      this.fileChangeNotice = '';    
+      this.form = {       
+        friendlyFileName: '',
+        fileRevision: '',
+        authorizedBy: '',
+        authorizedDate: '',
+        categoryID: '',        
+      };
+    },
+    cancel() {
+      this.$confirm('You have unsaved changes, do you wish to proceed?', 'Confirm', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',        
+      }).then(() => {
+        this.$message({
+          type: 'info',
+          message: 'Returning home',         
+        });
+        this.$router.push('/');
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'action canceled',
+        });
+      });
+      
+    },
+  },
+};
+</script>
+<style scoped>
+</style>

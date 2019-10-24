@@ -46,10 +46,9 @@ export default {
     };
   },
   created() {
-    if (this.getCookie('token') !== '') {
+    if (this.getCookie('name') !== '') {
       this.state = {
         name: this.getCookie('name'),
-        token: this.getCookie('token'),
       };
     }
   },
@@ -67,12 +66,13 @@ export default {
         }),
       }).then((response) => {
         response.json().then((data) => {
-          this.state = {
-            name: this.form.name,
-            token: data.Token,
-          };
-          this.setCookie('name', this.form.name, 365);
-          this.setCookie('token', data.Token, 365);
+          if (this.getCookie('mysession') !== '') {
+            this.state = {
+              name: this.form.name,
+            };
+          }
+           this.setCookie('name', this.form.name, 30);
+          
           this.LoginDialogVisible = false;
           this.form.name = '';
           this.form.password = '';
